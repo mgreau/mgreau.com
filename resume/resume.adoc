@@ -31,10 +31,9 @@ v1.7, June 23, 2018
 == Personal details
 
 [horizontal]
-Name:: Maxime Gréau
 WebSite / Social Media::
 * http://mgreau.com[mgreau.com, role="external", window="_blank"]
-* `@mgreau` icon:twitter[link=https://twitter.com/mgreau, role="external", window="_blank", alt="@mgreau"] icon:github[link=https://github.com/mgreau, role="external", window="_blank"] icon:linkedin[1x,link=http://fr.linkedin.com/pub/maxime-gr%C3%A9au/26/645/994/, role="external", window="_blank"] icon:google-plus[1x,link=https://plus.google.com/+maximegreau-aka-mgreau, role="external", window="_blank"]
+* `@mgreau` icon:twitter[link=https://twitter.com/mgreau, role="external", window="_blank", alt="@mgreau"] icon:github[link=https://github.com/mgreau, role="external", window="_blank"] icon:linkedin[1x,link=http://fr.linkedin.com/pub/maxime-gr%C3%A9au/26/645/994/, role="external", window="_blank"]
 Location:: {link-boston}["Boston area, MA, USA", role="external", window="_blank"]
 
 == Professional Experience
@@ -58,7 +57,7 @@ Position:: *Build & Release Engineer* +
 
 Technologies used::
 
-Docker, Groovy, Gradle, Java, Git, Jenkins, Kubernetes, Ansible
+Tekton, Docker, Groovy, Gradle, Java, Git, Jenkins, Kubernetes, Ansible
 
 
 === Software Engineer at eXo Platform
@@ -244,7 +243,7 @@ I'm also a http://www.javacodegeeks.com/author/maxime-greau/[Java Code Geek memb
 == Languages Skills
 
 * French : native language
-* English : fluent (reading); intermediate (speaking, writing)
+* English : fluent
 
 == Education
 
