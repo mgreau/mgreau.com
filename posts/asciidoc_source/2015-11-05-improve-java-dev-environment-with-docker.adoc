@@ -1,5 +1,5 @@
 = [Talk] Improve your Java Environment with Docker @ HanoiJUG 2015 
-Maxime Greau <greau.maxime@gmail.com>
+Maxime Greau <greau [dot] maxime [at] gmail>
 v1.0, November 05, 2015
 //HubPress attributes
 :hp-alt-title: improve java dev environment with docker

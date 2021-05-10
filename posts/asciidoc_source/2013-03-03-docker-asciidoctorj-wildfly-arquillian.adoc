@@ -1,5 +1,5 @@
 = How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS
-Maxime Greau <greau.maxime@gmail.com>
+Maxime Greau <greau [dot] maxime [at] gmail>
 v1.0, March 03, 2015: First English version
 //HubPress
 :hp-alt-title: docker asciidoctorj wildfly arquillian
@@ -287,7 +287,7 @@ The whole +Dockerfile+ is described below:
 [source, text]
 ----
 FROM jboss/wildfly:8.2.0.Final  // <1>
-MAINTAINER Maxime Gréau <greau.maxime@gmail.com>
+MAINTAINER Maxime Gréau <greau [dot] maxime [at] gmail>
 
 # Create a WildFly admin user to deploy app with CLI
 RUN /opt/jboss/wildfly/bin/add-user.sh -up mgmt-users.properties admin Admin#70365 --silent  // <2>

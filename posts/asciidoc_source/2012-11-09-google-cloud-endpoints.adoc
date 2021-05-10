@@ -1,5 +1,5 @@
 = [Talk] Google Cloud Endpoints @ DevFest 2012 
-Maxime Greau <greau.maxime@gmail.com>
+Maxime Greau <greau [dot] maxime [at] gmail>
 v1.0, November 09, 2012
 //HubPress attributes
 :hp-alt-title: google cloud endpoints

@@ -1,5 +1,5 @@
 = [Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker 
-Maxime Greau <greau.maxime@gmail.com>
+Maxime Greau <greau [dot] maxime [at] gmail>
 v1.0, March 01, 2017
 //HubPress attributes
 :hp-alt-title: maven ci jobs to pipeline with jenkins2 and docker

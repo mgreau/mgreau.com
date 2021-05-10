@@ -1512,7 +1512,7 @@ pom.xml</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-text" data-lang="text">FROM jboss/wildfly:8.2.0.Final  <i class="conum" data-value="1"></i><b>(1)</b>
-MAINTAINER Maxime Gréau &lt;greau.maxime@gmail.com&gt;
+MAINTAINER Maxime Gréau &lt;greau [dot] maxime [at] gmail&gt;
 
 # Create a WildFly admin user to deploy app with CLI
 RUN /opt/jboss/wildfly/bin/add-user.sh -up mgmt-users.properties admin Admin#70365 --silent  <i class="conum" data-value="2"></i><b>(2)</b>

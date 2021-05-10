@@ -1,5 +1,5 @@
 = Convert AsciiDoc to HTML/PDF & publish to GitHub Pages with Travis CI and Asciidoctor Docker containers 
-Maxime Greau <greau.maxime@gmail.com>
+Maxime Greau <greau [dot] maxime [at] gmail>
 v1.0, March 28, 2016
 //HubPress attributes
 :published_at: 2016-03-28

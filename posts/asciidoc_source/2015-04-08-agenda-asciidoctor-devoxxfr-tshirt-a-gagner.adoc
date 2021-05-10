@@ -1,5 +1,5 @@
 = Agenda Asciidoctor @ DevoxxFR et t-shirts à gagner
-Maxime Greau <greau.maxime@gmail.com>
+Maxime Greau <greau [dot] maxime [at] gmail>
 v1.0, April 08, 2015: First version
 //HubPress attributes
 :hp-alt-title: agenda asciidoctor devoxxfr tshirt a gagner

@@ -1,5 +1,5 @@
 = #docker4Dev: Copy Docker images from one docker machine to another
-Maxime Greau <greau.maxime@gmail.com>
+Maxime Greau <greau [dot] maxime [at] gmail>
 v1.0, August 24, 2015: First version
 //HubPress attributes
 :hp-alt-title: copy docker images from one docker machine to another

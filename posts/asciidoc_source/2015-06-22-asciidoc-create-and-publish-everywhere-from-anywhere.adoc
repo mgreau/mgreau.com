@@ -1,5 +1,5 @@
 = [Talk] AsciiDoc : Create and Publish everywhere from anywhere 
-Maxime Greau <greau.maxime@gmail.com>
+Maxime Greau <greau [dot] maxime [at] gmail>
 v1.0, June 26, 2015: First version
 //HubPress attributes
 :hp-alt-title: asciidoc create and publish everywhere from anywhere
