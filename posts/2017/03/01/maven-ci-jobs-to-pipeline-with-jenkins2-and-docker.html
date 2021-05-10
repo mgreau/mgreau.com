@@ -38,9 +38,9 @@
     <link href="//fonts.googleapis.com/" rel="dns-prefetch">
     <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
 
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1492593683638"/>
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1492593683638"/>
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1492593683638"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/main.min.css?v=1492593683638"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/custom.css?v=1492593683638"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1492593683638"/>
 
 
 
@@ -70,16 +70,16 @@
       GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
     </script>
 
-    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1492593683638"></script>
+    <script src="//mgreau.com/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1492593683638"></script>
 
-    <link rel="canonical" href="https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" />
+    <link rel="canonical" href="https://mgreau.com/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" />
     <meta name="referrer" content="origin" />
     
     <meta property="og:site_name" content="@mgreau :: Blog" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker" />
     <meta property="og:description" content="This is the talk I gave at DevopsDDay 2016 and Docker Meetup Nantes 2017 about Jenkins 2, Maven, Pipeline as Code and Docker. It was the opportunity to revisit the problems that we have had and the solutions adopted, and some best practices around Maven builds in Docker containers, all" />
-    <meta property="og:url" content="https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" />
+    <meta property="og:url" content="https://mgreau.com/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" />
     <meta property="article:tag" content="docker" />
     <meta property="article:tag" content=" maven" />
     <meta property="article:tag" content=" jenkins" />
@@ -89,14 +89,14 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker" />
     <meta name="twitter:description" content="This is the talk I gave at DevopsDDay 2016 and Docker Meetup Nantes 2017 about Jenkins 2, Maven, Pipeline as Code and Docker. It was the opportunity to revisit the problems that we have had and the solutions adopted, and some best practices around Maven builds in Docker containers, all" />
-    <meta name="twitter:url" content="https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" />
+    <meta name="twitter:url" content="https://mgreau.com/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" />
     
     <script type="application/ld+json">
 null
     </script>
 
     <meta name="generator" content="HubPress" />
-    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.com/posts/rss/" />
   </head>
   <body class="post-template tag-docker tag-maven tag-jenkins tag-pipeline tag-talk">
 
@@ -107,17 +107,17 @@ null
         <ul role="navigation" class="drawer-list">
           
           <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts" data-pjax>
+            <a href="https://mgreau.com/posts" data-pjax>
               <i class="fa fa-home"></i>Home
             </a>
           </li>
           <!-- <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+            <a href="https://mgreau.com/posts" title="@mgreau :: Blog" data-pjax>
               <i class="fa fa-list-alt"></i>All posts
             </a>
           </li> -->
           <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts/rss/">
+            <a href="https://mgreau.com/posts/rss/">
               <i class="fa fa-rss"></i>Subscribe to Feed
             </a>
           </li>
@@ -176,14 +176,14 @@ null
                 <li class="post-meta-item">
                   <span class="tags"><i class="fa fa-tags"></i>
                       <span>
-                      <a href="https://mgreau.github.io/posts/tag/docker/">docker</a>, <a href="https://mgreau.github.io/posts/tag/maven/"> maven</a>, <a href="https://mgreau.github.io/posts/tag/jenkins/"> jenkins</a>, <a href="https://mgreau.github.io/posts/tag/pipeline/"> pipeline</a>, <a href="https://mgreau.github.io/posts/tag/talk/"> talk</a></span>
+                      <a href="https://mgreau.com/posts/tag/docker/">docker</a>, <a href="https://mgreau.com/posts/tag/maven/"> maven</a>, <a href="https://mgreau.com/posts/tag/jenkins/"> jenkins</a>, <a href="https://mgreau.com/posts/tag/pipeline/"> pipeline</a>, <a href="https://mgreau.com/posts/tag/talk/"> talk</a></span>
                   </span>
                 </li>
               <li class="post-meta-item">
                 <a href="#disqus_thread" data-disqus-identifier="">Comments</a>
               </li>
             </ul>
-            <h1 itemprop="name headline" class="post-title"><a href="https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" itemprop="url" data-pjax title="[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker">[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker</a></h1>
+            <h1 itemprop="name headline" class="post-title"><a href="https://mgreau.com/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" itemprop="url" data-pjax title="[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker">[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker</a></h1>
             <!--h2 itemprop="about" class="post-subtitle"></h2-->
           </header>
           <aside class="post-side">
@@ -349,7 +349,7 @@ This talk is an opportunity to revisit the problems that we have had and the sol
         hljs.initHighlightingOnLoad();
       </script>
 
-    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1492593683638"></script>
+    <script src="//mgreau.com/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1492593683638"></script>
 
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

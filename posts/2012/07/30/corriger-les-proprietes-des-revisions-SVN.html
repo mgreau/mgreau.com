@@ -38,9 +38,9 @@
     <link href="//fonts.googleapis.com/" rel="dns-prefetch">
     <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
 
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1469272021258"/>
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1469272021258"/>
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1469272021258"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/main.min.css?v=1469272021258"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/custom.css?v=1469272021258"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1469272021258"/>
 
 
 
@@ -70,30 +70,30 @@
       GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
     </script>
 
-    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1469272021258"></script>
+    <script src="//mgreau.com/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1469272021258"></script>
 
-    <link rel="canonical" href="https://mgreau.github.io/posts/2012/07/30/corriger-les-proprietes-des-revisions-SVN.html" />
+    <link rel="canonical" href="https://mgreau.com/posts/2012/07/30/corriger-les-proprietes-des-revisions-SVN.html" />
     <meta name="referrer" content="origin" />
     
     <meta property="og:site_name" content="@mgreau :: Blog" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Subversion - corriger les propriétés d&#x27;une révision SVN" />
     <meta property="og:description" content="Language : FR / Temps de lecture : 10mn Ce post explique comment mettre à jour les propriétés SVN d&amp;#8217;une révision donnée d&amp;#8217;un repository. Et notamment la propriété svn:date qui, lorsqu&amp;#8217;elle est absente sur certaines révisions, bloque les checkout via le client SVNKit (utilisé par défaut" />
-    <meta property="og:url" content="https://mgreau.github.io/posts/2012/07/30/corriger-les-proprietes-des-revisions-SVN.html" />
+    <meta property="og:url" content="https://mgreau.com/posts/2012/07/30/corriger-les-proprietes-des-revisions-SVN.html" />
     <meta property="article:tag" content="SVN" />
     <meta property="article:tag" content=" Shell" />
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Subversion - corriger les propriétés d&#x27;une révision SVN" />
     <meta name="twitter:description" content="Language : FR / Temps de lecture : 10mn Ce post explique comment mettre à jour les propriétés SVN d&amp;#8217;une révision donnée d&amp;#8217;un repository. Et notamment la propriété svn:date qui, lorsqu&amp;#8217;elle est absente sur certaines révisions, bloque les checkout via le client SVNKit (utilisé par défaut" />
-    <meta name="twitter:url" content="https://mgreau.github.io/posts/2012/07/30/corriger-les-proprietes-des-revisions-SVN.html" />
+    <meta name="twitter:url" content="https://mgreau.com/posts/2012/07/30/corriger-les-proprietes-des-revisions-SVN.html" />
     
     <script type="application/ld+json">
 null
     </script>
 
     <meta name="generator" content="HubPress" />
-    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.com/posts/rss/" />
   </head>
   <body class="post-template tag-SVN tag-Shell">
 
@@ -104,17 +104,17 @@ null
         <ul role="navigation" class="drawer-list">
           
           <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts" data-pjax>
+            <a href="https://mgreau.com/posts" data-pjax>
               <i class="fa fa-home"></i>Home
             </a>
           </li>
           <!-- <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+            <a href="https://mgreau.com/posts" title="@mgreau :: Blog" data-pjax>
               <i class="fa fa-list-alt"></i>All posts
             </a>
           </li> -->
           <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts/rss/">
+            <a href="https://mgreau.com/posts/rss/">
               <i class="fa fa-rss"></i>Subscribe to Feed
             </a>
           </li>
@@ -173,7 +173,7 @@ null
                 <li class="post-meta-item">
                   <span class="tags"><i class="fa fa-tags"></i>
                       <span>
-                      <a href="https://mgreau.github.io/posts/tag/SVN/">SVN</a>, <a href="https://mgreau.github.io/posts/tag/Shell/"> Shell</a></span>
+                      <a href="https://mgreau.com/posts/tag/SVN/">SVN</a>, <a href="https://mgreau.com/posts/tag/Shell/"> Shell</a></span>
                   </span>
                 </li>
               <li class="post-meta-item">
@@ -317,7 +317,7 @@ REPORT request for '/svn/repo1/!svn/vcc/&lt;wbr&gt;&lt;/wbr&gt;default'</code></
 </div>
 <div id="img-svnide" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/blog_eclipse_svn_logs1.png" alt="Révisions SVN dans IDE Eclipse">
+<img src="https://mgreau.com/posts/images/posts/blog_eclipse_svn_logs1.png" alt="Révisions SVN dans IDE Eclipse">
 </div>
 <div class="title">Figure 1. Révisions SVN dans IDE Eclipse</div>
 </div>
@@ -381,7 +381,7 @@ property 'svn:log' set on repository revision 38307</code></pre>
 </div>
 <div id="img-svnide2" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/blog_eclipse_svn_logs2.png" alt="Révisions SVN OK dans IDE Eclipse">
+<img src="https://mgreau.com/posts/images/posts/blog_eclipse_svn_logs2.png" alt="Révisions SVN OK dans IDE Eclipse">
 </div>
 <div class="title">Figure 2. Révisions SVN OK dans IDE Eclipse</div>
 </div>
@@ -496,7 +496,7 @@ Je met à disposition <a href="https://docs.google.com/open?id=0Bx7rkna8etApWHJs
         hljs.initHighlightingOnLoad();
       </script>
 
-    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1469272021258"></script>
+    <script src="//mgreau.com/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1469272021258"></script>
 
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

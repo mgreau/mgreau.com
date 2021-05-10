@@ -38,9 +38,9 @@
     <link href="//fonts.googleapis.com/" rel="dns-prefetch">
     <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
 
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1480415674605"/>
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1480415674605"/>
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1480415674605"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/main.min.css?v=1480415674605"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/custom.css?v=1480415674605"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1480415674605"/>
 
 
 
@@ -70,16 +70,16 @@
       GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
     </script>
 
-    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1480415674605"></script>
+    <script src="//mgreau.com/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1480415674605"></script>
 
-    <link rel="canonical" href="https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" />
+    <link rel="canonical" href="https://mgreau.com/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" />
     <meta name="referrer" content="origin" />
     
     <meta property="og:site_name" content="@mgreau :: Blog" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly" />
     <meta property="og:description" content="This post was originally published in November 2013 and has been updated on February 3rd, 2016 for the following reasons: Use the newest final  version of WildFly 10.0.0 App deployed in a Docker Container at http://javaee7-websocket.mgreau.com thanks to Clever Cloud PaaS! This app is not" />
-    <meta property="og:url" content="https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" />
+    <meta property="og:url" content="https://mgreau.com/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" />
     <meta property="article:tag" content="Java EE" />
     <meta property="article:tag" content=" WebSocket" />
     <meta property="article:tag" content=" WildFly" />
@@ -88,14 +88,14 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly" />
     <meta name="twitter:description" content="This post was originally published in November 2013 and has been updated on February 3rd, 2016 for the following reasons: Use the newest final  version of WildFly 10.0.0 App deployed in a Docker Container at http://javaee7-websocket.mgreau.com thanks to Clever Cloud PaaS! This app is not" />
-    <meta name="twitter:url" content="https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" />
+    <meta name="twitter:url" content="https://mgreau.com/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" />
     
     <script type="application/ld+json">
 null
     </script>
 
     <meta name="generator" content="HubPress" />
-    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.com/posts/rss/" />
   </head>
   <body class="post-template tag-Java-EE tag-Web-Socket tag-Wild-Fly tag-angularJS">
 
@@ -106,17 +106,17 @@ null
         <ul role="navigation" class="drawer-list">
           
           <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts" data-pjax>
+            <a href="https://mgreau.com/posts" data-pjax>
               <i class="fa fa-home"></i>Home
             </a>
           </li>
           <!-- <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+            <a href="https://mgreau.com/posts" title="@mgreau :: Blog" data-pjax>
               <i class="fa fa-list-alt"></i>All posts
             </a>
           </li> -->
           <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts/rss/">
+            <a href="https://mgreau.com/posts/rss/">
               <i class="fa fa-rss"></i>Subscribe to Feed
             </a>
           </li>
@@ -175,14 +175,14 @@ null
                 <li class="post-meta-item">
                   <span class="tags"><i class="fa fa-tags"></i>
                       <span>
-                      <a href="https://mgreau.github.io/posts/tag/Java-EE/">Java EE</a>, <a href="https://mgreau.github.io/posts/tag/Web-Socket/"> WebSocket</a>, <a href="https://mgreau.github.io/posts/tag/Wild-Fly/"> WildFly</a>, <a href="https://mgreau.github.io/posts/tag/angularJS/"> angularJS</a></span>
+                      <a href="https://mgreau.com/posts/tag/Java-EE/">Java EE</a>, <a href="https://mgreau.com/posts/tag/Web-Socket/"> WebSocket</a>, <a href="https://mgreau.com/posts/tag/Wild-Fly/"> WildFly</a>, <a href="https://mgreau.com/posts/tag/angularJS/"> angularJS</a></span>
                   </span>
                 </li>
               <li class="post-meta-item">
                 <a href="#disqus_thread" data-disqus-identifier="">Comments</a>
               </li>
             </ul>
-            <h1 itemprop="name headline" class="post-title"><a href="https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" itemprop="url" data-pjax title="Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly">Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly</a></h1>
+            <h1 itemprop="name headline" class="post-title"><a href="https://mgreau.com/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" itemprop="url" data-pjax title="Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly">Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly</a></h1>
             <!--h2 itemprop="about" class="post-subtitle"></h2-->
           </header>
           <aside class="post-side">
@@ -322,7 +322,7 @@ This version decorates previous versions with 3 main objectives :</p>
 </div>
 <div id="javaee7_intro" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/javaee7_intro.png" alt="Java EE 7 goals">
+<img src="https://mgreau.com/posts/images/javaee7_intro.png" alt="Java EE 7 goals">
 </div>
 <div class="title">Figure 1. The 3 goals of Java EE 7</div>
 </div>
@@ -411,7 +411,7 @@ It&#8217;s an application that give you the ability :</p>
 </div>
 <div id="websocket_example" class="imageblock">
 <div class="content">
-<a class="image" href="http://javaee7-websocket.mgreau.com"><img src="https://mgreau.github.io/posts/images/websocket_wildfly_angularjs_tennis.png" alt="Implementation of WebSocket (Java API et Javascript API)"></a>
+<a class="image" href="http://javaee7-websocket.mgreau.com"><img src="https://mgreau.com/posts/images/websocket_wildfly_angularjs_tennis.png" alt="Implementation of WebSocket (Java API et Javascript API)"></a>
 </div>
 <div class="title">Figure 2. US Open Application  - Implementation of WebSocket (Java API et Javascript API)</div>
 </div>
@@ -502,7 +502,7 @@ It&#8217;s obvious that the "chat demo" is the one that first comes to mind to i
 </div>
 <div id="websocket_protocol" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/WebSocket_Protocol.png" alt="Diagram which explain how does the WebSocket protocol work" width="550">
+<img src="https://mgreau.com/posts/images/WebSocket_Protocol.png" alt="Diagram which explain how does the WebSocket protocol work" width="550">
 </div>
 <div class="title">Figure 3. How does the WebSocket protocol work</div>
 </div>
@@ -1659,7 +1659,7 @@ Today all <strong>standards are completed or about to be</strong>, this new tech
         hljs.initHighlightingOnLoad();
       </script>
 
-    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1480415674605"></script>
+    <script src="//mgreau.com/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1480415674605"></script>
 
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

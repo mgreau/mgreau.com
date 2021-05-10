@@ -38,9 +38,9 @@
     <link href="//fonts.googleapis.com/" rel="dns-prefetch">
     <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
 
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1469272021012"/>
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1469272021012"/>
-    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1469272021012"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/main.min.css?v=1469272021012"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/custom.css?v=1469272021012"/>
+    <link rel="stylesheet" href="//mgreau.com/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1469272021012"/>
 
 
 
@@ -70,16 +70,16 @@
       GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
     </script>
 
-    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1469272021012"></script>
+    <script src="//mgreau.com/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1469272021012"></script>
 
-    <link rel="canonical" href="https://mgreau.github.io/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html" />
+    <link rel="canonical" href="https://mgreau.com/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html" />
     <meta name="referrer" content="origin" />
     
     <meta property="og:site_name" content="@mgreau :: Blog" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS" />
     <meta property="og:description" content="Language EN /  Timereading 10 mn Overview This post explains how we execute Arquillian tests for AsciidoctorJ to a Docker container, so we&amp;#8217;ll talk about: docker-asciidoctorj, the dedicated github project on Asciidoctor organization the Asciidoctor organization on Docker Hub, Arquillian Cube, the Arquillian extension that can be used to" />
-    <meta property="og:url" content="https://mgreau.github.io/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html" />
+    <meta property="og:url" content="https://mgreau.com/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html" />
     <meta property="article:tag" content="[EN]" />
     <meta property="article:tag" content=" Asciidoctor" />
     <meta property="article:tag" content=" docker" />
@@ -89,14 +89,14 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS" />
     <meta name="twitter:description" content="Language EN /  Timereading 10 mn Overview This post explains how we execute Arquillian tests for AsciidoctorJ to a Docker container, so we&amp;#8217;ll talk about: docker-asciidoctorj, the dedicated github project on Asciidoctor organization the Asciidoctor organization on Docker Hub, Arquillian Cube, the Arquillian extension that can be used to" />
-    <meta name="twitter:url" content="https://mgreau.github.io/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html" />
+    <meta name="twitter:url" content="https://mgreau.com/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html" />
     
     <script type="application/ld+json">
 null
     </script>
 
     <meta name="generator" content="HubPress" />
-    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.com/posts/rss/" />
   </head>
   <body class="post-template tag-EN tag-Asciidoctor tag-docker tag-Wild-Fly tag-Arquillian">
 
@@ -107,17 +107,17 @@ null
         <ul role="navigation" class="drawer-list">
           
           <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts" data-pjax>
+            <a href="https://mgreau.com/posts" data-pjax>
               <i class="fa fa-home"></i>Home
             </a>
           </li>
           <!-- <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+            <a href="https://mgreau.com/posts" title="@mgreau :: Blog" data-pjax>
               <i class="fa fa-list-alt"></i>All posts
             </a>
           </li> -->
           <li class="drawer-list-item">
-            <a href="https://mgreau.github.io/posts/rss/">
+            <a href="https://mgreau.com/posts/rss/">
               <i class="fa fa-rss"></i>Subscribe to Feed
             </a>
           </li>
@@ -176,7 +176,7 @@ null
                 <li class="post-meta-item">
                   <span class="tags"><i class="fa fa-tags"></i>
                       <span>
-                      <a href="https://mgreau.github.io/posts/tag/EN/">[EN]</a>, <a href="https://mgreau.github.io/posts/tag/Asciidoctor/"> Asciidoctor</a>, <a href="https://mgreau.github.io/posts/tag/docker/"> docker</a>, <a href="https://mgreau.github.io/posts/tag/Wild-Fly/"> WildFly</a>, <a href="https://mgreau.github.io/posts/tag/Arquillian/"> Arquillian</a></span>
+                      <a href="https://mgreau.com/posts/tag/EN/">[EN]</a>, <a href="https://mgreau.com/posts/tag/Asciidoctor/"> Asciidoctor</a>, <a href="https://mgreau.com/posts/tag/docker/"> docker</a>, <a href="https://mgreau.com/posts/tag/Wild-Fly/"> WildFly</a>, <a href="https://mgreau.com/posts/tag/Arquillian/"> Arquillian</a></span>
                   </span>
                 </li>
               <li class="post-meta-item">
@@ -255,7 +255,7 @@ But I&#8217;ll blogged about this awesome experience soon.</p>
 </div>
 <div id="docker_arquillian_asciidoctor" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/docker-arquillian-asciidoctor.png" alt="AsciidoctorJ Docker containers managed by Arquillian" width="750">
+<img src="https://mgreau.com/posts/images/posts/docker-asciidoctorj/docker-arquillian-asciidoctor.png" alt="AsciidoctorJ Docker containers managed by Arquillian" width="750">
 </div>
 <div class="title">Figure 1. The power of Arquillian &amp; Docker for AsciidoctorJ integration tests</div>
 </div>
@@ -320,7 +320,7 @@ Asciidoctor is written in <strong>Ruby</strong>, packaged as a RubyGem and publi
 </div>
 <div id="asciidoctor_processor" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/asciidoctor-processor.png" alt="Diagram showing output files that Asciidoctor can generate" width="750">
+<img src="https://mgreau.com/posts/images/posts/docker-asciidoctorj/asciidoctor-processor.png" alt="Diagram showing output files that Asciidoctor can generate" width="750">
 </div>
 <div class="title">Figure 2. Asciidoctor convert AsciiDoc files to several formats</div>
 </div>
@@ -473,7 +473,7 @@ If you are using boot2docker, you can pass some configuration to the Maven comma
 </div>
 <div id="cube_docker_process" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/cube-docker-process.png" alt="Diagram with interaction between Cube and Docker container" width="750">
+<img src="https://mgreau.com/posts/images/posts/docker-asciidoctorj/cube-docker-process.png" alt="Diagram with interaction between Cube and Docker container" width="750">
 </div>
 <div class="title">Figure 4. Steps done thanks to Arquillian Cube</div>
 </div>
@@ -516,7 +516,7 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 </div>
 <div id="sample_files_output" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/sample-pdf-html-output.png" alt="Screenshot showing both sample PDF and HTML files" width="750">
+<img src="https://mgreau.com/posts/images/posts/docker-asciidoctorj/sample-pdf-html-output.png" alt="Screenshot showing both sample PDF and HTML files" width="750">
 </div>
 <div class="title">Figure 5. same sample.adoc file converted to PDF and HTML5 files by AsciidoctorJ on WildFly</div>
 </div>
@@ -1119,7 +1119,7 @@ But the most important thing is that Asciidoctor now has <strong>its own officia
         hljs.initHighlightingOnLoad();
       </script>
 
-    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1469272021012"></script>
+    <script src="//mgreau.com/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1469272021012"></script>
 
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

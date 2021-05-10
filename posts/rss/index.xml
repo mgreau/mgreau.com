@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[@mgreau :: Blog]]></title><description><![CDATA[Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web.]]></description><link>https://mgreau.github.io/posts</link><image><url>http://mgreau.com/posts/images/cover-blog-devoxxfr2015.jpg</url><title>@mgreau :: Blog</title><link>https://mgreau.github.io/posts</link></image><generator>RSS for Node</generator><lastBuildDate>Wed, 19 Apr 2017 09:21:23 GMT</lastBuildDate><atom:link href="https://mgreau.github.io/posts/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker]]></title><description><![CDATA[<div id="preamble">
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[@mgreau :: Blog]]></title><description><![CDATA[Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web.]]></description><link>https://mgreau.com/posts</link><image><url>http://mgreau.com/posts/images/cover-blog-devoxxfr2015.jpg</url><title>@mgreau :: Blog</title><link>https://mgreau.com/posts</link></image><generator>RSS for Node</generator><lastBuildDate>Wed, 19 Apr 2017 09:21:23 GMT</lastBuildDate><atom:link href="https://mgreau.com/posts/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
 <p>This is the talk I gave at DevopsDDay 2016 and Docker Meetup Nantes 2017 about Jenkins 2, Maven, Pipeline as Code and Docker. It was the opportunity to revisit the problems that we have had and the solutions adopted, and some best practices around <strong>Maven builds in Docker containers</strong>, all managed by the <strong>Jenkins Pipeline as Code pattern</strong>:</p>
@@ -67,7 +67,7 @@ You want to manage them with the same process that you use for source code?</p>
 This talk is an opportunity to revisit the problems that we have had and the solutions adopted, and <strong>some best practices around Maven builds in Docker containers</strong>, all managed by the <strong>Jenkins Pipeline as Code</strong> pattern.</p>
 </div>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html</guid><category><![CDATA[docker]]></category><category><![CDATA[ maven]]></category><category><![CDATA[ jenkins]]></category><category><![CDATA[ pipeline]]></category><category><![CDATA[ talk]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Wed, 01 Mar 2017 00:00:00 GMT</pubDate></item><item><title><![CDATA[Convert AsciiDoc to HTML/PDF & publish to GitHub Pages with Travis CI and Asciidoctor Docker containers]]></title><description><![CDATA[<div id="preamble">
+</div>]]></description><link>https://mgreau.com/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html</link><guid isPermaLink="true">https://mgreau.com/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html</guid><category><![CDATA[docker]]></category><category><![CDATA[ maven]]></category><category><![CDATA[ jenkins]]></category><category><![CDATA[ pipeline]]></category><category><![CDATA[ talk]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Wed, 01 Mar 2017 00:00:00 GMT</pubDate></item><item><title><![CDATA[Convert AsciiDoc to HTML/PDF & publish to GitHub Pages with Travis CI and Asciidoctor Docker containers]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -98,10 +98,10 @@ All resources explained in this post are listed below:</p>
 <p><code>AsciiDoc</code> files and <code>.travis.yml</code> configuration file on <a href="https://github.com/mgreau/asciidoc-to-ghpages/tree/master">asciidoc-to-ghpages project <strong>master branch</strong></a></p>
 </li>
 <li>
-<p><code>HTML</code> and <code>PDF</code> files on <a href="https://mgreau.github.io/asciidoc-to-ghpages/">asciidoc-to-ghpages project <strong>gh-pages branch</strong></a></p>
+<p><code>HTML</code> and <code>PDF</code> files on <a href="https://mgreau.com/asciidoc-to-ghpages/">asciidoc-to-ghpages project <strong>gh-pages branch</strong></a></p>
 </li>
 <li>
-<p>Files published at <a href="https://mgreau.github.io/asciidoc-to-ghpages/" class="bare">https://mgreau.github.io/asciidoc-to-ghpages/</a></p>
+<p>Files published at <a href="https://mgreau.com/asciidoc-to-ghpages/" class="bare">https://mgreau.com/asciidoc-to-ghpages/</a></p>
 </li>
 </ul>
 </div>
@@ -454,14 +454,14 @@ You can see in realtime, what is going on when AsciiDoc files are <strong>proces
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://mgreau.github.io/asciidoc-to-ghpages/" class="bare">https://mgreau.github.io/asciidoc-to-ghpages/</a></p>
+<p><a href="https://mgreau.com/asciidoc-to-ghpages/" class="bare">https://mgreau.com/asciidoc-to-ghpages/</a></p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://mgreau.github.io/asciidoc-to-ghpages//demo.html">Demo HTML</a></p>
+<p><a href="https://mgreau.com/asciidoc-to-ghpages//demo.html">Demo HTML</a></p>
 </li>
 <li>
-<p><a href="https://mgreau.github.io/asciidoc-to-ghpages//demo.pdf">Demo PDF</a></p>
+<p><a href="https://mgreau.com/asciidoc-to-ghpages//demo.pdf">Demo PDF</a></p>
 </li>
 </ul>
 </div>
@@ -504,7 +504,7 @@ README.pdf</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You can see below a screenshot with both <a href="https://mgreau.github.io/asciidoc-to-ghpages//demo.html">demo.html</a> and <a href="https://mgreau.github.io/asciidoc-to-ghpages//demo.pdf">demo.pdf</a> files.</p>
+<p>You can see below a screenshot with both <a href="https://mgreau.com/asciidoc-to-ghpages//demo.html">demo.html</a> and <a href="https://mgreau.com/asciidoc-to-ghpages//demo.pdf">demo.pdf</a> files.</p>
 </div>
 <div id="asciidoc_ghpages_files_published" class="imageblock post-cover-image">
 <div class="content">
@@ -517,7 +517,7 @@ README.pdf</code></pre>
 There are a lot of other ways to do it, I’d love to have your feedbacks about it, so feel free to add a comment.</p>
 </div>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2016/03/28/asciidoc-to-gh-pages-with-travis-ci-docker-asciidoctor.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2016/03/28/asciidoc-to-gh-pages-with-travis-ci-docker-asciidoctor.html</guid><category><![CDATA[asciidoc]]></category><category><![CDATA[ Asciidoctor]]></category><category><![CDATA[ travis]]></category><category><![CDATA[ docker]]></category><category><![CDATA[ gh-pages]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Mon, 28 Mar 2016 00:00:00 GMT</pubDate></item><item><title><![CDATA[[Talk] Improve your Java Environment with Docker @ HanoiJUG 2015]]></title><description><![CDATA[<div id="preamble">
+</div>]]></description><link>https://mgreau.com/posts/2016/03/28/asciidoc-to-gh-pages-with-travis-ci-docker-asciidoctor.html</link><guid isPermaLink="true">https://mgreau.com/posts/2016/03/28/asciidoc-to-gh-pages-with-travis-ci-docker-asciidoctor.html</guid><category><![CDATA[asciidoc]]></category><category><![CDATA[ Asciidoctor]]></category><category><![CDATA[ travis]]></category><category><![CDATA[ docker]]></category><category><![CDATA[ gh-pages]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Mon, 28 Mar 2016 00:00:00 GMT</pubDate></item><item><title><![CDATA[[Talk] Improve your Java Environment with Docker @ HanoiJUG 2015]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
 <p>Our Session with Thomas Delhoménie about how to <strong>Improve your Java Development Environment with Docker</strong> at <a href="http://www.meetup.com/fr-FR/Hanoi-Java-User-Group/events/225962831/?eventId=225962831"><strong>Hanoi JUG 2015</strong></a> with a <strong>Java EE 7</strong> / <strong>Angular</strong> / WildFly / Redis / MySQL Application with <strong>Docker containers</strong>:</p>
@@ -557,7 +557,7 @@ There are a lot of other ways to do it, I’d love to have your feedbacks about 
 </div>
 </div>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2015/11/05/improve-java-dev-environment-with-docker.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2015/11/05/improve-java-dev-environment-with-docker.html</guid><category><![CDATA[docker]]></category><category><![CDATA[ docker-compose]]></category><category><![CDATA[ docker4dev]]></category><category><![CDATA[ Java]]></category><category><![CDATA[ Angular]]></category><category><![CDATA[ HanoiJUG]]></category><category><![CDATA[ JUG]]></category><category><![CDATA[ talk]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Thu, 05 Nov 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[#docker4Dev: Copy Docker images from one docker machine to another]]></title><description><![CDATA[<div id="preamble">
+</div>]]></description><link>https://mgreau.com/posts/2015/11/05/improve-java-dev-environment-with-docker.html</link><guid isPermaLink="true">https://mgreau.com/posts/2015/11/05/improve-java-dev-environment-with-docker.html</guid><category><![CDATA[docker]]></category><category><![CDATA[ docker-compose]]></category><category><![CDATA[ docker4dev]]></category><category><![CDATA[ Java]]></category><category><![CDATA[ Angular]]></category><category><![CDATA[ HanoiJUG]]></category><category><![CDATA[ JUG]]></category><category><![CDATA[ talk]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Thu, 05 Nov 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[#docker4Dev: Copy Docker images from one docker machine to another]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -884,10 +884,10 @@ alpine              3.2                 8697b6cc1f48        11 weeks ago        
 I&#8217;d love to have your advices.</p>
 </div>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2015/08/26/copy-docker-images-from-one-docker-machine-to-another.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2015/08/26/copy-docker-images-from-one-docker-machine-to-another.html</guid><category><![CDATA[docker4Dev]]></category><category><![CDATA[ docker-machine]]></category><category><![CDATA[ docker]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Wed, 26 Aug 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[[Talk] AsciiDoc : Create and Publish everywhere from anywhere]]></title><description><![CDATA[<div class="paragraph">
+</div>]]></description><link>https://mgreau.com/posts/2015/08/26/copy-docker-images-from-one-docker-machine-to-another.html</link><guid isPermaLink="true">https://mgreau.com/posts/2015/08/26/copy-docker-images-from-one-docker-machine-to-another.html</guid><category><![CDATA[docker4Dev]]></category><category><![CDATA[ docker-machine]]></category><category><![CDATA[ docker]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Wed, 26 Aug 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[[Talk] AsciiDoc : Create and Publish everywhere from anywhere]]></title><description><![CDATA[<div class="paragraph">
 <p>My slides from DevNation 2015 at Boston in June.</p>
 </div>
-<iframe class="frame" width="100%" height="600"  src="http://mgreau.com/slides/devnation2015/dzslides/shells/embedder.html#http://mgreau.com/slides/devnation2015/slides.html"/>]]></description><link>https://mgreau.github.io/posts/2015/06/22/asciidoc-create-and-publish-everywhere-from-anywhere.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2015/06/22/asciidoc-create-and-publish-everywhere-from-anywhere.html</guid><category><![CDATA[Asciidoctor]]></category><category><![CDATA[ AsciiDoc]]></category><category><![CDATA[ DevNation]]></category><category><![CDATA[ DevNation2015]]></category><category><![CDATA[ talk]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Mon, 22 Jun 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[Agenda Asciidoctor @ DevoxxFR et t-shirts à gagner]]></title><description><![CDATA[<div id="preamble">
+<iframe class="frame" width="100%" height="600"  src="http://mgreau.com/slides/devnation2015/dzslides/shells/embedder.html#http://mgreau.com/slides/devnation2015/slides.html"/>]]></description><link>https://mgreau.com/posts/2015/06/22/asciidoc-create-and-publish-everywhere-from-anywhere.html</link><guid isPermaLink="true">https://mgreau.com/posts/2015/06/22/asciidoc-create-and-publish-everywhere-from-anywhere.html</guid><category><![CDATA[Asciidoctor]]></category><category><![CDATA[ AsciiDoc]]></category><category><![CDATA[ DevNation]]></category><category><![CDATA[ DevNation2015]]></category><category><![CDATA[ talk]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Mon, 22 Jun 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[Agenda Asciidoctor @ DevoxxFR et t-shirts à gagner]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
 <p>Dans quelques heures c&#8217;est le début de <strong>Devoxx France 2015</strong> !<br>
@@ -1114,7 +1114,7 @@ Alors que toute l'équipe organisatrice est encore au travail (déjà bravo à e
 <p>See you au Palais des Congrès !</p>
 </div>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2015/04/08/agenda-asciidoctor-devoxxfr-tshirt-a-gagner.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2015/04/08/agenda-asciidoctor-devoxxfr-tshirt-a-gagner.html</guid><category><![CDATA[Asciidoctor]]></category><category><![CDATA[ AsciiDoc]]></category><category><![CDATA[ DevoxxFR]]></category><category><![CDATA[ talk]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Wed, 08 Apr 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS]]></title><description><![CDATA[<div id="preamble">
+</div>]]></description><link>https://mgreau.com/posts/2015/04/08/agenda-asciidoctor-devoxxfr-tshirt-a-gagner.html</link><guid isPermaLink="true">https://mgreau.com/posts/2015/04/08/agenda-asciidoctor-devoxxfr-tshirt-a-gagner.html</guid><category><![CDATA[Asciidoctor]]></category><category><![CDATA[ AsciiDoc]]></category><category><![CDATA[ DevoxxFR]]></category><category><![CDATA[ talk]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Wed, 08 Apr 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="admonitionblock tip">
 <table>
@@ -1169,7 +1169,7 @@ But I&#8217;ll blogged about this awesome experience soon.</p>
 </div>
 <div id="docker_arquillian_asciidoctor" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/docker-arquillian-asciidoctor.png" alt="AsciidoctorJ Docker containers managed by Arquillian" width="750">
+<img src="https://mgreau.com/posts/images/posts/docker-asciidoctorj/docker-arquillian-asciidoctor.png" alt="AsciidoctorJ Docker containers managed by Arquillian" width="750">
 </div>
 <div class="title">Figure 1. The power of Arquillian &amp; Docker for AsciidoctorJ integration tests</div>
 </div>
@@ -1234,7 +1234,7 @@ Asciidoctor is written in <strong>Ruby</strong>, packaged as a RubyGem and publi
 </div>
 <div id="asciidoctor_processor" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/asciidoctor-processor.png" alt="Diagram showing output files that Asciidoctor can generate" width="750">
+<img src="https://mgreau.com/posts/images/posts/docker-asciidoctorj/asciidoctor-processor.png" alt="Diagram showing output files that Asciidoctor can generate" width="750">
 </div>
 <div class="title">Figure 2. Asciidoctor convert AsciiDoc files to several formats</div>
 </div>
@@ -1387,7 +1387,7 @@ If you are using boot2docker, you can pass some configuration to the Maven comma
 </div>
 <div id="cube_docker_process" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/cube-docker-process.png" alt="Diagram with interaction between Cube and Docker container" width="750">
+<img src="https://mgreau.com/posts/images/posts/docker-asciidoctorj/cube-docker-process.png" alt="Diagram with interaction between Cube and Docker container" width="750">
 </div>
 <div class="title">Figure 4. Steps done thanks to Arquillian Cube</div>
 </div>
@@ -1430,7 +1430,7 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 </div>
 <div id="sample_files_output" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/sample-pdf-html-output.png" alt="Screenshot showing both sample PDF and HTML files" width="750">
+<img src="https://mgreau.com/posts/images/posts/docker-asciidoctorj/sample-pdf-html-output.png" alt="Screenshot showing both sample PDF and HTML files" width="750">
 </div>
 <div class="title">Figure 5. same sample.adoc file converted to PDF and HTML5 files by AsciidoctorJ on WildFly</div>
 </div>
@@ -1953,7 +1953,7 @@ But the most important thing is that Asciidoctor now has <strong>its own officia
 <p>Have fun with <strong>Asciidoctor</strong>, <strong>Arquillian</strong> and <strong>Docker</strong> :)</p>
 </div>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html</guid><category><![CDATA[[EN]]]></category><category><![CDATA[ Asciidoctor]]></category><category><![CDATA[ docker]]></category><category><![CDATA[ WildFly]]></category><category><![CDATA[ Arquillian]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Tue, 03 Mar 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[JBoss EAP 4.3 / 5.1 / 6.2 - Java EE supported standards in each EAP releases]]></title><description><![CDATA[<div id="preamble">
+</div>]]></description><link>https://mgreau.com/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html</link><guid isPermaLink="true">https://mgreau.com/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html</guid><category><![CDATA[[EN]]]></category><category><![CDATA[ Asciidoctor]]></category><category><![CDATA[ docker]]></category><category><![CDATA[ WildFly]]></category><category><![CDATA[ Arquillian]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Tue, 03 Mar 2015 00:00:00 GMT</pubDate></item><item><title><![CDATA[JBoss EAP 4.3 / 5.1 / 6.2 - Java EE supported standards in each EAP releases]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="admonitionblock tip">
 <table>
@@ -2186,7 +2186,7 @@ Language EN / Timereading 5 mn
 </div>
 </div>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2013/12/10/jboss-eap-62-51-43-javaee-supported.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2013/12/10/jboss-eap-62-51-43-javaee-supported.html</guid><category><![CDATA[Java EE]]></category><category><![CDATA[ JBoss]]></category><category><![CDATA[ EAP]]></category><category><![CDATA[ JSR]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Tue, 10 Dec 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly]]></title><description><![CDATA[<div id="preamble">
+</div>]]></description><link>https://mgreau.com/posts/2013/12/10/jboss-eap-62-51-43-javaee-supported.html</link><guid isPermaLink="true">https://mgreau.com/posts/2013/12/10/jboss-eap-62-51-43-javaee-supported.html</guid><category><![CDATA[Java EE]]></category><category><![CDATA[ JBoss]]></category><category><![CDATA[ EAP]]></category><category><![CDATA[ JSR]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Tue, 10 Dec 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="admonitionblock important">
 <table>
@@ -2309,7 +2309,7 @@ This version decorates previous versions with 3 main objectives :</p>
 </div>
 <div id="javaee7_intro" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/javaee7_intro.png" alt="Java EE 7 goals">
+<img src="https://mgreau.com/posts/images/javaee7_intro.png" alt="Java EE 7 goals">
 </div>
 <div class="title">Figure 1. The 3 goals of Java EE 7</div>
 </div>
@@ -2398,7 +2398,7 @@ It&#8217;s an application that give you the ability :</p>
 </div>
 <div id="websocket_example" class="imageblock">
 <div class="content">
-<a class="image" href="http://javaee7-websocket.mgreau.com"><img src="https://mgreau.github.io/posts/images/websocket_wildfly_angularjs_tennis.png" alt="Implementation of WebSocket (Java API et Javascript API)"></a>
+<a class="image" href="http://javaee7-websocket.mgreau.com"><img src="https://mgreau.com/posts/images/websocket_wildfly_angularjs_tennis.png" alt="Implementation of WebSocket (Java API et Javascript API)"></a>
 </div>
 <div class="title">Figure 2. US Open Application  - Implementation of WebSocket (Java API et Javascript API)</div>
 </div>
@@ -2489,7 +2489,7 @@ It&#8217;s obvious that the "chat demo" is the one that first comes to mind to i
 </div>
 <div id="websocket_protocol" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/WebSocket_Protocol.png" alt="Diagram which explain how does the WebSocket protocol work" width="550">
+<img src="https://mgreau.com/posts/images/WebSocket_Protocol.png" alt="Diagram which explain how does the WebSocket protocol work" width="550">
 </div>
 <div class="title">Figure 3. How does the WebSocket protocol work</div>
 </div>
@@ -3566,7 +3566,7 @@ For more advanced information, the ideal is IETF, W3C and Java specifications.</
 Today all <strong>standards are completed or about to be</strong>, this new technology meets a specific need and is promising in terms of performance. To be heavily used, this protocol will need to be allowed in businesses where often only the HTTP protocol is permitted.</p>
 </div>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html</guid><category><![CDATA[Java EE]]></category><category><![CDATA[ WebSocket]]></category><category><![CDATA[ WildFly]]></category><category><![CDATA[ angularJS]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Mon, 11 Nov 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Java EE 7 et l'API Java pour WebSocket (JSR 356)]]></title><description><![CDATA[<div id="preamble">
+</div>]]></description><link>https://mgreau.com/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html</link><guid isPermaLink="true">https://mgreau.com/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html</guid><category><![CDATA[Java EE]]></category><category><![CDATA[ WebSocket]]></category><category><![CDATA[ WildFly]]></category><category><![CDATA[ angularJS]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Mon, 11 Nov 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Java EE 7 et l'API Java pour WebSocket (JSR 356)]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -3648,7 +3648,7 @@ Cette version agrémente les versions précédentes avec 3 objectifs principaux 
 </div>
 <div id="javaee7_intro" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/javaee7_intro.png" alt="Java EE 7 - Objectifs">
+<img src="https://mgreau.com/posts/images/posts/javaee7_intro.png" alt="Java EE 7 - Objectifs">
 </div>
 <div class="title">Figure 1. Les 3 objectifs de Java EE 7</div>
 </div>
@@ -3717,7 +3717,7 @@ Il s&#8217;agit d&#8217;une application qui permet :</p>
 </div>
 <div id="websocket_example" class="imageblock">
 <div class="content">
-<a class="image" href="http://wildfly-mgreau.rhcloud.com/usopen/"><img src="https://mgreau.github.io/posts/images/posts/websocket_example.png" alt="Mise en oeuvre des WebSocket (Java API et Javascript API)"></a>
+<a class="image" href="http://wildfly-mgreau.rhcloud.com/usopen/"><img src="https://mgreau.com/posts/images/posts/websocket_example.png" alt="Mise en oeuvre des WebSocket (Java API et Javascript API)"></a>
 </div>
 <div class="title">Figure 2. Mise en oeuvre des WebSocket (Java API et Javascript API)</div>
 </div>
@@ -3808,7 +3808,7 @@ Il est évident que la démo "chat" est celle qui vient en premier à l&#8217;es
 </div>
 <div id="websocket_protocol" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/WebSocket_Protocol.png" alt="Schéma d'explications du protocole WebSocket" width="550">
+<img src="https://mgreau.com/posts/images/posts/WebSocket_Protocol.png" alt="Schéma d'explications du protocole WebSocket" width="550">
 </div>
 <div class="title">Figure 3. Explication du protocole WebSocket</div>
 </div>
@@ -4711,7 +4711,7 @@ Pour des informations plus avancées, l&#8217;idéal reste les spécifications I
 Aujourd&#8217;hui tous <strong>les standards sont finalisés ou en passe de l'être</strong>, cette nouvelle technologie répond à un besoin précis et est prometteuse en terme de performance. Pour qu&#8217;elle soit massivement utilisée, il faudra tout de même que ce protocole soit autorisée dans les entreprises là où bien souvent seul le protocole HTTP est disponible.</p>
 </div>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2013/09/27/javaee7-api-websocket-html5.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2013/09/27/javaee7-api-websocket-html5.html</guid><category><![CDATA[[FR]]]></category><category><![CDATA[ Java EE 7]]></category><category><![CDATA[ Java EE]]></category><category><![CDATA[ WebSocket]]></category><category><![CDATA[ HTML5]]></category><category><![CDATA[ WildFly]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Fri, 27 Sep 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[XStream on EAP 6 with Sun14ReflectionProvider]]></title><description><![CDATA[<div class="paragraph">
+</div>]]></description><link>https://mgreau.com/posts/2013/09/27/javaee7-api-websocket-html5.html</link><guid isPermaLink="true">https://mgreau.com/posts/2013/09/27/javaee7-api-websocket-html5.html</guid><category><![CDATA[[FR]]]></category><category><![CDATA[ Java EE 7]]></category><category><![CDATA[ Java EE]]></category><category><![CDATA[ WebSocket]]></category><category><![CDATA[ HTML5]]></category><category><![CDATA[ WildFly]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Fri, 27 Sep 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[XStream on EAP 6 with Sun14ReflectionProvider]]></title><description><![CDATA[<div class="paragraph">
 <p>If you want to use the Sun14ReflectionProvider with XStream, you have to add a dependency to the "sun.jdk" module.</p>
 </div>
 <div class="listingblock">
@@ -4724,7 +4724,7 @@ Aujourd&#8217;hui tous <strong>les standards sont finalisés ou en passe de l'ê
   &lt;/dependencies&gt;
 &lt;/module&gt;</code></pre>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2013/08/26/xstream-and-JBossEAP6.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2013/08/26/xstream-and-JBossEAP6.html</guid><category><![CDATA[Java EE]]></category><category><![CDATA[ JBoss]]></category><category><![CDATA[ EAP]]></category><category><![CDATA[ XStream]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Mon, 26 Aug 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Yahoo! Mail, t'es une messagerie, t'as pas de conversation ? non mais allô quoi !]]></title><description><![CDATA[<div id="preamble">
+</div>]]></description><link>https://mgreau.com/posts/2013/08/26/xstream-and-JBossEAP6.html</link><guid isPermaLink="true">https://mgreau.com/posts/2013/08/26/xstream-and-JBossEAP6.html</guid><category><![CDATA[Java EE]]></category><category><![CDATA[ JBoss]]></category><category><![CDATA[ EAP]]></category><category><![CDATA[ XStream]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Mon, 26 Aug 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Yahoo! Mail, t'es une messagerie, t'as pas de conversation ? non mais allô quoi !]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -4746,7 +4746,7 @@ Cet article expose mon point de vue sur l&#8217;ergonomie, l&#8217;expérience u
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/Gmail_yahoo_logo.png" alt="Logos Yahoo!Mail Gmail">
+<img src="https://mgreau.com/posts/images/Gmail_yahoo_logo.png" alt="Logos Yahoo!Mail Gmail">
 </div>
 </div>
 <div class="paragraph">
@@ -4803,7 +4803,7 @@ Quel est l&#8217;intérêt d&#8217;avoir autant d&#8217;espace pris sur votre é
 </div>
 <div id="yahoo-rere" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/yahoo_rerere.png" alt="Yahoo! Re:re:re">
+<img src="https://mgreau.com/posts/images/yahoo_rerere.png" alt="Yahoo! Re:re:re">
 </div>
 <div class="title">Figure 1. Exemple de discussion avec 1 ligne pour chaque message avec des "Re: Re: Re: Re: Re: Re: Re:"</div>
 </div>
@@ -4812,7 +4812,7 @@ Quel est l&#8217;intérêt d&#8217;avoir autant d&#8217;espace pris sur votre é
 </div>
 <div id="gmail_discussion" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/gmail_discussion.png" alt="Gamil discussion">
+<img src="https://mgreau.com/posts/images/gmail_discussion.png" alt="Gamil discussion">
 </div>
 <div class="title">Figure 2. Même type de discussion avec Gmail et le mode conversation : 1 ligne dans la boîte de réception puis le détail lors du clic</div>
 </div>
@@ -4839,7 +4839,7 @@ Gmail propose d&#8217;activer cette fonctionnalité et vous préviens par une bo
 </div>
 <div id="gmail_oups_pj" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/gmail_oups_pj.png" alt="Gmail Oups PJ">
+<img src="https://mgreau.com/posts/images/gmail_oups_pj.png" alt="Gmail Oups PJ">
 </div>
 <div class="title">Figure 3. Boîte de dialogue pour vous prévenir que vous avez peut-être oublié la pièce jointe</div>
 </div>
@@ -4858,7 +4858,7 @@ Et oui, quand on y pense, qu&#8217;est-ce que ça peut bien vous faire que votre
 </div>
 <div id="gmail_annuler_envoi" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/gmail_annuler_envoi.png" alt="Gmail Annuler Envoi">
+<img src="https://mgreau.com/posts/images/gmail_annuler_envoi.png" alt="Gmail Annuler Envoi">
 </div>
 <div class="title">Figure 4. Vous avez un délai pour cliquer sur "Annuler" afin de ne pas envoyer le mail, passé ce délai le message est automatiquement réellement envoyé</div>
 </div>
@@ -4873,7 +4873,7 @@ Et oui, quand on y pense, qu&#8217;est-ce que ça peut bien vous faire que votre
 </div>
 <div id="gmail_nested-labels" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/nested-labels.png" alt="Gmail Labels">
+<img src="https://mgreau.com/posts/images/nested-labels.png" alt="Gmail Labels">
 </div>
 <div class="title">Figure 5. Gestion des labels Gmail</div>
 </div>
@@ -4965,7 +4965,7 @@ Et oui, quand on y pense, qu&#8217;est-ce que ça peut bien vous faire que votre
 </ul>
 </div>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2013/04/24/yahoomail-gmail-user-experience.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2013/04/24/yahoomail-gmail-user-experience.html</guid><category><![CDATA[email]]></category><category><![CDATA[ Yahoo]]></category><category><![CDATA[ Google]]></category><category><![CDATA[ GMail]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Wed, 24 Apr 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[[Talk] Google Cloud Endpoints @ DevFest 2012]]></title><description><![CDATA[<div class="paragraph">
+</div>]]></description><link>https://mgreau.com/posts/2013/04/24/yahoomail-gmail-user-experience.html</link><guid isPermaLink="true">https://mgreau.com/posts/2013/04/24/yahoomail-gmail-user-experience.html</guid><category><![CDATA[email]]></category><category><![CDATA[ Yahoo]]></category><category><![CDATA[ Google]]></category><category><![CDATA[ GMail]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Wed, 24 Apr 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[[Talk] Google Cloud Endpoints @ DevFest 2012]]></title><description><![CDATA[<div class="paragraph">
 <p>My Session about <strong>Google Cloud Endpoints</strong> at <a href="http://devfest2012.gdgnantes.com/sessions"><strong>DevFest Nantes 2012</strong></a> with a Web application (Bacbkone JS, HTML5, AppEngine) and Android demo:</p>
 </div>
 <div class="ulist">
@@ -4986,7 +4986,7 @@ Et oui, quand on y pense, qu&#8217;est-ce que ça peut bien vous faire que votre
 <div class="content">
 <iframe src="https://www.youtube.com/embed/qbphOvgKcgg?rel=0" frameborder="0" allowfullscreen></iframe>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2012/11/09/google-cloud-endpoints.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2012/11/09/google-cloud-endpoints.html</guid><category><![CDATA[Google]]></category><category><![CDATA[ Android]]></category><category><![CDATA[ AppEngine]]></category><category><![CDATA[ Javascript]]></category><category><![CDATA[ DevFest]]></category><category><![CDATA[ DevFest2012]]></category><category><![CDATA[ talk]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Fri, 09 Nov 2012 00:00:00 GMT</pubDate></item><item><title><![CDATA[Subversion - corriger les propriétés d'une révision SVN]]></title><description><![CDATA[<div id="preamble">
+</div>]]></description><link>https://mgreau.com/posts/2012/11/09/google-cloud-endpoints.html</link><guid isPermaLink="true">https://mgreau.com/posts/2012/11/09/google-cloud-endpoints.html</guid><category><![CDATA[Google]]></category><category><![CDATA[ Android]]></category><category><![CDATA[ AppEngine]]></category><category><![CDATA[ Javascript]]></category><category><![CDATA[ DevFest]]></category><category><![CDATA[ DevFest2012]]></category><category><![CDATA[ talk]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Fri, 09 Nov 2012 00:00:00 GMT</pubDate></item><item><title><![CDATA[Subversion - corriger les propriétés d'une révision SVN]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="admonitionblock tip">
 <table>
@@ -5106,7 +5106,7 @@ REPORT request for '/svn/repo1/!svn/vcc/&lt;wbr&gt;&lt;/wbr&gt;default'</code></
 </div>
 <div id="img-svnide" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/blog_eclipse_svn_logs1.png" alt="Révisions SVN dans IDE Eclipse">
+<img src="https://mgreau.com/posts/images/posts/blog_eclipse_svn_logs1.png" alt="Révisions SVN dans IDE Eclipse">
 </div>
 <div class="title">Figure 1. Révisions SVN dans IDE Eclipse</div>
 </div>
@@ -5170,7 +5170,7 @@ property 'svn:log' set on repository revision 38307</code></pre>
 </div>
 <div id="img-svnide2" class="imageblock">
 <div class="content">
-<img src="https://mgreau.github.io/posts/images/posts/blog_eclipse_svn_logs2.png" alt="Révisions SVN OK dans IDE Eclipse">
+<img src="https://mgreau.com/posts/images/posts/blog_eclipse_svn_logs2.png" alt="Révisions SVN OK dans IDE Eclipse">
 </div>
 <div class="title">Figure 2. Révisions SVN OK dans IDE Eclipse</div>
 </div>
@@ -5205,4 +5205,4 @@ Je met à disposition <a href="https://docs.google.com/open?id=0Bx7rkna8etApWHJs
 </div>
 </div>
 </div>
-</div>]]></description><link>https://mgreau.github.io/posts/2012/07/30/corriger-les-proprietes-des-revisions-SVN.html</link><guid isPermaLink="true">https://mgreau.github.io/posts/2012/07/30/corriger-les-proprietes-des-revisions-SVN.html</guid><category><![CDATA[SVN]]></category><category><![CDATA[ Shell]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Mon, 30 Jul 2012 00:00:00 GMT</pubDate></item></channel></rss>
+</div>]]></description><link>https://mgreau.com/posts/2012/07/30/corriger-les-proprietes-des-revisions-SVN.html</link><guid isPermaLink="true">https://mgreau.com/posts/2012/07/30/corriger-les-proprietes-des-revisions-SVN.html</guid><category><![CDATA[SVN]]></category><category><![CDATA[ Shell]]></category><dc:creator><![CDATA[Maxime Gréau]]></dc:creator><pubDate>Mon, 30 Jul 2012 00:00:00 GMT</pubDate></item></channel></rss>
