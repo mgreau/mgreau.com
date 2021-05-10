@@ -9,7 +9,7 @@
 <p><span class="icon"><i class="fa fa-youtube"></i></span> <a href="https://youtu.be/MxaQW56tiGE?list=PLAnrr6UexefnE4mJVeTDwGld3nU9VZ3bX">Video Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker @ DevopsDDay</a></p>
 </li>
 <li>
-<p><span class="icon"><i class="fa fa-file"></i></span> <a href="http://mgreau.com/jenkins2-pipeline-maven-docker/">Slides Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker</a></p>
+<p><span class="icon"><i class="fa fa-file"></i></span> <a href="https://mgreau.github.io/jenkins2-pipeline-maven-docker/">Slides Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker</a></p>
 </li>
 <li>
 <p>Source Code</p>
@@ -40,8 +40,8 @@
 <div class="sect1">
 <h2 id="_embedded_slides">Embedded Slides</h2>
 <div class="sectionbody">
-<iframe src="//mgreau.com/jenkins2-pipeline-maven-docker/" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//mgre
-au.com/jenkins2-pipeline-maven-docker/" title="Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker" target="_blank">Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker</a> </strong> from <strong><a href="//mgreau.com/jenkins2-pipeline-maven-docker/" target="_blank">DevopsDDay 2016 & Docker Meetup 2017</a></strong> </div>
+<iframe src="//mgreau.github.io/jenkins2-pipeline-maven-docker/" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//mgre
+au.com/jenkins2-pipeline-maven-docker/" title="Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker" target="_blank">Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker</a> </strong> from <strong><a href="//mgreau.github.io/jenkins2-pipeline-maven-docker/" target="_blank">DevopsDDay 2016 & Docker Meetup 2017</a></strong> </div>
 </div>
 </div>
 <div class="sect1">

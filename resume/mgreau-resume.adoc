@@ -189,7 +189,7 @@ I'm also a http://www.javacodegeeks.com/author/maxime-greau/[Java Code Geek memb
 
 * *REX: Migrez efficacement vos jobs CI Maven en Pipeline avec Jenkins 2 & Docker!* - https://dday2016.sched.com/event/8FIx/rex-migrez-efficacement-vos-jobs-ci-maven-en-pipeline-avec-jenkins-2-docker[Session info, role="external", window="_blank"]
 ** icon:youtube[] https://youtu.be/MxaQW56tiGE?list=PLAnrr6UexefnE4mJVeTDwGld3nU9VZ3bX[Devops-D Day @ *Youtube*, role="external", window="_blank"]
-** icon:file[] http://mgreau.com/jenkins2-pipeline-maven-docker/[REX: Migrez efficacement vos jobs CI Maven en Pipeline avec Jenkins 2 & Docker!, role="external", window="_blank"]
+** icon:file[] https://mgreau.github.io/jenkins2-pipeline-maven-docker/[REX: Migrez efficacement vos jobs CI Maven en Pipeline avec Jenkins 2 & Docker!, role="external", window="_blank"]
 ** icon:code[] https://github.com/mgreau/jenkins2-pipeline-maven-docker[Source code DEMO @ *Github* - Jenkins2 - Pipeline - Docker, role="external", window="_blank"]
 
 === Hanoi JUG, Hanoi, November 2015
