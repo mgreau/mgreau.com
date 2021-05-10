@@ -1,5 +1,5 @@
 = Curriculum Vitae - Maxime Gréau
-Maxime Gréau <greaumaxime@gmail.com>
+Maxime Gréau <contact@mgreau.com>
 v1.7, June 23, 2018
 :toc2:
 :toclevels: 2
