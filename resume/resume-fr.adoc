@@ -230,7 +230,7 @@ Tools:: Eclipse, Maven, JIRA, Subversion, *Git*, Asciidoctor
 ==== Technical Reviewer
 
 [.left.text-center]
-image::timeline/javaee7_book.jpg[Java EE 7 Development with WildFly, role="external", window="_blank"]
+image::javaee7_book.jpg[Java EE 7 Development with WildFly, role="external", window="_blank"]
 
 +October 2014+  - https://www.packtpub.com/java-ee-7-development-with-wildfly/book[Java EE 7 Development with WildFly]
 
@@ -243,7 +243,7 @@ This book empowers you to use the latest version of the Java EE 7 platform, incl
 ==== Book Author
 
 [.left.text-center]
-image::timeline/apache_maven.jpg[Apache Maven 3]
+image::apache_maven.jpg[Apache Maven 3]
 
 +June 2011+ - http://www.amazon.fr/Apache-Maven-Ma%C3%AEtrisez-linfrastructure-projet/dp/2746065096/[_Apache Maven - Maîtrisez l'infrastructure d'un projet Java EE_]
 

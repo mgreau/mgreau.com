@@ -302,7 +302,7 @@ icon:file-sound-o[title="Podcast"] Les Cast Codeurs Podcast (Episode 144 -FR) ab
 ==== Technical Reviewer
 
 [.left.text-center]
-image::timeline/javaee7_book.jpg[Java EE 7 Development with WildFly, role="external", window="_blank"]
+image::javaee7_book.jpg[Java EE 7 Development with WildFly, role="external", window="_blank"]
 
 icon:calendar[title="Period"] `October 2014`  - icon:book[role="blue"]  https://www.packtpub.com/java-ee-7-development-with-wildfly/book[Java EE 7 Development with WildFly, role="external", window="_blank"] +
 PacktPub - English - 450 pages
@@ -310,7 +310,7 @@ PacktPub - English - 450 pages
 ==== Book Author
 
 [.left.text-center]
-image::timeline/apache_maven.jpg[Apache Maven 3, role="external", window="_blank"]
+image::apache_maven.jpg[Apache Maven 3, role="external", window="_blank"]
 
 icon:calendar[title="Period"] `June 2011` - icon:book[role="blue"] http://www.amazon.fr/Apache-Maven-Ma%C3%AEtrisez-linfrastructure-projet/dp/2746065096/[_Apache Maven - Maîtrisez l'infrastructure d'un projet Java EE_, role="external", window="_blank"] +
 http://www.editions-eni.fr/livres/apache-maven-maitrisez-l-infrastructure-d-un-projet-java-ee/.0e08f6a9b7a86a68db1f95dbeca00741.html[Editions ENI, role="external", window="_blank"] - French - 412 pages - 6 Chapters
