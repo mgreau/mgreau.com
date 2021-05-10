@@ -19,7 +19,7 @@ v1.7, June 23, 2018
 :link-bodet: http://www.bodet-software.com/en/time-attendance/time-and-attendance.html
 :link-cogitec1: http://cogitec.fr
 :link-cogitec2: http://cogitec.fr/Cogitec/realisation.cogitec
-:link-85530: https://goo.gl/maps/0SGTq
+:link-boston: https://goo.gl/maps/0SGTq
 :link-blog: http://mgreau.com/blog.html
 :link-adeditor-code: https://github.com/mgreau/when-websocket-met-asciidoctor
 :link-resume-pdf: http://mgreau.com/resume/mgreau-resume.pdf
@@ -55,7 +55,7 @@ Name:: Maxime Gréau
 WebSite / Social Media::
 * http://mgreau.com[mgreau.com, role="external", window="_blank"]
 * `@mgreau` icon:twitter[link=https://twitter.com/mgreau, role="external", window="_blank", alt="@mgreau"] icon:github[link=https://github.com/mgreau, role="external", window="_blank"] icon:linkedin[1x,link=http://fr.linkedin.com/pub/maxime-gr%C3%A9au/26/645/994/, role="external", window="_blank"] icon:google-plus[1x,link=https://plus.google.com/+maximegreau-aka-mgreau, role="external", window="_blank"]
-Location:: {link-85530}["La Bruffière, 85, FRANCE", role="external", window="_blank"]
+Location:: {link-boston}["Boston area, MA, USA", role="external", window="_blank"]
 
 == Professional Experience
 
