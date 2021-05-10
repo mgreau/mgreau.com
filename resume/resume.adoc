@@ -27,26 +27,6 @@ v1.7, June 23, 2018
 :link-cast-codeurs: https://lescastcodeurs.com/
 :link-adoc-editor-organization: https://github.com/adoc-editor
 
-////
-[discrete]
-
-****
-
-icon:file-pdf-o[] You can {link-resume-pdf}[download a PDF version, role="external", window="_blank"] of this resume. +
-
-'''
-Maxime is a Software Developer with *12+ years of experience*. +
-He is actually the link:#java-ee-architect-senior-developer-at-dgfip[technical lead] for the Individual Retirement Account (CIR) project at the French Ministry of Finance. +
-
-He is passionate about IT and +Open Source+ so he contributes to link:#open-source[Open Source projects] in different ways. +
-
-He wrote a French book about link:#book-author[Apache Maven 3] in 2011 and, as a technical reviewer, he's actually reviewing a link:#technical-reviewer[book about +*Java EE 7*+ and +*WildFly 8*+]. +
-Maxime is link:#conferences-presentations[speaker at conferences] on *+Java+*, *+Web+* and *+Cloud+* technologies like DevNation and DevFest. +
-He blogs about all those technologies on {link-blog}[his personal website].
-****
-////
-[NOTE]
-icon:pdf[title="PDF version"]  link:{link-resume-pdf}[Download the PDF version]
 
 == Personal details
 
@@ -119,142 +99,33 @@ Technical lead on the SOA based architecture
 --
 
 * Serve as hands-on technical and technical lead responsible for overseeing all Java EE and Web based development task.
-* Work closely with the Functional/SOA Architect.
-* Built custom *components based on Java EE 6* (CDI, EJB, JAX-WS, Bean Validation), *Arquillian* and Struts2 to save time, cost, and development effort in addition to promoting code reuse and easier maintenance.
-* Lead *two major technical migration* :
-** technical migration from JBoss AS 4.2.3 to JBoss EAP 6.1 (40+ EARs applications)
-** technical migration from JBoss Portal 2.7.2 to eXo Platform 4.0.4 / EAP 6.1 (20+ EARs Portlet applications from Struts 2.1.8 to Struts 2.3.16)
-+
-For both migration :
-** Applied design patterns and concepts to improve the existing J2EE 1.4 based code, like Starter Pattern or Singleton Pattern thanks to Java EE 6 components (CDI 1.0, EJB 3.1 and Bean Validation 1.0)
-** Created *JBoss EAP modules* with all Hibernate 3.2.4 dependencies in order to simplify this first step and therefore to meet the tight schedules.
-* Successfully set up and administering the *factory-based software solutions* completely open source, using CentOS, *Apache Maven 3* (100+ projects), *Apache Subversion* (30+ repository, 350 000+ lines of code), *Nexus*, *Jenkins* and *Sonar* used by 40+ people (developers, business analysts, project managers...).
-** Took the initiative and developed a *Web admin dashboard* to quickly identify all applications deployed in each environment using Play! Framework 1.x and Twitter Bootstrap
+* Built custom *components based on Java EE 6* (CDI, EJB, JAX-WS, Bean Validation), *Arquillian* and Struts2
+* Lead *two major technical migration* from JBoss AS 4.x to JBoss EAP 6.x (40+ EARs applications) and JBoss Portal 2.7 to eXo Platform 4.0 / EAP 6.x (20+ EARs Portlet/Struts applications)
+* Successfully set up and administering the *factory-based software solutions* completely open source, based on *Apache Maven 3* (100+ projects), *Apache Subversion* (30+ repository, 350 000+ lines of code), *Nexus*, *Jenkins* and *Sonar* used by 40+ people (developers, business analysts, project managers...).
 * Identified and fixed hard to reproduce issues with Dynatrace (APM)
-* Collaborated with the load testing team using JMeter and Dynatrace
 
-Technologies used::
-
-Languages and Specifications:: *Java EE 6* (BV, JPA, EJB, CDI, JAX-WS, JMS, Servlet, JSP), HTML, Portlet API, J2EE, JavaScript, XML, Shell scripting, AsciiDoc
-Portal:: eXo Platform 4.0.x, JBoss Portal 2.7.2
-Application Servers:: *JBoss EAP 6.1*, JBoss AS 4, Apache HTTP Web Server
-Frameworks and Libraries:: *Arquillian*, Struts, Hibernate
-OS:: Linux (CentOS), Windows 7
-Databases:: PostgreSQL, HSQLDB
-Software Engineering:: SOA, DevOps, Design Patterns, Unit, Performance and Integration Testing, Continuous Integration
-Tools:: JBDS 7, Maven 3, Mantis, Subversion, Asciidoctor, Dynatrace (APM), JMeter, Jenkins, Sonar, Nexus
-
-'''
 
 === Self-employed at FiaVeo
 
 icon:calendar[title="Period"] `September 2009 to March 2011` +
 icon:group[title="Employe"] FIAVEO - @HOME
 
---
-[horizontal]
-Position:: *Self-employed* +
-Designed and Developed Professional WebSite
---
-
-Technologies used:: PHP, Java SE 6, Apache HTTP, Apache Subversion
-Frameworks:: Symfony 1.x, Play Framework 1.x
-OS:: Ubuntu
-
-'''
-
 === Software Developer at AUSY
 
-icon:calendar[title="Period"] `April 2008 to January 2010` +
+icon:calendar[title="Period"] `February 2007 to January 2010` +
 icon:group[title="Employe"] {link-ausy}[AUSY, role="external", window="_blank"] (French Software and Computing Services Company) - NANTES (44) +
-icon:chevron-circle-right[title="Customer"] {link-sre}[The French Ministry of Finance (DGFiP) - Retirement pension for civil servants, role="external", window="_blank"] - NANTES (44) +
-__Information rights for the retirement pension__
-
---
-[horizontal]
-Position:: *Java EE Software Developer - Architect* +
-Design, development, technical assistance (10-12 people), build and continuous integration process
---
-
-* Provided an architecture for the business portal project using JBoss Portal 2.7, Portlet API 2.0 and Struts 2
-* Provided technical assistance on the architecture and tools (Eclipse, Java, Portlet 2, Struts2 Maven2, JBoss Portal, JBoss Portlet Container)
-* Provided technical guidance, build process and continuous integration system using Maven 2 and Continuum for 100+ SVN projects
-* Fostered better communication and centralization of team knowledge by introducing and implementing a Wiki site.
-* Developed a Swing based application to easily test JAX-WS Web Services for cross-functional teams like testers and management
-
-Technologies:: J2EE 1.4, Java EE 5, JSP, Portlet 2.0, EJB 3, JAX-WS, SOAP, XML, Quartz, HTML, Javascript
-Frameworks:: Struts 2, Hibernate 3
-Application Servers:: JBoss AS 4.2.3, JBoss Portal 2.7.2, Apache HTTP
-Tools:: Eclipse, Apache Maven 2, Subversion, Continuum
-
-'''
-
-=== Software Developer at AUSY
-
-icon:calendar[title="Period"] `February 2007 to March 2008` +
-icon:group[title="Employe"] {link-ausy}[AUSY, role="external", window="_blank"] (French Software and Computing Services Company) - NANTES (44) +
-icon:chevron-circle-right[title="Customer"] {link-sre}[The French Ministry of Finance (DGFiP) - Retirement pension for civil servants, role="external", window="_blank"] - NANTES (44) +
-__Information rights for the retirement pension –  Data collection system__
-
---
-[horizontal]
-Position:: *Java EE Software Developer* +
-Technical team lead position (3 developers), design and development
---
-
-* Trained the junior developers and provided assistance.
-* Designed and developed Java based components based on Struts and Hibernate frameworks to improve developer productivity.
-* Developed a security module using Servlet, JSP, Applet in order to read digital certificate on USB flash drive
-* Developed a standalone Web application to be considered as a proxy using HTTP Commons Client API
-
-'''
 
 === Software Developer at SII
 
 icon:calendar[role="blue"]  `September 2005 to February 2007` +
 icon:group[title="Employe"] {link-sii}[SII, role="external", window="_blank"] (French Software and Computing Services Company) - NANTES (44) +
-icon:chevron-circle-right[title="Customer"] {link-bodet}[BODET SA, role="external", window="_blank"] - CHOLET (49) +
-__Time and attendance management software__
 
---
-[horizontal]
-Position:: *J2EE Software Developer* +
-Development, continuous integration, build and deployment process +
---
-
-* Improved the build and deployment process by migrating it from Ant to *Maven 2* (30+ multi-modules)
-* Increased developer and tester productivity and software quality by setting up the *continuous integration* system using Continuum
-* Documented and collaborated on the deployment process using InstallAnywhere
-* Designed and Developed a J2EE Web based module for the time and attendance management application using Servlet, JSP, Tomcat, Eclipse and an other module for the planning management application using Jasper Report
-
-'''
 
 === Software Developer at COGITEC
 
 icon:calendar[title="Period"] `April 2003 to August 2005` +
 icon:group[title="Employe"] {link-cogitec1}[COGITEC, role="external", window="_blank"] – NANTES (44) +
-__Training company in J2EE technology__
 
---
-[horizontal]
-Position:: *J2EE Software Developer* +
-Design, developement and training courses focus of J2EE based Web application +
---
-
-* Designed and Developed a J2EE Web based training management application and the company website {link-cogitec2}[cogitec.fr, role="external", window="_blank"] using UML, Java, JSP, Servlet, JDBC, Tomcat, Mysql, and the FOP API (Java, XML, XSLT, XSL-FO) to generate the trainings catalog in PDF format.
-* Produced detailed document about *Web Services* based on my technology watch about *SOAP*, WSDL, UDDI, and developed a sample application using JAX-RPC API.
-* Provided training course focus on Java and Web technologies for COGITEC customers.
-
-'''
-
-=== Software Developer at Carriere et Image
-
-icon:calendar[title="Period"] `January 2002 to June 2002` +
-icon:group[title="Employe"] CARRIERE ET IMAGE – NANTES (44)
-
-[horizontal]
-Position:: *PHP Developer* +
-Designed and Developed Web Application (PHP / MySQL) to manage the supervision of young soccer players across Europe.
 
 == Technical Skills
 
@@ -298,14 +169,6 @@ icon:file-sound-o[title="Podcast"] Les Cast Codeurs Podcast (Episode 144 -FR) ab
 == Technical Writing
 
 === Publications
-
-==== Technical Reviewer
-
-[.left.text-center]
-image::javaee7_book.jpg[Java EE 7 Development with WildFly, role="external", window="_blank"]
-
-icon:calendar[title="Period"] `October 2014`  - icon:book[role="blue"]  https://www.packtpub.com/java-ee-7-development-with-wildfly/book[Java EE 7 Development with WildFly, role="external", window="_blank"] +
-PacktPub - English - 450 pages
 
 ==== Book Author
 
