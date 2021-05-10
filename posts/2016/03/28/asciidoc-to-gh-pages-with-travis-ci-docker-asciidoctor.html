@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Convert AsciiDoc to HTML/PDF &amp; publish to GitHub Pages with Travis CI and Asciidoctor Docker containers</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Convert AsciiDoc to HTML/PDF &amp; publish to GitHub Pages with Travis CI and Asciidoctor Docker containers">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Convert AsciiDoc to HTML/PDF &amp; publish to GitHub Pages with Travis CI and Asciidoctor Docker containers">
+    <meta property="og:description" content="">
+
+    <!-- <meta name="twitter:site" content="">
+
+<meta name="twitter:creator" content="">
+
+<meta name="google-site-verification" content="">
+
+<meta property="fb:admins" content="">
+ -->
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link href="//fonts.googleapis.com/" rel="dns-prefetch">
+    <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1488400593538"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1488400593538"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1488400593538"/>
+
+
+
+
+    <script type="text/javascript">
+      var ga_ua = 'UA-XXXXX-X';
+      
+      var disqus_shortname = 'example';
+      
+      var enable_pjax = true;
+
+      // Pace Options
+      // ==============
+      window.paceOptions = {
+        catchupTime: 100,
+        minTime: 100,
+        elements: false,
+        restartOnRequestAfter: 500,
+        startOnPageLoad: false
+      }
+
+      // Ghostium Globals
+      // ==============
+      window.GHOSTIUM = {};
+      GHOSTIUM.haveGA = typeof ga_ua !== 'undefined' && ga_ua !== 'UA-XXXXX-X';
+      GHOSTIUM.haveDisqus = typeof disqus_shortname !== 'undefined' && disqus_shortname !== 'example';
+      GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
+    </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1488400593538"></script>
+
+    <link rel="canonical" href="https://mgreau.github.io/posts/2016/03/28/asciidoc-to-gh-pages-with-travis-ci-docker-asciidoctor.html" />
+    <meta name="referrer" content="origin" />
+    
+    <meta property="og:site_name" content="@mgreau :: Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Convert AsciiDoc to HTML/PDF &amp; publish to GitHub Pages with Travis CI and Asciidoctor Docker containers" />
+    <meta property="og:description" content="Purpose This blog post presents a simple way to automatically convert your AsciiDoc content to HTML and PDF, then publish those files to a public website on each commit. There are many way to do it, maybe you have already used Jekyll or other static site generator like that. The" />
+    <meta property="og:url" content="https://mgreau.github.io/posts/2016/03/28/asciidoc-to-gh-pages-with-travis-ci-docker-asciidoctor.html" />
+    <meta property="article:tag" content="asciidoc" />
+    <meta property="article:tag" content=" Asciidoctor" />
+    <meta property="article:tag" content=" travis" />
+    <meta property="article:tag" content=" docker" />
+    <meta property="article:tag" content=" gh-pages" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Convert AsciiDoc to HTML/PDF &amp; publish to GitHub Pages with Travis CI and Asciidoctor Docker containers" />
+    <meta name="twitter:description" content="Purpose This blog post presents a simple way to automatically convert your AsciiDoc content to HTML and PDF, then publish those files to a public website on each commit. There are many way to do it, maybe you have already used Jekyll or other static site generator like that. The" />
+    <meta name="twitter:url" content="https://mgreau.github.io/posts/2016/03/28/asciidoc-to-gh-pages-with-travis-ci-docker-asciidoctor.html" />
+    
+    <script type="application/ld+json">
+null
+    </script>
+
+    <meta name="generator" content="HubPress" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+  </head>
+  <body class="post-template tag-asciidoc tag-Asciidoctor tag-travis tag-docker tag-gh-pages">
+
+    <button data-action="open-drawer" id="drawer-button" class="drawer-button"><i class="fa fa-bars"></i></button>
+    <nav tabindex="-1" class="drawer">
+      <div class="drawer-container">
+        <!--.drawer-search(role="search")-->
+        <ul role="navigation" class="drawer-list">
+          
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" data-pjax>
+              <i class="fa fa-home"></i>Home
+            </a>
+          </li>
+          <!-- <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+              <i class="fa fa-list-alt"></i>All posts
+            </a>
+          </li> -->
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts/rss/">
+              <i class="fa fa-rss"></i>Subscribe to Feed
+            </a>
+          </li>
+          <li class="drawer-list-divider"></li>
+          <li class="drawer-list-item drawer-list-title">
+            Follow me
+          </li>
+          
+          
+          <li class="drawer-list-item">
+            <a href="https://twitter.com/mgreau" title="Twitter" target="_blank">
+              <i class="fa fa-twitter"></i>Twitter
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://github.com/mgreau" title="Github" target="_blank">
+              <i class="fa fa-github"></i>Github
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://plus.google.com/u/0/+maximegreau-aka-mgreau/" title="Google+" target="_blank">
+              <i class="fa fa-google-plus"></i>Google+
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://fr.linkedin.com/pub/maxime-gréau/26/645/994" title="LinkedIn" target="_blank">
+              <i class="fa fa-linkedin"></i>LinkedIn
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="mailto:greau.maxime@gmail.com" title="Email" target="_blank">
+              <i class="fa fa-envelope-o"></i>Email
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="drawer-overlay"></div>
+    <main id="container" role="main" class="container">
+      <div class="surface">
+        <div class="surface-container">
+          <div data-pjax-container class="content">
+            
+<section class="wrapper wrapper-post">
+  <div class="wrapper-container">
+    <article itemscope itemtype="http://schema.org/BlogPosting" role="article" class="post post tag-asciidoc tag-Asciidoctor tag-travis tag-docker tag-gh-pages">
+        <section class="post-container">
+          <header class="post-header">
+            <ul class="post-meta-list">
+              <li class="post-meta-item">
+                <time datetime="2016-03-28" itemprop="datePublished">
+                  a year ago
+                </time>
+              </li>
+                <li class="post-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/asciidoc/">asciidoc</a>, <a href="https://mgreau.github.io/posts/tag/Asciidoctor/"> Asciidoctor</a>, <a href="https://mgreau.github.io/posts/tag/travis/"> travis</a>, <a href="https://mgreau.github.io/posts/tag/docker/"> docker</a>, <a href="https://mgreau.github.io/posts/tag/gh-pages/"> gh-pages</a></span>
+                  </span>
+                </li>
+              <li class="post-meta-item">
+                <a href="#disqus_thread" data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+            <h1 itemprop="name headline" class="post-title"><a href="/" itemprop="url" data-pjax title="Convert AsciiDoc to HTML/PDF &amp; publish to GitHub Pages with Travis CI and Asciidoctor Docker containers">Convert AsciiDoc to HTML/PDF &amp; publish to GitHub Pages with Travis CI and Asciidoctor Docker containers</a></h1>
+            <!--h2 itemprop="about" class="post-subtitle"></h2-->
+          </header>
+          <aside class="post-side">
+            <div class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img src="https://avatars2.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <a href="http://mgreau.com/posts/" class="post-author-name">
+                  Maxime Gréau
+                </a>
+                <p class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+              </div>
+            </div>
+          </aside>
+          <div itemprop="articleBody" class="post-body">
+            <div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Purpose</div>
+<div class="paragraph">
+<p>This blog post presents a simple way to automatically convert your AsciiDoc content to HTML and PDF, then publish those files to a public website on each commit.</p>
+</div>
+<div class="paragraph">
+<p>There are many way to do it, maybe you have already used Jekyll or other static site generator like that. The real benefit of this one is that the workflow is done thanks to <a href="#travis_configuration_file"><strong>only one</strong> Travis CI configuration file</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>The High-Level View</strong><br>
+You have all your AsciiDoc sources files on one branch, all the generated files on another branch and <strong>just one configuration file</strong>.<br>
+All resources explained in this post are listed below:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AsciiDoc</code> files and <code>.travis.yml</code> configuration file on <a href="https://github.com/mgreau/asciidoc-to-ghpages/tree/master">asciidoc-to-ghpages project <strong>master branch</strong></a></p>
+</li>
+<li>
+<p><code>HTML</code> and <code>PDF</code> files on <a href="https://mgreau.github.io/asciidoc-to-ghpages/">asciidoc-to-ghpages project <strong>gh-pages branch</strong></a></p>
+</li>
+<li>
+<p>Files published at <a href="https://mgreau.github.io/asciidoc-to-ghpages/" class="bare">https://mgreau.github.io/asciidoc-to-ghpages/</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_prerequisites">Prerequisites</a></li>
+<li><a href="#_prepare_your_github_project">Prepare your GitHub project</a>
+<ul class="sectlevel2">
+<li><a href="#_add_files_to_your_github_project">Add files to your GitHub project</a></li>
+<li><a href="#_create_a_token_for_travis_ci">Create a Token for Travis CI</a></li>
+</ul>
+</li>
+<li><a href="#_travis_ci_configuration">Travis CI Configuration</a>
+<ul class="sectlevel2">
+<li><a href="#_connect_travis_ci_to_your_github_project">Connect Travis CI to your GitHub project</a></li>
+<li><a href="#__travis_yml_travis_ci_configuration_and_scripts">.travis.yml: Travis CI Configuration and Scripts</a></li>
+<li><a href="#_travis_build_logs">Travis Build Logs</a></li>
+</ul>
+</li>
+<li><a href="#_published_files_html_pdf">Published files (HTML &amp; PDF)</a></li>
+</ul>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following diagram gives you a quick <strong>overview of all interactions</strong> between <a href="https://github.com">GitHub</a>, <a href="https://github.com">Travis CI</a>, <a href="https://github.com">Docker</a> and <a href="https://github.com">Asciidoctor</a>.<br>
+Travis CI makes it possible because it allows you to run any Docker container. This isolates your build from the machine running on Travis CI and allows you to use an Asciidoctor environment that has been prepared for you.</p>
+</div>
+<div id="asciidoc_ghpages_travis_docker" class="imageblock">
+<div class="content">
+<a class="image" href="http://mgreau.com/posts/images/cover-asciidoc-ghpages.svg"><img src="http://mgreau.com/posts/images/cover-asciidoc-ghpages.svg" alt="AsciiDoc to Github Pages with Travis and Docker Asciidoctor" width="950"></a>
+</div>
+<div class="title">Figure 1. Convert your AsciiDoc content to HTML &amp; PDF, then publish those files to GitHub Pages courtesy of Travis CI running Asciidoctor via the provided Docker container(s).</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites">Prerequisites</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This post assumes that:</p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p><i class="fa fa-check-square-o"></i> you know <strong>AsciiDoc</strong> and  <a href="https://asciidoctor.org">Asciidoctor</a></p>
+</li>
+<li>
+<p><i class="fa fa-check-square-o"></i> you have a <strong>GitHub account</strong> and a GitHub project configured to publish content from the <strong>gh-pages</strong> branch</p>
+<div class="ulist">
+<ul>
+<li>
+<p>if it&#8217;s not the case you can read <a href="https://help.github.com/articles/creating-project-pages-manually/">the GitHub tutorials about GitHub Pages</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><i class="fa fa-check-square-o"></i> you have a <strong>Travis account</strong> linked to your GitHub account</p>
+<div class="ulist">
+<ul>
+<li>
+<p>if it&#8217;s not the case, you can read the <a href="https://docs.travis-ci.com/user/for-beginners">Travis CI Guide for beginners</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prepare_your_github_project">Prepare your GitHub project</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_add_files_to_your_github_project">Add files to your GitHub project</h3>
+<div class="paragraph">
+<p>The first step is to push some files to your master branch. The following GitHub project gives you a sample AsciiDoc content using images and include directive.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/mgreau/asciidoc-to-ghpages/tree/master">AsciiDoc to GitHub Pages demo project (master branch)</a></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+All samples come from this <a href="https://github.com/opendevise/asciidoc-samples">OpenDevise GitHub repository</a>, thanks to Dan Allen.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>All files available on this demo project are explained below:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Files listed on <strong>master branch</strong></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">+ images
+   |- tiger.png     <i class="conum" data-value="1"></i><b>(1)</b>
++ includes
+   |- include.adoc  <i class="conum" data-value="2"></i><b>(2)</b>
+.gitignore
+.travis.yml    <i class="conum" data-value="3"></i><b>(3)</b>
+demo.adoc      <i class="conum" data-value="4"></i><b>(4)</b>
+LICENSE
+README.adoc    <i class="conum" data-value="5"></i><b>(5)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Image used in AsciiDoc content</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>AsciiDoc content included in the <code>demo.adoc</code> content</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Travis configuration and scripts to build and publish the project, this file is explained in the <a href="#travis_configuration_file">Travis part.</a></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Sample AsciiDoc file to convert</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Documentation for the GitHub project, then converted to index.html file for the website</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_a_token_for_travis_ci">Create a Token for Travis CI</h3>
+<div class="paragraph">
+<p>Travis CI will push files on a dedicated branch of your GitHub project, so you need to <strong>create a token</strong> to <strong>allow Travis CI</strong> to do it.<br>
+As you can see on the following screenshot, you just need to access to your <code>GithHub Personal Settings</code> page and click on the <code>Generate token</code> button, then check the <code>public_repo</code> scope:</p>
+</div>
+<div id="asciidoc_ghpages_github_token" class="imageblock post-cover-image">
+<div class="content">
+<img src="/posts/images/asciidoc-ghpages-github-token.png" alt="GitHub Token Configuration" width="950">
+</div>
+<div class="title">Figure 2. GitHub Configuration: Create a token used by Travis CI</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_travis_ci_configuration">Travis CI Configuration</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_connect_travis_ci_to_your_github_project">Connect Travis CI to your GitHub project</h3>
+<div class="paragraph">
+<p>Once your AsciiDoc project is available on the master branch, you need to access to your <code>Travis CI Dashboard</code> and do some quick configuration so that Travis CI can build your project:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>First, on your <strong>Travis Profile page</strong>, you need to <code>Flick the repository switch on</code> for your GitHub project:</p>
+</li>
+</ol>
+</div>
+<div id="asciidoc_ghpages_travis_activate" class="imageblock post-cover-image">
+<div class="content">
+<img src="/posts/images/asciidoc-ghpages-travis-activate.png" alt="Travis Configuration" width="950">
+</div>
+<div class="title">Figure 3. Travis CI Configuration: Activate Travis CI on the project</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can&#8217;t see your project on the list? Click on the <code>Sync account</code> button (top right) and it should be ok.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Then, as shown below, go to the <code>Project Settings tabs</code> and configure it:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Check some options on <code>General Settings</code></p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>check the <code>Build only if .travis.yml is present</code> option</p>
+</li>
+<li>
+<p>check the <code>Build pushes</code> option</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Create some <code>Environment Variables</code> that will be used in <a href="#travis_configuration_file">.travis.yml</a> file:</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p><code>GH_USER_NAME</code> : your GitHub username</p>
+</li>
+<li>
+<p><code>GH_USER_EMAIL</code> : your GitHub account email</p>
+</li>
+<li>
+<p><code>GH_TOKEN</code>: the token created on <a href="#create-a-token-for-travis-ci">previous step</a></p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Uncheck the <code>Display value in build log</code> option
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p><code>GH_REF</code> : the URL to your github project</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div id="asciidoc_ghpages_travis_config" class="imageblock post-cover-image">
+<div class="content">
+<img src="/posts/images/asciidoc-ghpages-travis-env.png" alt="Travis Configuration" width="950">
+</div>
+<div class="title">Figure 4. Travis CI Configuration: Project Settings</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="__travis_yml_travis_ci_configuration_and_scripts">.travis.yml: Travis CI Configuration and Scripts</h3>
+<div class="paragraph">
+<p>The <code>.travis.yml</code> file is the most important file here ;)<br>
+Indeed, in this file, you tell to Travis CI how to process your AsciiDoc files and where to publish the generated files.<br>
+Those scripts will be executed after each update on master branch.</p>
+</div>
+<div id="travis_configuration_file" class="listingblock">
+<div class="title">file .travis.yml</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">sudo: required
+
+services:
+  - docker                  <i class="conum" data-value="1"></i><b>(1)</b>
+
+before_install:            <i class="conum" data-value="2"></i><b>(2)</b>
+  - mkdir -p output
+  - docker pull asciidoctor/docker-asciidoctor
+
+script:
+  - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-html asciidoctor/docker-asciidoctor asciidoctor -D /documents/output *.adoc      <i class="conum" data-value="3"></i><b>(3)</b>
+  - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-pdf asciidoctor/docker-asciidoctor asciidoctor-pdf -D /documents/output *.adoc    <i class="conum" data-value="4"></i><b>(4)</b>
+
+after_error: <i class="conum" data-value="5"></i><b>(5)</b>
+  - docker logs asciidoc-to-html
+  - docker logs asciidoc-to-pdf
+
+after_failure:
+  - docker logs asciidoc-to-html
+  - docker logs asciidoc-to-pdf
+
+after_success:      <i class="conum" data-value="6"></i><b>(6)</b>
+  - cd output ; mv README.html index.html ; cp -R ../images images
+  - git init
+  - git config user.name "${GH_USER_NAME}"
+  - git config user.email "{GH_USER_EMAIL}"
+  - git add . ; git commit -m "Deploy to GitHub Pages"
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages &gt; /dev/null 2&gt;&amp;1</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Tell Travis CI that you want to use <strong>Docker</strong></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Create the needed <strong>output directory</strong> and download the official <strong>Asciidoctor Docker</strong> image from DockerHub</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Convert AsciiDoc files to <strong>HTML</strong> to the <code>/documents/output/</code> path with a Docker container</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Convert AsciiDoc files to <strong>PDF</strong> to the <code>/documents/output/</code> path with another Docker container</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Display logs from containers if a problem occured</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Initialize a git project in the `output/ sub-directory in order to <strong>push the generated files and images</strong> to the <strong>gh-pages branch</strong></td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_travis_build_logs">Travis Build Logs</h3>
+<div class="paragraph">
+<p>Travis CI gives you access to each build logs.<br>
+You can see in realtime, what is going on when AsciiDoc files are <strong>processed by Asciidoctor</strong> on each Docker container (<em>one for HTML output and one for PDF output here</em>)</p>
+</div>
+<div id="asciidoc_ghpages_travis_build" class="imageblock post-cover-image">
+<div class="content">
+<img src="/posts/images/asciidoc-ghpages-travis-build.png" alt="Travis CI Build" width="950">
+</div>
+<div class="title">Figure 5. Travis CI Build</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_published_files_html_pdf">Published files (HTML &amp; PDF)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Finally, when the Travis CI Build has succeeded, you can view the generated files at:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://mgreau.github.io/asciidoc-to-ghpages/" class="bare">https://mgreau.github.io/asciidoc-to-ghpages/</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://mgreau.github.io/asciidoc-to-ghpages//demo.html">Demo HTML</a></p>
+</li>
+<li>
+<p><a href="https://mgreau.github.io/asciidoc-to-ghpages//demo.pdf">Demo PDF</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="exampleblock">
+<div class="title">Example 2. Files listed on <strong>gh-pages branch</strong></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">+ images            <i class="conum" data-value="1"></i><b>(1)</b>
+   |- tiger.png
+demo.html         <i class="conum" data-value="2"></i><b>(2)</b>
+demo.pdf          <i class="conum" data-value="3"></i><b>(3)</b>
+index.html    <i class="conum" data-value="4"></i><b>(4)</b>
+README.pdf</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The images folder is copied so that images are published to GitHub Pages Website</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The HTML output file</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The PDF output file</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>The <code>README.html</code> is renamed to <code>index.html</code> in order to have a homepage file for the Website</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>You can see below a screenshot with both <a href="https://mgreau.github.io/asciidoc-to-ghpages//demo.html">demo.html</a> and <a href="https://mgreau.github.io/asciidoc-to-ghpages//demo.pdf">demo.pdf</a> files.</p>
+</div>
+<div id="asciidoc_ghpages_files_published" class="imageblock post-cover-image">
+<div class="content">
+<a class="image" href="/posts/images/asciidoc-ghpages-final.png"><img src="/posts/images/asciidoc-ghpages-final.png" alt="AsciiDoc to HTML and PDF published files" width="950"></a>
+</div>
+<div class="title">Figure 6. HTML and PDF files published on GitHub Pages converted from the same AsciiDoc content by Asciidoctor</div>
+</div>
+<div class="paragraph">
+<p>I hope this post was useful and it helped you understand how to combine Travis CI and Docker to automatically convert content written in <strong>AsciiDoc</strong> and publish the output to GitHub Pages on each commit.<br>
+There are a lot of other ways to do it, I’d love to have your feedbacks about it, so feel free to add a comment.</p>
+</div>
+</div>
+</div>
+          </div>
+          <footer class="post-footer">
+            <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img itemprop="image" src="https://avatars2.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <h4 class="post-footer-heading">Written By</h4>
+                <a href="http://mgreau.com/posts/" itemprop="url" class="post-author-name">
+                  <span itemprop="name">Maxime Gréau</span>
+                </a>
+                <p itemprop="description" class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+                  <p class="post-author-location">Nantes, France</p>
+                  <p class="post-author-website">
+                    <a href="http://mgreau.com/posts/" rel="nofollow">http://mgreau.com/posts/</a>
+                  </p>
+                <p class="post-info">
+                  <b class="post-info-title">Published on</b>
+                  <time class="post-date">March 28, 2016</time>
+                </p>
+              </div>
+            </div>
+            <div class="post-social">
+              <h4 class="post-footer-heading">Spread the word</h4>
+              <a href="#" data-action="share-twitter"><i class="fa fa-fw fa-lg fa-twitter"></i></a>
+              <a href="#" data-action="share-facebook"><i class="fa fa-fw fa-lg fa-facebook"></i></a>
+              <a href="#" data-action="share-gplus"><i class="fa fa-fw fa-lg fa-google-plus"></i></a>
+            </div>
+          </footer>
+        </section>
+      <section itemprop="comment" class="post-comments">
+        <div id="disqus_thread"></div>
+      </section>
+    </article>
+
+    <footer role="contentinfo" class="footer">
+      <p><small>Copyright &copy; <span itemprop="copyrightHolder">@mgreau :: Blog</span>. 2017. All Rights Reserved.</small></p>
+      <p><small><a href="http://ghostium.oswaldoacauan.com/" target="_blank">Ghostium Theme</a> by <a href="http://twitter.com/oswaldoacauan" target="_blank">@oswaldoacauan</a></small></p>
+      <p><small>Adapted by <a href="https://twitter.com/mgreau">Maxime Gréau</a></small></p>
+      <p><small>Published with <a href="http://hubpress.io">HubPress</a></small></p>
+    </footer>
+  </div>
+</section>
+
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+  var disqus_shortname = 'mgreau'; // required: replace example with your forum shortname
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();
+      </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1488400593538"></script>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-20147445-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+  </body>
+</html>

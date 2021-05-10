@@ -1,0 +1,649 @@
+= Java EE 7 et l'API Java pour WebSocket (JSR 356)
+Maxime Gréau
+2013-09-27
+//HubPress
+:hp-alt-title: javaee7 api websocket html5
+:published_at: 2013-09-27
+:hp-tags: [FR], Java EE 7, Java EE, WebSocket, HTML5, WildFly
+:hp-image: http://mgreau.com/images/posts/html5_websocket_simple.png
+//Asciidoctor
+:toc:
+:toc-placement: preamble
+:toc-title: Table des matières de l'article
+:source-highlighter: highlight
+//Links
+:link-demo: http://wildfly-mgreau.rhcloud.com/usopen/
+:link-javaee7: http://jcp.org/en/jsr/detail?id=342
+:link-jsr356: http://jcp.org/en/jsr/detail?id=356
+:link-adoptjsr-jsr356: https://glassfish.java.net/adoptajsr/jsr356.html
+:link-w3c-api: http://w3.org/TR/websockets/
+:link-rfc6455: http://tools.ietf.org/html/rfc6455
+:link-rfc2616: http://tools.ietf.org/html/rfc2616
+:link-rfc2616-upgrade: http://tools.ietf.org/html/rfc2616#section-14.42
+:link-arungupta-devoxxuk: http://www.parleys.com/play/51c1cceae4b0ed8770356828/chapter4/about
+:link-arungupta-jugsf: http://www.youtube.com/watch?v=QqbuDFIT5To
+:link-arungupta-twitter: https://twitter.com/arungupta
+:link-javaone2013-keynote: https://blogs.oracle.com/javaone/entry/the_javaone_2013_technical_keynote
+
+NOTE: Cet article présente et met en oeuvre à travers un exemple concret et {link-demo}[disponible en ligne], une des 4 nouvelles JSRs de *{link-javaee7}[Java EE 7]*, à savoir *{link-jsr356}[l'API Java pour communiquer via le protocole WebSocket (JSR 356)]*, .
+
+Après la lecture de cet article, vous devriez être en mesure de comprendre la définition de ce qu'il est possible de faire avec le protocole WebSocket, donnée lors de Devoox UK par {link-arungupta-twitter}[Arun Gupta] :
+
+[quote#think, Arun Gupta (Java EE Evangelist chez Oracle) - Devoxx UK 2013]
+----
+WebSocket gives you bidirectionnal, full duplex, communication channel over a single TCP.
+----
+
+pass::[more]
+
+== Introduction à Java EE 7
+La *Plateforme Java Entreprise Edition* est sortie en version 7 (Java EE 7) au mois de Juin 2013. 
+Dans la continuité des versions Java EE 5 et Java EE 6, *Java EE 7* propose toujours de simplifier le travail du développeur.
+Cette version agrémente les versions précédentes avec 3 objectifs principaux :
+
+* s'interfacer avec *HTML5* (WebSocket API, JSON-P API, JAX-RS)
+* avoir une *meilleure productivité* (nouvelles annotations, moins de code inutile, meilleure cohésion entre JSRs)
+* répondre aux *besoins des entreprises* (Batch API, JMS API 2.0)
+
+[[javaee7_intro]]
+.Les 3 objectifs de Java EE 7
+image::posts/javaee7_intro.png[Java EE 7 - Objectifs]
+
+Java Platform, Entreprise Edition 7 (JSR 342), se résume donc autour de :
+
+* 4 nouvelles spécifications : *+Java API for WebSocket 1.0+*, *+Java API for JSON Processing 1.0+* , *+Batch Applications 1.0+* et *+Concurrency Utilities for Java EE 1.0+*
+* 3 spécifications avec une mise à jour majeure : *+JMS 2.0+*, *+JAX-RS 2.0+* et *+EL 3.0+*	
+* ainsi que 7 spécifications mises à jour dans une version mineure : *+JPA 2.1+*, *+Servlet 3.1+*, *+EJB 3.2+*, *+CDI 1.1+*, *+JSF 2.2+* et *+Bean Validation 1.1+*
+
+
+== DEMO : Application HTML5 / JSR-356 API déployée sur Wildfly 8 (OpenShift)
+
+Les plus impatients peuvent accéder à la +{link-demo}[démonstration en ligne]+ du code qui va être, en partie, expliqué dans cet article.
+Il s'agit d'une application qui permet :
+
+* de suivre un match de Tennis en Live (Finale de l'US Open 20013) sans aucune action autre que la connexion à l'URL
+* de parier sur le vainqueur du match
+
+Vous allez me dire : "Rien d'extraordinaire !", et vous aurez raison.
+
+A première vue, ce sont des choses que nous connaissons déjà sur beaucoup d'applications aujourd'hui, mais celle-ci est intéressante techniquement car comme vous le verrez au cours de l'article, tout est basé sur du *standard autour du nouveau protocole WebSocket (ws:// ou wss://)* et non sur du "hacking" de protocole HTTP.
+
+[NOTE]
+.Les technologies utilisées pour le developpement de cette application sont : 
+====
+* côté client : +HTML5+, +CSS+, +Javascript (WebSocket API)+ avec 'Bootstrap CSS mais sans JQuery ou BootstrapJS'
+* côte serveur : +Java API for WebSocket+, +EJB+, +JSON-P+
+====
+
+[[websocket_example]]
+.Mise en oeuvre des WebSocket (Java API et Javascript API)
+image::posts/websocket_example.png[Mise en oeuvre des WebSocket (Java API et Javascript API), link="{link-demo}"]
+
+Non cette démonstration n'est *pas une application de chat :)*
+Il est évident que la démo "chat" est celle qui vient en premier à l'esprit pour illustrer l'utilisation de la technologie WebSocket. Néanmoins, il existe beaucoup d'autres cas d'utilisation, comme par exemple le travail collaboratif sur un document texte en ligne. Ou encore les jeux en ligne comme le jeu d'échec présenté lors de la {link-javaone2013-keynote}[keynote de JavaOne 2013].
+
+[TIP]
+====
+'Cette application est disponible sur le Cloud grâce à https://www.openshift.com/[OpenShift], la solution Cloud de RedHat. Elle est déployée sur le serveur d'applications Wildfly 8.0.0-Beta3 (normalement certifié Java EE 7 fin 2013). Pour mettre en place un serveur de ce type, il suffit de suivre https://www.openshift.com/blogs/deploy-websocket-web-applications-with-jboss-wildfly[le post de Shekhar Gulati]'
+====
+
+== WebSocket (WS) : un nouveau protocole différent de HTTP
+
+{link-rfc2616}[HTTP] est le protocole standard utilisé pour le Web, il est très efficace pour certains cas d'utilisation mais il dispose néanmoins de *quelques inconvénients* dans le cas *d'applications Web intéractives* :
+
+* *half-duplex* : basé sur le pattern request/response, le client envoi une requête puis le serveur réalise un traitement avant de renvoyer une réponse, le client est donc contraint d'attendre une réponse du serveur
+* *verbose* : beaucoup d'informations sont présentes avec les headers HTTP associés au message, aussi bien dans la requête HTTP que dans la réponse HTTP
+* pour faire du *server push*, il est nécessaire d'utiliser des méthodes de contournement (polling, long polling, Comet/Ajax) car il n'existe pas de standard.
+
+Ce protocole n'est donc pas optimisé pour scaler sur des applications qui ont d'important besoins de communication temps réel bi-directionnelle. C'est pourquoi le *nouveau protocole WebSocket* propose des fonctionnalités plus évoluées que HTTP, puisqu'il est :
+
+* basé sur *+1 unique connexion TCP entre 2 peers+* (en HTTP chaque requête/réponse necessite une nouvelle connexion TCP)
+* *+bi-directionnel+* : le client peut envoyer un message au serveur et le serveur peut envoyer un message au client
+* *+full-duplex+* : le client peut envoyer plusieurs messages vers le serveur et le serveur vers le client sans attendre de réponse l'un de l'autre
+
+[WARNING]
+====
+'Le terme *client* est utilisé uniquement pour définir celui qui va initialiser la connexion. Dès lors que la connexion est établie, le client et le serveur deviennent tous les deux des *+peers+*, avec les mêmes pouvoirs l'un par rapport à l'autre.'
+====
+
+Le protocole WebSocket devait à l'origine faire partie de la spécification HTML5 mais comme celle-ci sortira officiellement en 2014, il est finalement défini, au même titre que HTTP, par une spécification IETF, {link-rfc6455}[la RFC 6455].
+
+Comme le montre le schéma ci-après, le *protocole WebSocket fonctionne en 2 phases* nommées :
+
+. *+handshake+*
+. *+data transfer+*
+
+[[websocket_protocol]]
+.Explication du protocole WebSocket
+image::posts/WebSocket_Protocol.png[Schéma d'explications du protocole WebSocket,550]
+
+=== Handshake
+La phase nommée *Handshake* correspond à un *unique échange requête/réponse HTTP* entre l'initiateur de la connexion (peer client)  et le peer serveur. Cet échange HTTP est spécifique car il utilise la notion {link-rfc2616-upgrade}[*d'Upgrade, définie dans la spécification HTTP*.] + 
+Le principe est simple : *l'Upgrade HTTP* permet au client de communiquer avec le serveur pour lui demander de changer de protocole de communication et ainsi faire en sorte que le client et le serveur utilisent un protocole autre que HTTP pour discuter.
+
+[[eg1-callouts]]
+.Exemple de Requête HTTP Handshake
+====
+[source, text]
+----
+GET /usopen/matches/1234 HTTP/1.1     # <1>
+Host: wildfly-mgreau.rhcloud.com:8000  # <2>	
+Upgrade: websocket  # <3>
+Connection: Upgrade # <4>
+Origin: http://wildfly-mgreau.rhcloud.com
+Sec-WebSocket-Key:0EK7XmpTZL341oOh7x1cDw==
+Sec-WebSocket-Version:13
+----
+<1> Methode HTTP GET et version 1.1 obligatoires
+<2> Host utilisé pour la connexion WebSocket
+<3> Demande d'Upgrade vers le protocole WebSocket
+<4> Demande d'Upgrade HTTP pour changer de protocole
+
+====
+
+[[eg2-callouts]]
+.Exemple de Réponse HTTP Handshake
+====
+[source, text]
+---- 
+HTTP/1.1 101 Switching Protocols # <1>
+Connection:Upgrade
+Sec-WebSocket-Accept:SuQ5/hh0kStSr6oIzDG6gRfTx2I=
+Upgrade:websocket <2>
+----
+<1> Code HTTP 101, le serveur est compatible et accepte le changement de protocole
+<2> L'upgrade vers le protocole WebSocket est accepté
+====
+
+[IMPORTANT]
+====
+'Lorsque la demande d'upgrade du protocole HTTP vers le protocole Web Socket a été validée par le serveur endpoint, il n'y a plus de communication possible en HTTP, tous les échanges sont réalisés via le protocole WebSocket.'
+====
+
+=== Data transfer
+Une fois que le *handshake* est acceptée, la mise en place du protocole WebSocket est donc acquise. Une connexion côté 'peer server' est ouverte ainsi que côté 'peer client', une gestion de callback est activée pour initier la communication. + 
+La phase de *Data transfer* peut alors entrer en jeu, c'est-à-dire que les 2 peers peuvent désormais *s'échanger des messages dans une communication bi-directionnelle et full-duplex*. +
+
+Comme le montre le schéma de la *Figure 3*, le +peer server+ peut envoyer plusieurs messages (dans l'exemple : 1 message à chaque point du match) sans aucune réponse du +peer client+ qui, lui, peut également envoyer des messages à n'importe quel moment (dans l'exemple : le pari sur le vainqueur du match). 
+Chaque peer peut envoyer un message spécifique afin de clôturer la connexion. + 
+
+Dans Java EE7, le code côté +peer server+ est en *Java* alors que le code côté +peer client+ est en *Java ou en Javascript*.
+
+== WebSocket Javascript API (Client)
+
+Pour communiquer à partir d'une application Web avec un serveur en utilisant le protocole WebSocket, il est nécessaire d'utiliser *une API cliente en Javascript*. C'est le W3C qui définit cette API. + 
+La spécification W3C de cette {link-w3c-api}[API Javascript pour WebSocket] est en cours de finalisation. http://www.w3.org/TR/websockets/#websocket[L'interface WebSocket] propose, entre-autres, les éléments suivants :
+
+* un attribut pour l'URL de connexion au server Endpoint (+url+)
+* un attribut sur l'état de la connexion (+readyState+ : CONNECTING, OPEN, CLOSING, CLOSED)
+* des *Event-Handler (gestionnaire d'évènement)* pour s'adapter aux méthodes du cycle de vie des WebSocket, par exemple : 
+** l'Event-Handler +onopen+ est appelé lorsqu'une nouvelle connexion est initiée
+** l'Event-Handler +onerror+ est appelé lorsqu'une erreur est reçue pendant la communication
+** l'Event-Handler +onmessage+ est appelé lorsqu'un message est reçu
+* les méthodes (+send(DOMString data)+, +send(Blob data)+) avec lesquelles il est possible d'envoyer différents types de flux (texte, binaire) vers le serveur Endpoint
+
+
+[[eg3-callouts]]
+.Exemple de code Javascript, issue de http://websocket.org
+====
+[source, javascript]
+---- 
+var wsUri = "ws://echo.websocket.org/"; 
+
+function testWebSocket() { 
+
+	websocket = new WebSocket(wsUri); 
+	websocket.onopen = function(evt) { onOpen(evt) }; 
+	websocket.onclose = function(evt) { onClose(evt) }; 
+	websocket.onmessage = function(evt) { onMessage(evt) }; 
+	websocket.onerror = function(evt) { onError(evt) }; }  
+}
+
+function onOpen(evt) { 
+	writeToScreen("CONNECTED"); 
+	doSend("WebSocket rocks"); 
+}  
+function onClose(evt) { 
+	writeToScreen("DISCONNECTED"); 
+}  
+function onMessage(evt) { 
+	writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>'); 
+	websocket.close(); 
+}  
+
+function onError(evt) { 
+	writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+}  
+function doSend(message) { 
+	writeToScreen("SENT: " + message);  
+	websocket.send(message); 
+}
+----
+====
+
+== JSR 386 : Java API pour WebSocket
+
+Le W3C définit donc comment utiliser WebSocket en Javascript, le *Java Communitee Process (JCP)* fait de même pour le monde Java via la JSR 386 . + 
+La JSR 356 définit ainsi une {link-jsr356}[API Java pour WebSocket] qui propose :
+
+* la création d'un +*WebSocket Endpoint*+ (serveur ou client), nom donné au composant Java capable de communiquer via le protocole WebSocket
+* la possibilité d'utiliser l'approche par *annotation Java* ou par programmation
+* la possibilité *d'envoyer et de consommer des messages* de contrôles, textuels ou binaires via ce protocole
+** de gérer le message en tant que message complet ou par une séquence de messages partiels
+** envoyer ou recevoir les messages en tant qu'objets Java (notion d'*encoders/decoders*)
+** envoyer les messages *en synchrone ou en asynchrone*
+* la configuration et la *gestion des sessions WebSocket* (timeout, cookies...)
+* une intégration dans *Java EE Web Profile*
+
+NOTE: 'L'implémentation de référence Java pour l'API WebSocket est https://tyrus.java.net/[le projet Tyrus]'
+
+=== WebSocket Endpoint : Serveur
+
+La transformation d'un Plain Old Java Object (POJO) vers un *WebSocket Endpoint* de type serveur (c'est-à-dire capable de gérer des requêtes de plusieurs clients sur une même URI) est *extrêment simple*, puisqu'il suffit d'annoter la classe avec *@ServerEndpoint* et une méthode du POJO avec *@OnMessage* :
+====
+[source, java]
+----
+import javax.websocket.OnMessage;
+import javax.websocket.ServerEndpoint;
+
+@ServerEndpoint("/echo") // <1>
+public class EchoServer {
+
+	@OnMessage // <2>
+	public String handleMessage(String message){
+		return "Thanks for the message: " + message;
+	}
+
+}
+----
+<1> L'annotation @ServerEndpoint transforme le POJO en WebSocket Endpoint, l'attribut *value* est obligatoire afin de préciser l'URI d'accès à cet Endpoint
+<2> la méthode handleMessage sera évoquée lors de chaque message reçu
+====
+
+=== Annotations
+L'API met à disposition plusieurs types d'annotations afin d'être entièrement compatible avec le procotole WebSocket :
+
+[cols="2", options="header"] 
+|===
+|Annotation
+|Rôle
+|@ServerEndpoint
+|Déclare un Server Endpoint
+|@ClientEndpoint
+|Déclare un Client Endpoint
+|@OnOpen
+|Défini la méthode appelée pour gérer l'évenement d'ouverture de la connexion
+|@OnMessage
+|Défini la méthode appelée pour gérer l'évenement de réception d'un message
+|@OnError
+|Défini la méthode appelée pour gérer l'évenement lors d'une erreur
+|@OnClose
+|Défini la méthode appelée pour gérer l'évenement de clôture de la connexion
+|===
+
+Les attributs de l'annotation +@ServerEndpoint+ sont les suivants :
+
+value:: URI relative ou URI template (ex: "/echo", "/chat/{subscriver-level}")
+decoders:: liste de noms de classes utilisées pour décoder les messages entrants
+encoders:: liste de noms de classes utilisées pour encoder les messages sortants
+subprotocols:: liste de sous-protocoles autorisés (ex: http://wamp.ws)
+
+=== Encoders et Decoders
+
+Comme il a été décrit plus tôt dans cet article, le serveur Endpoint peut recevoir différents types de contenu dans les messages : des données au format texte (JSON, XML...) ou au format binaire. + 
+Afin de gérer efficacement les messages provenant des 'peers client' ou à destination de ceux-ci dans le code métier de l'application, il est possible de créer des classes Java de type *Decoders et Encoders*.
+
+Quelque soit l'algorithme de transformation, il va alors être possible de transformer  :
+
+* le POJO métier vers un flux au format désiré pour l'envoi (JSON, XML, Binaire...)
+* les flux entrants dans format spécifique (JSON, XML..) vers le POJO métier
+
+Ainsi, le code de l'application est organisé de telle façon que la logique métier n'est pas impactée par le type et le format de flux échangés entre le 'peer serveur' et les 'peers clients'.
+Un exemple concret est présenté dans la suite de l'article.
+
+=== WebSocket Endpoint : Client
+
+L'API propose donc également le support pour créer des Endpoints côté client en Java.
+
+[[eg4-callouts]]
+.Exemple de Client Endpoint en Java
+====
+[source, java]
+----
+@ClientEndpoint
+public class HelloClient {
+
+	@OnMessage 
+	public String message(String message){
+		// traitement
+	}
+}
+
+WebSocketContainer c = ContainerProvider.getWebSocketContainer();
+c.connectToServer(HelloClient.class, "hello");
+----
+====
+
+== Application US OPEN
+
+L'application exemple est déployée sous forme de WAR issue d'un projet Apache Maven.
+Outre la gestion classique du cycle de vie WebSocket, le workflow d'envoi de messages est le suivant :
+
+* à chaque point du match, les 'peers clients' recoivent les données du match (score, service...)
+* le 'peer client' peut envoyer un message pour parier sur le gagnant du match
+* à la fin du match, les 'peers clients' reçoivent un message contenant le nom du vainqueur
+
+*Tous les messages sont échangés au format JSON.* + 
+
+L'arborescence du projet est la suivante :
+
+[[eg5-callouts]]
+.Structure du projet Maven
+====
+[source, text]
+----
++ src/main/java
+   |+ com.mgreau.wildfly.websocket
+      |+ decoders       
+         |- MessageDecoder.java   // <1>
+      |+ encoders       // <2>
+         |- BetMessageEncoder.java   
+         |- MatchMessageEncoder.java 
+      |+ messages       // <3>
+         |- BetMessage.java
+         |- MatchMessage.java
+         |- Message.java
+      |- MatchEndpoint.java    // <4>
+      |- StarterService.java   // <5>
+      |- TennisMatch.java      // <6>
++ src/main/resources
++ scr/main/webapp
+   |+ css
+   |+ images   
+   |- index.html   
+   |- websocket.js  // <7>
+pom.xml		
+----
+<1> Decode le message JSON provenant du 'peer client' concernant le pari sur le vainqueur en POJO ('BetMessage')
+<2> Encode à destination des 'peers clients', en JSON (via JSON-P), les messages contenant le détail du match et le résultat du pari sur le vainqueur
+<3> POJOs représentant les types de messages échangés entre peers
+<4> WebSocket Server Endpoint de l'application ('peer server')
+<5> EJB @Startup permettant d'initialiser l'application lors du déploiement 
+<6> POJO pour gérer les informations du match
+<7> Fichier Javascript pour la communication WebSocket du 'peer client' via l'API Javascript
+====
+
+=== Dépendances Maven Java EE 7
+
+[[eg6-callouts]]
+.pom.xml
+====
+[source, xml]
+----
+<project>
+...
+<properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<!-- Java EE 7 -->
+	<javaee.api.version>7.0</javaee.api.version>
+</properties
+
+<dependencies>
+	<dependency>
+		<groupId>javax</groupId> <!--1-->
+		<artifactId>javaee-api</artifactId>
+		<version>${javaee.api.version}</version>
+		<scope>provided</scope>
+	</dependency>
+</dependencies>
+...
+</project>
+----
+<1> il est important d'utiliser les dépendances de la spécification Java EE 7 afin de pouvoir déployer l'application dans plusieurs serveurs d'applications Java EE sans changement de code (Wildfly, Glassfish...)
+====
+
+=== Créer le Server Endpoint
+
+Cet Endpoint permet de recevoir les messages concernant les paris sur le vainqueur du match et également d'envoyer aux 'peers clients' les informations du déroulement du match.
+
+[[eg7-callouts]]
+.Server Endpoint : MatchEndpoint.java
+====
+[source,java]
+----
+@ServerEndpoint( 						
+		value = "/matches/{match-id}",  // <1>
+		        decoders = { MessageDecoder.class }, // <2>
+		        encoders = { MatchMessageEncoder.class, BetMessageEncoder.class } // <3>
+		)
+public class MatchEndpoint {
+
+	private static final Logger logger = Logger.getLogger("MatchEndpoint");
+
+	/* Queue for all open WebSocket sessions */
+	static Queue<Session> queue = new ConcurrentLinkedQueue<>();
+
+	@OnOpen
+	public void openConnection(Session session, 
+				@PathParam("match-id") String matchId) {	// <4>
+	    /* Register this connection in the queue */
+	    queue.add(session);
+	    session.getUserProperties().put(matchId, true);
+	    logger.log(Level.INFO, "Connection opened for game : " + matchId);
+	}
+
+	public static void send(MatchMessage msg, String matchId) {
+	  try {
+	    /* Send updates to all open WebSocket sessions for this match */
+	    for (Session session : queue) {
+    	  if (Boolean.TRUE.equals(session.getUserProperties().get(matchId))){
+	        if (session.isOpen()){
+		      session.getBasicRemote().sendObject(msg);	// <5>
+		      logger.log(Level.INFO, "Score Sent: {0}", msg);
+	        }
+    	  }
+	    }
+	  } catch (IOException | EncodeException e) {
+	    logger.log(Level.INFO, e.toString());
+	  }   
+	}
+
+	@OnMessage
+	public void message(final Session session, BetMessage msg) {	// <6>
+	    logger.log(Level.INFO, "Received: Bet Match Winner - {0}", msg.getWinner());
+	    session.getUserProperties().put("betMatchWinner", msg);
+	}
+...
+}
+
+----
+<1>  URI pour accéder à cet Endpoint, comme le context-root de l'application est '/usopen', un exemple d'URL est +ws://<host>:<port>/usopen/matches/1234+
+<2> la classe 'MessageDecoder' permet de transformer le flux JSON entrant pour le pari sur le vainqueur en POJO 'BetMessage'
+<3> les 2 encodeurs permettent de transformer les POJO 'MatchMessage' et 'BetMessage' en flux JSON
+<4> l'annotation +@PathParam+ permet ici d'extraire l'élément de la requête WS et de passer la valeur (identifiant du match) en paramètre de la méthode, il est ainsi possible de gérer plusieurs matchs avec des clients différents pour chaque match.
+<5> Envoi du message concernant le match aux peers connectés, grâce à l''Encoder' il suffit de passer en paramètre un objet 'MatchMessage'
+<6> Gestion de la réception des messages de pari sur le vainqueur du match, grâce au 'Decoder' la méthode prend en paramètre un objet 'BetMessage'
+====
+
+=== Encoder et Décoder les messages échangés
+
+Pour encoder ou décoder les messages échangés entre peers, il suffit d'implémenter l'interface adéquate selon le type de message (Texte, Binaire) et le sens de traitement (encodage, décodage), puis de redéfinir la méthode associée. + 
+Dans l'exemple ci-dessous, il s'agit de l'encodeur pour le POJO MatchMessage vers le format JSON. L'API utilisée pour réaliser ce traitement est une des nouvelles API de Java EE 7 : http://jcp.org/en/jsr/detail?id=353[Java API for JSON Processiong (JSON-P)]
+
+[[eg8-callouts]]
+.src/main/java/com/mgreau/wildfly/websocket/encoders/MatchMessageEncoder.java
+====
+[source, java]
+--
+public class MatchMessageEncoder implements Encoder.Text<MatchMessage> {
+
+	@Override
+	public String encode(MatchMessage m) throws EncodeException {
+		StringWriter swriter = new StringWriter();
+		try (JsonWriter jsonWrite = Json.createWriter(swriter)) {
+			JsonObjectBuilder builder = Json.createObjectBuilder();
+			builder.add(
+				"match",
+				Json.createObjectBuilder()
+					.add("serve", m.getMatch().getServe())
+					.add("title", m.getMatch().getTitle())
+					...
+			}
+
+			jsonWrite.writeObject(builder.build());
+		}
+		return swriter.toString();
+	}
+}
+--
+====
+
+=== Client Web HTML5
+L'unique page HTML de cette application charge le fichier *websocket.js* pour mettre en oeuvre l'API Javascript WebSocket et ainsi intéragir avec le Server Endpoint Java.
+
+[[eg9-callouts]]
+.API Javascript : websocket.js
+====
+[source, javascript, options="nowrap"]
+--
+var wsUrl;
+if (window.location.protocol == 'https:') {  // <1>
+	wsUrl = 'wss://' + window.location.host + ':8443/usopen/matches/1234';
+} else {
+	wsUrl = 'ws://' + window.location.host + ':8000/usopen/matches/1234';
+}
+
+function createWebSocket(host) {
+	if (!window.WebSocket) {    // <2>
+	...
+	} else {
+		socket = new WebSocket(host);   // <3>
+		socket.onopen = function() {
+			document.getElementById("m1-status").innerHTML = 'CONNECTED...';
+		};
+		socket.onclose = function() {
+			document.getElementById("m1-status").innerHTML = 'FINISHED';
+		};
+		...
+		socket.onmessage = function(msg) {
+			try { 
+				console.log(data);
+				var obj = JSON.parse(msg.data);     // <4>
+				if (obj.hasOwnProperty("match")){   // <5>
+					//title
+					m1title.innerHTML = obj.match.title;
+					// comments
+					m1comments.value = obj.match.comments;
+					// serve
+					if (obj.match.serve === "player1") {
+						m1p1serve.innerHTML = "S";
+						m1p2serve.innerHTML = "";
+					} else {
+						m1p1serve.innerHTML = "";
+						m1p2serve.innerHTML = "S";
+					}
+					..
+				}
+				...
+			} catch (exception) {
+				data = msg.data;
+				console.log(data);
+			}
+		}
+	}
+} 
+--
+<1> Choix du protocole WS selon le type de protocole HTTP utilisé (sécurisé ou non)
+<2> Test du support par le navigateur de l'API WebSocket
+<3> Création du WebSocket
+<4> Sur l'Event-Handler +onmessage+ , traitement du flux JSON reçu via le 'peer serveur'
+<5> Test du type d'objet reçu (Match ou Pari) afin de réaliser le traitement adéquat avec le DOM
+====
+
+[NOTE]
+====
+Pour savoir quels sont les *navigateurs compatibles avec l'API WebSocket*, http://caniuse.com/#search=websocket[consultez le site caniuse.com]. Aujourd'hui, les dernières versions des navigateurs sont compatibles exceptées pour Opéra mini et Android Browser, qui représentent, à eux deux, seulement 3% du traffic web. 
+====
+
+=== Sources de l'exemple sur Github
+Vous pouvez *forker le code sur Github* à l'URL +*https://github.com/mgreau/javaee7-websocket*+
+
+Cette application exemple est très basique, les idées d'améliorations possibles sont nombreuses : gérer un tournoi avec plusieurs matchs, parier sur d'autres critères, voir en live les paris des autres internautes...
+
+[TIP]
+====
+'Une feature, qui serait particulièrement intéressante techniquement, serait de créer un nouveau type de pari sur *la zone de terrain des points gagnants*. Il suffit de dessiner le terrain grâce à l'API HTML5 Canvas et de gérer les coordonnées de l'emplacement cliqué par l'internaute (comme zone gagnante) puis de les comparer aux coordonnées réelles lors d'un point gagnant.'
+====
+
+=== Construire et Déployer le WAR
+
+[IMPORTANT]
+====
+Pré-requis : 
+
+* JDK 7
+* Apache Maven 3.0.4+
+* Serveur d'applications Java EE 7 : Wildfly 8 ou Glassfish 4
+====
+Pour créer l'archive WAR, il suffit d'executer la commande Apache Maven ci-dessous ;
+[source, text]
+--
+mvn clean package
+--
+
+Si vous utilisez Wildfly, le déploiement est automatique (le serveur doit être démarré) avec la commande ci-dessous :
+
+[source, text]
+--
+mvn jboss-as:deploy
+--
+
+Il suffit ensuite d'accéder à l'URL : http://localhost:8080/usopen/
+
+== Performances : WebSocket vs REST
+Afin d'avoir des métriques concernant les performances de ce nouveau protocole, Arun Gupta a developpé https://github.com/arun-gupta/javaee7-samples/tree/master/websocket/websocket-vs-rest[une application qui permet de comparer les temps d'execution] d'un même traitement réalisé avec du code développé en utilisant les technologies WebSocket et REST.
+
+Les 2 endpoints de l'application (REST Endpoint et WebSocket Endpoint) ne font que renvoyer le flux qu'ils recoivent. L'interface Web de cette application permet de définir la taille du message et le nombre de fois que ce message doit être envoyé avant la fin du test.
+
+Les résultats de ses tests, présentés ci-dessous, sont éloquents :
+
+[cols="3*", options="header"] 
+|===
+|Type de Requête
+|Temps execution + 
+*REST Endpoint*
+|Temps execution +
+*WebSocket Endpoint*
+|Envoi de 10 messages de 1 byte
+|220 ms
+|7 ms
+|Envoi de 100 messages de 10 bytes
+|986 ms
+|57 ms
+|Envoi de 1000 messages de 100 bytes
+|10 210 ms
+|179 ms
+|Envoi de 5000 messages de 1000 bytes
+|54 449 ms
+|1202 ms
+|===
+
+
+== Références pour tout savoir sur les WebSocket
+Je vous recommande plus particulièrement les conférences d' {link-arungupta-twitter}[Arun Gupta], qui vous permettent, en moins d'1 heure, de tout connaître/comprendre sur la technologie WebSocket en général et sur l'API Java en particulier. + 
+Pour des informations plus avancées, l'idéal reste les spécifications IETF, W3C et Java.
+
+[bibliography]
+- {link-rfc6455}[RFC 6455: The WebSocket Protocol] - 'Spécification IETF'
+- {link-w3c-api}[W3C: The WebSocket API] - 'Spécification W3C' (Candidate Recommandation)
+- {link-jsr356}[JSR 356: Java API for WebSocket Protocol] - 'Spécification Java'
+- {link-adoptjsr-jsr356}[Adopt a JSR - JSR 356]
+- {link-arungupta-jugsf}[Java EE 7 & WebSocket API] - 'Conférence Arun Gupta SF' (à partir de la 46e minute)
+- {link-arungupta-devoxxuk}[Getting Started with WebSocket and SSE] - 'Conférence Arun Gupta Devoxx UK 2013'
+
+'Cet article a été structuré en se basant sur la conférence Devoxx UK 2013.'
+
+== Conclusion
+
+Cet article a introduit, grâce à un exemple concret, *le protocole WebSocket, l'API WebSocket HTML5 et l'API Java pour les WebSocket sortie avec Java EE 7*. Il était déjà possible d'utiliser les WebSocket en Java grâce à des frameworks comme Atmosphere mais il manquait un standard. + 
+Aujourd'hui tous *les standards sont finalisés ou en passe de l'être*, cette nouvelle technologie répond à un besoin précis et est prometteuse en terme de performance. Pour qu'elle soit massivement utilisée, il faudra tout de même que ce protocole soit autorisée dans les entreprises là où bien souvent seul le protocole HTTP est disponible.

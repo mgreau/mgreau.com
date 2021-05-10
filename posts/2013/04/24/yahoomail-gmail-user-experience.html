@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Yahoo! Mail, t&#x27;es une messagerie, t&#x27;as pas de conversation ? non mais allô quoi !</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Yahoo! Mail, t&#x27;es une messagerie, t&#x27;as pas de conversation ? non mais allô quoi !">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Yahoo! Mail, t&#x27;es une messagerie, t&#x27;as pas de conversation ? non mais allô quoi !">
+    <meta property="og:description" content="">
+
+    <!-- <meta name="twitter:site" content="">
+
+<meta name="twitter:creator" content="">
+
+<meta name="google-site-verification" content="">
+
+<meta property="fb:admins" content="">
+ -->
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link href="//fonts.googleapis.com/" rel="dns-prefetch">
+    <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1480062943177"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1480062943177"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1480062943177"/>
+
+
+
+
+    <script type="text/javascript">
+      var ga_ua = 'UA-XXXXX-X';
+      
+      var disqus_shortname = 'example';
+      
+      var enable_pjax = true;
+
+      // Pace Options
+      // ==============
+      window.paceOptions = {
+        catchupTime: 100,
+        minTime: 100,
+        elements: false,
+        restartOnRequestAfter: 500,
+        startOnPageLoad: false
+      }
+
+      // Ghostium Globals
+      // ==============
+      window.GHOSTIUM = {};
+      GHOSTIUM.haveGA = typeof ga_ua !== 'undefined' && ga_ua !== 'UA-XXXXX-X';
+      GHOSTIUM.haveDisqus = typeof disqus_shortname !== 'undefined' && disqus_shortname !== 'example';
+      GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
+    </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1480062943177"></script>
+
+    <link rel="canonical" href="https://mgreau.github.io/posts/2013/04/24/yahoomail-gmail-user-experience.html" />
+    <meta name="referrer" content="origin" />
+    
+    <meta property="og:site_name" content="@mgreau :: Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Yahoo! Mail, t&#x27;es une messagerie, t&#x27;as pas de conversation ? non mais allô quoi !" />
+    <meta property="og:description" content="Cet article expose mon point de vue sur l&amp;#8217;ergonomie, l&amp;#8217;expérience utilisateur et les services rendus (ou pas) à l&amp;#8217;internaute par Yahoo! Mail et Gmail. Je me base sur l&amp;#8217;expérience de mon utilisation de Yahoo! Mail depuis 14 ans et de Gmail depuis" />
+    <meta property="og:url" content="https://mgreau.github.io/posts/2013/04/24/yahoomail-gmail-user-experience.html" />
+    <meta property="article:tag" content="email" />
+    <meta property="article:tag" content=" Yahoo" />
+    <meta property="article:tag" content=" Google" />
+    <meta property="article:tag" content=" GMail" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Yahoo! Mail, t&#x27;es une messagerie, t&#x27;as pas de conversation ? non mais allô quoi !" />
+    <meta name="twitter:description" content="Cet article expose mon point de vue sur l&amp;#8217;ergonomie, l&amp;#8217;expérience utilisateur et les services rendus (ou pas) à l&amp;#8217;internaute par Yahoo! Mail et Gmail. Je me base sur l&amp;#8217;expérience de mon utilisation de Yahoo! Mail depuis 14 ans et de Gmail depuis" />
+    <meta name="twitter:url" content="https://mgreau.github.io/posts/2013/04/24/yahoomail-gmail-user-experience.html" />
+    
+    <script type="application/ld+json">
+null
+    </script>
+
+    <meta name="generator" content="HubPress" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+  </head>
+  <body class="post-template tag-email tag-Yahoo tag-Google tag-G-Mil">
+
+    <button data-action="open-drawer" id="drawer-button" class="drawer-button"><i class="fa fa-bars"></i></button>
+    <nav tabindex="-1" class="drawer">
+      <div class="drawer-container">
+        <!--.drawer-search(role="search")-->
+        <ul role="navigation" class="drawer-list">
+          
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" data-pjax>
+              <i class="fa fa-home"></i>Home
+            </a>
+          </li>
+          <!-- <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+              <i class="fa fa-list-alt"></i>All posts
+            </a>
+          </li> -->
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts/rss/">
+              <i class="fa fa-rss"></i>Subscribe to Feed
+            </a>
+          </li>
+          <li class="drawer-list-divider"></li>
+          <li class="drawer-list-item drawer-list-title">
+            Follow me
+          </li>
+          
+          
+          <li class="drawer-list-item">
+            <a href="https://twitter.com/mgreau" title="Twitter" target="_blank">
+              <i class="fa fa-twitter"></i>Twitter
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://github.com/mgreau" title="Github" target="_blank">
+              <i class="fa fa-github"></i>Github
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://plus.google.com/u/0/+maximegreau-aka-mgreau/" title="Google+" target="_blank">
+              <i class="fa fa-google-plus"></i>Google+
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://fr.linkedin.com/pub/maxime-gréau/26/645/994" title="LinkedIn" target="_blank">
+              <i class="fa fa-linkedin"></i>LinkedIn
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="mailto:maxime.greau@gmail.com" title="Email" target="_blank">
+              <i class="fa fa-envelope-o"></i>Email
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="drawer-overlay"></div>
+    <main id="container" role="main" class="container">
+      <div class="surface">
+        <div class="surface-container">
+          <div data-pjax-container class="content">
+            
+<section class="wrapper wrapper-post">
+  <div class="wrapper-container">
+    <article itemscope itemtype="http://schema.org/BlogPosting" role="article" class="post post tag-email tag-Yahoo tag-Google tag-G-Mil">
+        <section class="post-container">
+          <header class="post-header">
+            <ul class="post-meta-list">
+              <li class="post-meta-item">
+                <time datetime="2013-04-24" itemprop="datePublished">
+                  4 years ago
+                </time>
+              </li>
+                <li class="post-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/email/">email</a>, <a href="https://mgreau.github.io/posts/tag/Yahoo/"> Yahoo</a>, <a href="https://mgreau.github.io/posts/tag/Google/"> Google</a>, <a href="https://mgreau.github.io/posts/tag/G-Mil/"> GMail</a></span>
+                  </span>
+                </li>
+              <li class="post-meta-item">
+                <a href="#disqus_thread" data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+            <h1 itemprop="name headline" class="post-title"><a href="https://mgreau.github.io/posts/2013/04/24/yahoomail-gmail-user-experience.html" itemprop="url" data-pjax title="Yahoo! Mail, t&#x27;es une messagerie, t&#x27;as pas de conversation ? non mais allô quoi !">Yahoo! Mail, t&#x27;es une messagerie, t&#x27;as pas de conversation ? non mais allô quoi !</a></h1>
+            <!--h2 itemprop="about" class="post-subtitle"></h2-->
+          </header>
+          <aside class="post-side">
+            <div class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img src="https://avatars.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <a href="http://mgreau.com/posts/" class="post-author-name">
+                  Maxime Gréau
+                </a>
+                <p class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+              </div>
+            </div>
+          </aside>
+          <div itemprop="articleBody" class="post-body">
+            <div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Cet article expose mon point de vue sur l&#8217;ergonomie, l&#8217;expérience utilisateur et les services rendus (ou pas) à l&#8217;internaute par Yahoo! Mail et Gmail. Je me base sur l&#8217;expérience de mon utilisation de Yahoo! Mail depuis 14 ans et de Gmail depuis 7 ans.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>TIME: 15mn</p>
+</div>
+<div class="paragraph">
+<p>Alors que <a href="http://www.google.com/mail/help/intl/fr/about.html">Gmail</a> vient de fêter, au début du mois, <a href="http://gmailblog.blogspot.fr/2013/04/gmail-9-years-and-counting.html">ses 9 ans d&#8217;existence</a>, Yahoo! a sorti fin 2012 la dernière version de Yahoo! Mail créé en 1997. C&#8217;est l''occasion de faire un bilan de ces 2 acteurs principaux sur ce marché du webmail gratuit (Il ne sera pas question du 3e acteur, Hotmail, car je ne l&#8217;ai jamais testé). Il faut savoir que ces 3 acteurs revendiquent <strong>chacun plus de 280 millions d&#8217;utilisateurs</strong> dans le monde !</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/Gmail_yahoo_logo.png" alt="Logos Yahoo!Mail Gmail">
+</div>
+</div>
+<div class="paragraph">
+<p>Il existe déjà un certain nombre de comparatifs de ces 2 webmails mais ils se focalisent trop souvent sur des éléments tels que le nombre de Gigas d&#8217;espace ou les protocoles activés&#8230;&#8203; et pas sur les éléments importants d&#8217;une boîte de messagerie dans un navigateur à savoir : <strong>les fonctionnalités de base disponibles et l&#8217;expérience utilisateur associée</strong>.
+Autrement dit, comment faire pour nous rendre la vie la plus simple possible sur les principales actions que nous réalisons tous (geek ou novice) chaque jour : écrire un mail, lire un mail, répondre, faire suivre, envoyer une pièce jointe, rechercher dans nos messages&#8230;&#8203;</p>
+</div>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table des matières de l'article</div>
+<ul class="sectlevel1">
+<li><a href="#_yahoo_mail_une_messagerie_rest_e_dans_les_ann_es_90">Yahoo! Mail, une messagerie restée dans les années 90</a>
+<ul class="sectlevel2">
+<li><a href="#_des_mauvais_choix_techniques_et_ergonomiques">Des mauvais choix techniques et ergonomiques</a></li>
+</ul>
+</li>
+<li><a href="#_le_mode_conversation_une_fonctionnalit_indispensable">Le mode "Conversation" : une fonctionnalité indispensable !</a></li>
+<li><a href="#_des_options_qui_font_la_diff_rence">Des options qui font la différence</a>
+<ul class="sectlevel2">
+<li><a href="#_oups_avec_la_pi_ce_jointe_c_est_mieux">Oups, avec la pièce jointe c&#8217;est mieux :-)</a></li>
+<li><a href="#_trop_tard_j_ai_cliqu">Trop tard, j&#8217;ai cliqué !</a></li>
+<li><a href="#_il_est_rang_o_d_j_ce_mail_si_si_je_l_ai_quelque_part">Il est rangé où déjà ce mail ? si si je l&#8217;ai quelque part !</a></li>
+<li><a href="#_tout_message_est_d_abord_un_brouillon">Tout message est d&#8217;abord un brouillon !</a></li>
+<li><a href="#_mais_encore">Mais encore</a></li>
+</ul>
+</li>
+<li><a href="#_du_renouveau_avec_la_nouvelle_ceo_marissa_mayer_venue_de_google">Du renouveau avec la nouvelle CEO Marissa Mayer ?&#8230;&#8203;venue de Google :)</a></li>
+<li><a href="#_merci_gmail_une_r_volution_en_2013_pour_yahoo_mail">Merci Gmail. Une révolution en 2013 pour Yahoo! Mail ?</a></li>
+</ul>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_yahoo_mail_une_messagerie_rest_e_dans_les_ann_es_90">Yahoo! Mail, une messagerie restée dans les années 90</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Depuis 1999 et la création de mon adresse mail <a href="http://yahoo.fr/">@yahoo.fr</a>, j&#8217;ai beau cherché, je ne vois pas de réelle évolution réalisée par Yahoo! pour sa messagerie si populaire. Je parle évidemment en terme de fonctionnalités pour l&#8217;utilisateur (même si en terme technique au niveau de l&#8217;interface Web on peut presque en dire autant). C&#8217;est vrai, à part les modifications "standards" liées aux évolutions des technologies Web, je ne vois pas ce que Yahoo! Mail a apporté de nouveau à ce jour.</p>
+</div>
+<div class="sect2">
+<h3 id="_des_mauvais_choix_techniques_et_ergonomiques">Des mauvais choix techniques et ergonomiques</h3>
+<div class="paragraph">
+<p>Yahoo! Mail n&#8217;a cessé de prendre les mauvaises décisions pour son produit phare ! Heureusement que son public est en partie composé (je présume) de personnes qui n&#8217;osent pas passer le cap de changer de client de messagerie par peur du changement justement; sinon Yahoo! Mail aurait fermé depuis longtemps.</p>
+</div>
+<div class="paragraph">
+<p>Sa première version "classique" est celle que j&#8217;ai gardé le plus longtemps même (et surtout) après la première version "Web 2.0".  Cette première version "Web 2.0" entièrement réalisée à base de composants Javascript se voulait une simulation, dans un navigateur Web, d&#8217;un client de messagerie installé localement sur le système d&#8217;exploitation (type Outlook ou Thunderbird) . Double erreur ! Tout d&#8217;abord techniquement cette version n'était vraiment pas au point ! Un temps d&#8217;initialisation interminable dans les premières versions du au chargement de la majorité des messages (et de leur contenu ?) avant le premier clic de l&#8217;utilisateur.  Je ne vous parle même pas du "déroulement de souris" dans la boîte de réception qui vous affichait un sablier pendant un temps infini. Ensuite côté ergonomie, elle simulait une version "client local" sans l’exhaustivité des fonctionnalités et ajouté aux temps de réponses intolérables, le résultat : une frustration générale.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_le_mode_conversation_une_fonctionnalit_indispensable">Le mode "Conversation" : une fonctionnalité indispensable !</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Vous avez sûrement des amis ou de la famille avec qui vous échangez des mails pour une fête, un anniversaire&#8230;&#8203;et vous vous retrouvez avec 20 mails dans votre messagerie car tout le monde répond à l&#8217;ensemble des destinataires. Sur Yahoo! Mail ça donne <strong>20 lignes dans votre Boite de Réception avec comme sujet "Re:Re:Re:Re:Re:Re:Re:Re:Re:Re:Re:Re:Re:Re:Re:Cadeau Anniversaire Jean-Michel"</strong>
+Quel est l&#8217;intérêt d&#8217;avoir autant d&#8217;espace pris sur votre écran pour une discussion avec des réponses du type "OK pour moi" ? Si, en plus, vous avez plusieurs discussions différentes de ce type dans votre Boîte de réception, il devient impossible de retrouver le fil rapidement.</p>
+</div>
+<div id="yahoo-rere" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/yahoo_rerere.png" alt="Yahoo! Re:re:re">
+</div>
+<div class="title">Figure 1. Exemple de discussion avec 1 ligne pour chaque message avec des "Re: Re: Re: Re: Re: Re: Re:"</div>
+</div>
+<div class="paragraph">
+<p>Depuis longtemps dans Gmail  vous avez par défaut le <strong>mode conversation activé</strong> qui vous permet d&#8217;avoir une <strong>seule ligne pour toute la conversation</strong> puis d&#8217;afficher le détail et le déroulement de la conversation à plusieurs lors du clic sur cette discussion. Ainsi, vous suivez beaucoup plus facilement le fil de discussion et l'écran principal de votre boîte de réception est épuré de tous ces messages.</p>
+</div>
+<div id="gmail_discussion" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/gmail_discussion.png" alt="Gamil discussion">
+</div>
+<div class="title">Figure 2. Même type de discussion avec Gmail et le mode conversation : 1 ligne dans la boîte de réception puis le détail lors du clic</div>
+</div>
+<div class="paragraph">
+<p>C&#8217;est pour moi une <strong>fonctionnalité majeure, indispensable vu le nombre de mails envoyés aujourd&#8217;hui quotidiennement</strong> <a href="http://www.arobase.org/culture/chiffres-email.htm">39 milliards en 2007 de personne à personne)</a> comparé à 10 ans en arrière. Cette option peut tout de même être désactivée pour les personnes réfractèrent à ce mode de lecture des discussions.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_des_options_qui_font_la_diff_rence">Des options qui font la différence</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>90% des fonctionnalités d&#8217;un webmail sont communes à tous ceux qui proposent un logiciel de ce type. Il faut donc <strong>faire la différence sur les 10% restants</strong>. Et là que propose Yahoo! Mail de plus que les autres, que le standard ?&#8230;&#8203;pas grand chose&#8230;&#8203;j&#8217;ai même envie de dire RIEN ! Des exemples ? En voici quelques-uns,  ce n&#8217;est bien sûr pas vital mais ce sont des petits plus très pratiques que l&#8217;on se doit d&#8217;attendre d&#8217;une multi-nationale comme Yahoo!, <a href="http://news.cnet.com/8301-1023_3-57543177-93/gmail-edges-hotmail-as-worlds-top-e-mail-service/">encore leader de la messagerie Web aux Etats-Unis fin 2012</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_oups_avec_la_pi_ce_jointe_c_est_mieux">Oups, avec la pièce jointe c&#8217;est mieux :-)</h3>
+<div class="paragraph">
+<p>Vous devez avoir souri en lisant ce titre, non ? Combien de fois cela vous est-il arrivé ? J&#8217;ai plutôt envie de vous demander : "<strong>Cela fait combien d&#8217;années que cela vous est arrivé pour la première fois ? 5 ans ? 10 ans ?</strong>". Et depuis, toujours rien de nouveau. Pourtant, techniquement ce n&#8217;est vraiment pas compliqué d&#8217;essayer de limiter ce genre d&#8217;erreur et <strong>donc d&#8217;aider l&#8217;utilisateur</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Clairement, soit vous envoyez une pièce jointe directement sans écrire de texte dans le contenu du message et là le risque d&#8217;erreur est quasi nul, soit vous saisissez un texte avant et c&#8217;est à ce moment là que l&#8217;oubli peut se produire.
+Dans ce deuxième cas, il y a de (très) fortes chances que vous fassiez référence au fait que vous allez envoyer une pièce jointe, non ? Il suffit donc d&#8217;analyser le contenu du message saisi avant l&#8217;envoi du mail à la recherche de mots clés tels que "pièce jointe", "pj", "fichier joint"&#8230;&#8203; et de prévenir l&#8217;utilisateur qu&#8217;il a peut-être oublié quelque-chose.
+Gmail propose d&#8217;activer cette fonctionnalité et vous préviens par une boîte de dialogue lors de la tentative d&#8217;envoi du message :</p>
+</div>
+<div id="gmail_oups_pj" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/gmail_oups_pj.png" alt="Gmail Oups PJ">
+</div>
+<div class="title">Figure 3. Boîte de dialogue pour vous prévenir que vous avez peut-être oublié la pièce jointe</div>
+</div>
+<div class="paragraph">
+<p>Pour ceux qui mettraient en avant le fait que Gmail analyse ici le contenu de vos messages, sachez que lorsque vous faîtes vos courses en magasin, vôtre parcours est analysé à votre insu par les caméras afin d&#8217;optimiser par la suite la vente des produits. Ne pensez donc pas que le fait que Yahoo! Mail ne propose pas cette fonctionnalité signifie qu&#8217;il n&#8217;analyse pas le contenu de vos messages également.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_trop_tard_j_ai_cliqu">Trop tard, j&#8217;ai cliqué !</h3>
+<div class="paragraph">
+<p>Combien de fois vous vous êtes dit après avoir cliqué sur le bouton ENVOYER : "Mince! il y avait qui en copie ??" ou "Arg, j&#8217;ai oublié machin et truc" ou encore "Zut, je voulais écrire ça aussi". Trop tard ??? Non, pas avec Gmail !
+Et oui, quand on y pense, qu&#8217;est-ce que ça peut bien vous faire que votre message soit envoyé sur les serveurs destinataires *immédiatement après votre clic ou 5 secondes plus tard *(à part dans les services informatiques où les collègues entrent dans le bureau en disant "je viens de t&#8217;envoyer un mail il y a 2 secondes, tu l&#8217;as reçu ?!?" ). Vous ne maîtrisez de toute façon pas le chemin et le temps que va prendre votre message dans "le Cloud" pour se rendre à destination, et vous maîtrisez encore moins le moment où votre destinataire va être disponible pour lire votre message.</p>
+</div>
+<div class="paragraph">
+<p>Gmail propose donc une option à activer qui permet de <strong>réellement envoyer le message après un délai paramètrable en secondes</strong>. Ainsi, si vous décidez que votre mail sera réellement envoyé 5 secondes après votre action d&#8217;envoi, vous aurez la possibilité de cliquer sur un lien "Annuler" pendant ce laps de temps. Sans action de votre part, le mail est envoyé automatiquement après 5 secondes, c&#8217;est donc totalement transparent pour vous sauf quand vous en avez besoin, génial non ? Encore une fois, il n&#8217;y a rien d&#8217;extraordinaire techniquement derrière ça, <strong>c&#8217;est simple, activable ou non par l&#8217;utilisateur et ça peut empêcher des désagréments importants</strong> (l&#8217;oubli que le chef était en copie&#8230;&#8203;.)</p>
+</div>
+<div id="gmail_annuler_envoi" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/gmail_annuler_envoi.png" alt="Gmail Annuler Envoi">
+</div>
+<div class="title">Figure 4. Vous avez un délai pour cliquer sur "Annuler" afin de ne pas envoyer le mail, passé ce délai le message est automatiquement réellement envoyé</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_il_est_rang_o_d_j_ce_mail_si_si_je_l_ai_quelque_part">Il est rangé où déjà ce mail ? si si je l&#8217;ai quelque part !</h3>
+<div class="paragraph">
+<p>Vous avez sûrement déjà utilisé Microsoft Windows, là où on organise ses fichiers dans une arborescence de dossiers et donc si un document répond à plusieurs thèmes, il faut choisir un des dossiers ou dupliquer le document en question ou encore créer un raccourci. Et bien Yahoo! Mail fonctionne comme ça encore aujourd&#8217;hui (sans l&#8217;option raccourci) !! On déplace donc un mail dans un dossier, du coup il n&#8217;est plus dans la boîte de réception. La boîte de réception est donc un dossier comme les autres et <strong>un message ne peut apparaître que dans un seul dossier.</strong></p>
+</div>
+<div class="paragraph">
+<p>Avec Gmail  tout est géré avec la <strong>notion de "libellé" et non pas de dossier</strong>. Ainsi chaque message est associé à un ou plusieurs libellés, il est donc possible de d&#8217;associer le message a des libellés tout en le gardant dans la boîte de réception (qui est un libellé particulier) ou de l&#8217;archiver (autre libellé) pour ne pas qu&#8217;il perturbe la boîte de réception. Les libellés peuvent être imbriqués et ils sont personnalisables graphiquement (couleur, police) pour mieux repérer rapidement les messages associés à ces libellés. On peut ensuite réaliser des recherches uniquement sur certains libellés. Bref, on peut faire au minimum la même chose qu&#8217;avec les dossier Yahoo! Mail mais surtout on dispose de 10 fois plus de possibilités pour organiser nos messages et donc les retrouver facilement.</p>
+</div>
+<div id="gmail_nested-labels" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/nested-labels.png" alt="Gmail Labels">
+</div>
+<div class="title">Figure 5. Gestion des labels Gmail</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tout_message_est_d_abord_un_brouillon">Tout message est d&#8217;abord un brouillon !</h3>
+<div class="paragraph">
+<p>Avec Gmail, lorsque vous commencez à écrire un mail, c&#8217;est-à-dire que vous avez débuté votre saisie de texte, automatiquement (sans action de votre part) votre message est un brouillon enregistré qui disparaîtra dès l&#8217;envoi du mail ou qui vous fera une sauvegarde si votre PC s'éteint ou votre navigateur plante violemment (si si ça arrive souvent dans ces moments là). Sur Yahoo! Mail, il faut faire la première démarche de dire "Oui je veux l&#8217;enregistrer comme brouillon" pour qu&#8217;ensuite il se comporte comme Gmail ou attendre 5 minutes pour qu&#8217;il le fasse automatiquement.</p>
+</div>
+<div class="paragraph">
+<p>Il faut s&#8217;interroger, combien de fois vous vous dîtes : "Tiens je vais écrire un brouillon", Non la majorité du temps, vous écrivez un message qui, s&#8217;il n&#8217;est pas envoyé dans la foulée pour des raisons X ou Y, doit être enregistré sans une action de votre part, c&#8217;est implicite. C&#8217;est comme si vous commenciez un message sur un bout de papier pour votre femme, que vous entendez votre enfant pleurer dehors car il est tombé de la balançoire, vous revenez 20 minutes plus tard pour finir votre message&#8230;&#8203;et là plus rien !! Parce qu&#8217;avant de partir en courant, vous n&#8217;avez pas dit "Attends, enregistre mon travail avant que je revienne".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mais_encore">Mais encore</h3>
+<div class="paragraph">
+<p>Ce sont <strong>quelques exemples parmi tant d&#8217;autres</strong> : Gmail propose aussi une sécurité renforcée avec la validation en 2 étapes lors de la connexion à votre compte (un code temporaire, reçu par sms, est demandé après le mot de passe) ou encore la proposition automatique de destinataires souvent utilisés lors de l’écriture d&#8217;un mail à destination de plus de 2 personnes&#8230;&#8203; Google met donc à disposition de l&#8217;utilisateur une liste très intéressante de fonctionnalités qu&#8217;il est toujours possible de désactiver si elles ne nous satisfont pas.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_du_renouveau_avec_la_nouvelle_ceo_marissa_mayer_venue_de_google">Du renouveau avec la nouvelle CEO Marissa Mayer ?&#8230;&#8203;venue de Google :)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Il y a longtemps que je souhaite écrire cet article et, depuis, une <a href="http://yodel.yahoo.com/blogs/product-news/introducing-yahoo-mail-12773.html">nouvelle version de Yahoo! Mail est sortie fin 2012</a>. Cette annonce correspond à la première version depuis l&#8217;arrivée à la tête de Yahoo! d&#8217;une ex-employée de Google, <a href="http://fr.wikipedia.org/wiki/Marissa_Mayer">Marissa Mayer</a>. Dans cette nouvelle version, on perçoit immédiatement une volonté d&#8217;aller dans le sens du renouveau : <strong>simplifier et épurer l&#8217;interface pour la rendre plus intuitive et optimiser la rapidité de fonctionnement</strong>. Après quelques jours d&#8217;utilisation (pour cet article justement), je peux confirmer que c&#8217;est la meilleure version de Yahoo! Mail que j&#8217;ai utilisé depuis&#8230;&#8203; Yahoo! Mail classique.</p>
+</div>
+<div class="paragraph">
+<p>Mais, on peut aussi noter, à juste titre, que dans cette annonce <strong>il n&#8217;y a aucune nouvelle fonctionnalité d&#8217;annoncée !</strong> Peut-être pour la prochaine version ? Il faudra tout d&#8217;abord rattraper le retard sur les fonctionnalités majeures indispensables en 2013. Cela a commencé avec <a href="http://yodel.yahoo.com/blogs/product-news/yahoo-mail-dropbox-team-attachments-easier-13210.html">l&#8217;association récente de Yahoo! Mail avec Dropbox</a> là où <a href="http://gmailblog.blogspot.fr/2012/11/gmail-and-drive-new-way-to-send-files.html">Gmail propose l&#8217;utilisation de Google Drive depuis fin 2012</a> pour la gestion des pièces jointes volumineuses.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_merci_gmail_une_r_volution_en_2013_pour_yahoo_mail">Merci Gmail. Une révolution en 2013 pour Yahoo! Mail ?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>J&#8217;ai (volontairement) été un peu dur avec Yahoo! Mail dans cet article mais cela vient de ma frustration de voir comment cette messagerie utilisée par autant de personnes (280 millions fin 2012) et gérée par une société aussi importante que Yahoo! peut avoir si peu évoluée au fil des années. Cette impression qu&#8217;aucun bon choix n&#8217;ait été fait après la version "classique". Je suis peut-être aussi influencé par mon métier qui fait que je me soucie de choses auxquelles la majorité des utilisateurs ne prêtent guère attention. Les éventuels commentaires qui suivront ce post m'éclairciront sûrement sur ces points. Seulement quand je voie les efforts réalisés par Google avec Gmail pour inventer de nouvelles fonctionnalités, je me dis que nous les utilisateurs pourrions avoir encore davantage de possibilités si la concurrence était plus accrue.</p>
+</div>
+<div class="paragraph">
+<p>J&#8217;ai l&#8217;impression que la stratégie de Marissa Mayer va dans ce sens : améliorer l&#8217;expérience utilisateur des internautes qui utilisent massivement ce service.</p>
+</div>
+<div class="paragraph">
+<p>Vous l&#8217;avez certainement compris, <strong>après avoir commencé avec Yahoo! Mail, je suis devenu pro-Gmail</strong> depuis quelques années maintenant mais je ne désespère pas de voir Yahoo! Mail s&#8217;améliorer. D&#8217;ailleurs, je leur propose un exemple d&#8217;ajout de fonctionnalité dans la version gratuite de leur webmail : l&#8217;accusé de lecture.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;accusé de réception c&#8217;est bien, mais il est demandé lors du clic sur le sujet d&#8217;un message donc il permet de confirmer à l&#8217;expéditeur que le message est bien arrivé à destination (en gros de valider le fonctionnement des serveurs de messagerie !) mais le plus intéressant pour un utilisateur est d'être averti que le destinataire a bien pris connaissance du contenu du message envoyé; donc il est plus judicieux de proposer une action du style "Confirmer la lecture ?" à l&#8217;utilisateur lorsqu&#8217;il a potentiellement lu le message en entier (en bas de l’écran) ou lorsqu&#8217;il quitte le message (retour à la boite de réception&#8230;&#8203;).</p>
+</div>
+<div class="paragraph">
+<p>Au passage donc, <strong>Merci aux équipes de Google</strong> pour leur travail assez exceptionnel tout de même, et allez <strong>Yahoo! Mail, faites nous quelque chose de nouveau</strong> !! Ajoutez une fonctionnalité qui n&#8217;existe pas encore chez vos concurrents. Il est évident qu&#8217;il reste encore plein de choses à proposer aux internautes pour les aider dans l&#8217;utilisation quotidienne de leurs mails, des petites choses souvent simples mais efficaces.</p>
+</div>
+<div class="paragraph">
+<p>Liens référencés dans cette article :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Gmail Blog officiel : <a href="http://www.google.com/mail/help/intl/fr/about.html" class="bare">http://www.google.com/mail/help/intl/fr/about.html</a></p>
+</li>
+<li>
+<p>Yahoo! Mail Blog officiel :</p>
+</li>
+<li>
+<p>Marissa Mayer :</p>
+</li>
+<li>
+<p>Gmail, 9 ans :</p>
+</li>
+<li>
+<p>Yahoo! Mail :</p>
+</li>
+<li>
+<p>Yahoo! Mail et Dropbox :</p>
+</li>
+<li>
+<p>Gmail et Google Drive :</p>
+</li>
+<li>
+<p>Le nouveau Yahoo! Mail :</p>
+</li>
+<li>
+<p>Yahoo! Mail n°1 aux USA :</p>
+</li>
+<li>
+<p>Email en chiffres :</p>
+</li>
+<li>
+<p>Les labels Gmail :</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+          </div>
+          <footer class="post-footer">
+            <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img itemprop="image" src="https://avatars.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <h4 class="post-footer-heading">Written By</h4>
+                <a href="http://mgreau.com/posts/" itemprop="url" class="post-author-name">
+                  <span itemprop="name">Maxime Gréau</span>
+                </a>
+                <p itemprop="description" class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+                  <p class="post-author-location">Nantes, France</p>
+                  <p class="post-author-website">
+                    <a href="http://mgreau.com/posts/" rel="nofollow">http://mgreau.com/posts/</a>
+                  </p>
+                <p class="post-info">
+                  <b class="post-info-title">Published on</b>
+                  <time class="post-date">April 24, 2013</time>
+                </p>
+              </div>
+            </div>
+            <div class="post-social">
+              <h4 class="post-footer-heading">Spread the word</h4>
+              <a href="#" data-action="share-twitter"><i class="fa fa-fw fa-lg fa-twitter"></i></a>
+              <a href="#" data-action="share-facebook"><i class="fa fa-fw fa-lg fa-facebook"></i></a>
+              <a href="#" data-action="share-gplus"><i class="fa fa-fw fa-lg fa-google-plus"></i></a>
+            </div>
+          </footer>
+        </section>
+      <section itemprop="comment" class="post-comments">
+        <div id="disqus_thread"></div>
+      </section>
+    </article>
+
+    <footer role="contentinfo" class="footer">
+      <p><small>Copyright &copy; <span itemprop="copyrightHolder">@mgreau :: Blog</span>. 2016. All Rights Reserved.</small></p>
+      <p><small><a href="http://ghostium.oswaldoacauan.com/" target="_blank">Ghostium Theme</a> by <a href="http://twitter.com/oswaldoacauan" target="_blank">@oswaldoacauan</a></small></p>
+      <p><small>Adapted by <a href="https://twitter.com/mgreau">Maxime Gréau</a></small></p>
+      <p><small>Published with <a href="http://hubpress.io">HubPress</a></small></p>
+    </footer>
+  </div>
+</section>
+
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+  var disqus_shortname = 'mgreau'; // required: replace example with your forum shortname
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();
+      </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1480062943177"></script>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-20147445-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+  </body>
+</html>

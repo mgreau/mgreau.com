@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Java EE 7 et l&#x27;API Java pour WebSocket (JSR 356)</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Java EE 7 et l&#x27;API Java pour WebSocket (JSR 356)">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Java EE 7 et l&#x27;API Java pour WebSocket (JSR 356)">
+    <meta property="og:description" content="">
+
+    <!-- <meta name="twitter:site" content="">
+
+<meta name="twitter:creator" content="">
+
+<meta name="google-site-verification" content="">
+
+<meta property="fb:admins" content="">
+ -->
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link href="//fonts.googleapis.com/" rel="dns-prefetch">
+    <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1469272021164"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1469272021164"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1469272021164"/>
+
+
+
+
+    <script type="text/javascript">
+      var ga_ua = 'UA-XXXXX-X';
+      
+      var disqus_shortname = 'example';
+      
+      var enable_pjax = true;
+
+      // Pace Options
+      // ==============
+      window.paceOptions = {
+        catchupTime: 100,
+        minTime: 100,
+        elements: false,
+        restartOnRequestAfter: 500,
+        startOnPageLoad: false
+      }
+
+      // Ghostium Globals
+      // ==============
+      window.GHOSTIUM = {};
+      GHOSTIUM.haveGA = typeof ga_ua !== 'undefined' && ga_ua !== 'UA-XXXXX-X';
+      GHOSTIUM.haveDisqus = typeof disqus_shortname !== 'undefined' && disqus_shortname !== 'example';
+      GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
+    </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1469272021164"></script>
+
+    <link rel="canonical" href="https://mgreau.github.io/posts/2013/09/27/javaee7-api-websocket-html5.html" />
+    <meta name="referrer" content="origin" />
+    
+    <meta property="og:site_name" content="@mgreau :: Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Java EE 7 et l&#x27;API Java pour WebSocket (JSR 356)" />
+    <meta property="og:description" content="Cet article présente et met en oeuvre à travers un exemple concret et disponible en ligne, une des 4 nouvelles JSRs de Java EE 7, à savoir l&amp;#8217;API Java pour communiquer via le protocole WebSocket (JSR 356), . Après la lecture de cet article, vous devriez être en mesure" />
+    <meta property="og:url" content="https://mgreau.github.io/posts/2013/09/27/javaee7-api-websocket-html5.html" />
+    <meta property="article:tag" content="[FR]" />
+    <meta property="article:tag" content=" Java EE 7" />
+    <meta property="article:tag" content=" Java EE" />
+    <meta property="article:tag" content=" WebSocket" />
+    <meta property="article:tag" content=" HTML5" />
+    <meta property="article:tag" content=" WildFly" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Java EE 7 et l&#x27;API Java pour WebSocket (JSR 356)" />
+    <meta name="twitter:description" content="Cet article présente et met en oeuvre à travers un exemple concret et disponible en ligne, une des 4 nouvelles JSRs de Java EE 7, à savoir l&amp;#8217;API Java pour communiquer via le protocole WebSocket (JSR 356), . Après la lecture de cet article, vous devriez être en mesure" />
+    <meta name="twitter:url" content="https://mgreau.github.io/posts/2013/09/27/javaee7-api-websocket-html5.html" />
+    
+    <script type="application/ld+json">
+null
+    </script>
+
+    <meta name="generator" content="HubPress" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+  </head>
+  <body class="post-template tag-FR tag-Java-EE-7 tag-Java-EE tag-Web-Socket tag-HTM-L tag-Wild-Fly">
+
+    <button data-action="open-drawer" id="drawer-button" class="drawer-button"><i class="fa fa-bars"></i></button>
+    <nav tabindex="-1" class="drawer">
+      <div class="drawer-container">
+        <!--.drawer-search(role="search")-->
+        <ul role="navigation" class="drawer-list">
+          
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" data-pjax>
+              <i class="fa fa-home"></i>Home
+            </a>
+          </li>
+          <!-- <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+              <i class="fa fa-list-alt"></i>All posts
+            </a>
+          </li> -->
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts/rss/">
+              <i class="fa fa-rss"></i>Subscribe to Feed
+            </a>
+          </li>
+          <li class="drawer-list-divider"></li>
+          <li class="drawer-list-item drawer-list-title">
+            Follow me
+          </li>
+          
+          
+          <li class="drawer-list-item">
+            <a href="https://twitter.com/mgreau" title="Twitter" target="_blank">
+              <i class="fa fa-twitter"></i>Twitter
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://github.com/mgreau" title="Github" target="_blank">
+              <i class="fa fa-github"></i>Github
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://plus.google.com/u/0/+maximegreau-aka-mgreau/" title="Google+" target="_blank">
+              <i class="fa fa-google-plus"></i>Google+
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://fr.linkedin.com/pub/maxime-gréau/26/645/994" title="LinkedIn" target="_blank">
+              <i class="fa fa-linkedin"></i>LinkedIn
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="mailto:maxime.greau@gmail.com" title="Email" target="_blank">
+              <i class="fa fa-envelope-o"></i>Email
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="drawer-overlay"></div>
+    <main id="container" role="main" class="container">
+      <div class="surface">
+        <div class="surface-container">
+          <div data-pjax-container class="content">
+            
+<section class="wrapper wrapper-post">
+  <div class="wrapper-container">
+    <article itemscope itemtype="http://schema.org/BlogPosting" role="article" class="post post tag-FR tag-Java-EE-7 tag-Java-EE tag-Web-Socket tag-HTM-L tag-Wild-Fly">
+        <section class="post-container">
+          <header class="post-header">
+            <ul class="post-meta-list">
+              <li class="post-meta-item">
+                <time datetime="2013-09-27" itemprop="datePublished">
+                  3 years ago
+                </time>
+              </li>
+                <li class="post-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/FR/">[FR]</a>, <a href="https://mgreau.github.io/posts/tag/Java-EE-7/"> Java EE 7</a>, <a href="https://mgreau.github.io/posts/tag/Java-EE/"> Java EE</a>, <a href="https://mgreau.github.io/posts/tag/Web-Socket/"> WebSocket</a>, <a href="https://mgreau.github.io/posts/tag/HTM-L/"> HTML5</a>, <a href="https://mgreau.github.io/posts/tag/Wild-Fly/"> WildFly</a></span>
+                  </span>
+                </li>
+              <li class="post-meta-item">
+                <a href="#disqus_thread" data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+            <h1 itemprop="name headline" class="post-title"><a href="/" itemprop="url" data-pjax title="Java EE 7 et l&#x27;API Java pour WebSocket (JSR 356)">Java EE 7 et l&#x27;API Java pour WebSocket (JSR 356)</a></h1>
+            <!--h2 itemprop="about" class="post-subtitle"></h2-->
+          </header>
+          <aside class="post-side">
+            <div class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img src="https://avatars.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <a href="http://mgreau.com/posts/" class="post-author-name">
+                  Maxime Gréau
+                </a>
+                <p class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+              </div>
+            </div>
+          </aside>
+          <div itemprop="articleBody" class="post-body">
+            <div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Cet article présente et met en oeuvre à travers un exemple concret et <a href="http://wildfly-mgreau.rhcloud.com/usopen/">disponible en ligne</a>, une des 4 nouvelles JSRs de <strong><a href="http://jcp.org/en/jsr/detail?id=342">Java EE 7</a></strong>, à savoir <strong><a href="http://jcp.org/en/jsr/detail?id=356">l&#8217;API Java pour communiquer via le protocole WebSocket (JSR 356)</a></strong>, .
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Après la lecture de cet article, vous devriez être en mesure de comprendre la définition de ce qu&#8217;il est possible de faire avec le protocole WebSocket, donnée lors de Devoox UK par <a href="https://twitter.com/arungupta">Arun Gupta</a> :</p>
+</div>
+<div id="think" class="listingblock">
+<div class="content">
+<pre>WebSocket gives you bidirectionnal, full duplex, communication channel over a single TCP.</pre>
+</div>
+</div>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table des matières de l'article</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction_java_ee_7">Introduction à Java EE 7</a></li>
+<li><a href="#_demo_application_html5_jsr_356_api_d_ploy_e_sur_wildfly_8_openshift">DEMO : Application HTML5 / JSR-356 API déployée sur Wildfly 8 (OpenShift)</a></li>
+<li><a href="#_websocket_ws_un_nouveau_protocole_diff_rent_de_http">WebSocket (WS) : un nouveau protocole différent de HTTP</a>
+<ul class="sectlevel2">
+<li><a href="#_handshake">Handshake</a></li>
+<li><a href="#_data_transfer">Data transfer</a></li>
+</ul>
+</li>
+<li><a href="#_websocket_javascript_api_client">WebSocket Javascript API (Client)</a></li>
+<li><a href="#_jsr_386_java_api_pour_websocket">JSR 386 : Java API pour WebSocket</a>
+<ul class="sectlevel2">
+<li><a href="#_websocket_endpoint_serveur">WebSocket Endpoint : Serveur</a></li>
+<li><a href="#_annotations">Annotations</a></li>
+<li><a href="#_encoders_et_decoders">Encoders et Decoders</a></li>
+<li><a href="#_websocket_endpoint_client">WebSocket Endpoint : Client</a></li>
+</ul>
+</li>
+<li><a href="#_application_us_open">Application US OPEN</a>
+<ul class="sectlevel2">
+<li><a href="#_d_pendances_maven_java_ee_7">Dépendances Maven Java EE 7</a></li>
+<li><a href="#_cr_er_le_server_endpoint">Créer le Server Endpoint</a></li>
+<li><a href="#_encoder_et_d_coder_les_messages_chang_s">Encoder et Décoder les messages échangés</a></li>
+<li><a href="#_client_web_html5">Client Web HTML5</a></li>
+<li><a href="#_sources_de_l_exemple_sur_github">Sources de l&#8217;exemple sur Github</a></li>
+<li><a href="#_construire_et_d_ployer_le_war">Construire et Déployer le WAR</a></li>
+</ul>
+</li>
+<li><a href="#_performances_websocket_vs_rest">Performances : WebSocket vs REST</a></li>
+<li><a href="#_r_f_rences_pour_tout_savoir_sur_les_websocket">Références pour tout savoir sur les WebSocket</a></li>
+<li><a href="#_conclusion">Conclusion</a></li>
+</ul>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction_java_ee_7">Introduction à Java EE 7</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La <strong>Plateforme Java Entreprise Edition</strong> est sortie en version 7 (Java EE 7) au mois de Juin 2013.
+Dans la continuité des versions Java EE 5 et Java EE 6, <strong>Java EE 7</strong> propose toujours de simplifier le travail du développeur.
+Cette version agrémente les versions précédentes avec 3 objectifs principaux :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>s&#8217;interfacer avec <strong>HTML5</strong> (WebSocket API, JSON-P API, JAX-RS)</p>
+</li>
+<li>
+<p>avoir une <strong>meilleure productivité</strong> (nouvelles annotations, moins de code inutile, meilleure cohésion entre JSRs)</p>
+</li>
+<li>
+<p>répondre aux <strong>besoins des entreprises</strong> (Batch API, JMS API 2.0)</p>
+</li>
+</ul>
+</div>
+<div id="javaee7_intro" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/posts/javaee7_intro.png" alt="Java EE 7 - Objectifs">
+</div>
+<div class="title">Figure 1. Les 3 objectifs de Java EE 7</div>
+</div>
+<div class="paragraph">
+<p>Java Platform, Entreprise Edition 7 (JSR 342), se résume donc autour de :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>4 nouvelles spécifications : <strong>Java API for WebSocket 1.0</strong>, <strong>Java API for JSON Processing 1.0</strong> , <strong>Batch Applications 1.0</strong> et <strong>Concurrency Utilities for Java EE 1.0</strong></p>
+</li>
+<li>
+<p>3 spécifications avec une mise à jour majeure : <strong>JMS 2.0</strong>, <strong>JAX-RS 2.0</strong> et <strong>EL 3.0</strong></p>
+</li>
+<li>
+<p>ainsi que 7 spécifications mises à jour dans une version mineure : <strong>JPA 2.1</strong>, <strong>Servlet 3.1</strong>, <strong>EJB 3.2</strong>, <strong>CDI 1.1</strong>, <strong>JSF 2.2</strong> et <strong>Bean Validation 1.1</strong></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_demo_application_html5_jsr_356_api_d_ploy_e_sur_wildfly_8_openshift">DEMO : Application HTML5 / JSR-356 API déployée sur Wildfly 8 (OpenShift)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Les plus impatients peuvent accéder à la {link-demo}[démonstration en ligne] du code qui va être, en partie, expliqué dans cet article.
+Il s&#8217;agit d&#8217;une application qui permet :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>de suivre un match de Tennis en Live (Finale de l&#8217;US Open 20013) sans aucune action autre que la connexion à l&#8217;URL</p>
+</li>
+<li>
+<p>de parier sur le vainqueur du match</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Vous allez me dire : "Rien d&#8217;extraordinaire !", et vous aurez raison.</p>
+</div>
+<div class="paragraph">
+<p>A première vue, ce sont des choses que nous connaissons déjà sur beaucoup d&#8217;applications aujourd&#8217;hui, mais celle-ci est intéressante techniquement car comme vous le verrez au cours de l&#8217;article, tout est basé sur du <strong>standard autour du nouveau protocole WebSocket (ws:// ou wss://)</strong> et non sur du "hacking" de protocole HTTP.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Les technologies utilisées pour le developpement de cette application sont :</div>
+<div class="ulist">
+<ul>
+<li>
+<p>côté client : HTML5, CSS, Javascript (WebSocket API) avec 'Bootstrap CSS mais sans JQuery ou BootstrapJS'</p>
+</li>
+<li>
+<p>côte serveur : Java API for WebSocket, EJB, JSON-P</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="websocket_example" class="imageblock">
+<div class="content">
+<a class="image" href="http://wildfly-mgreau.rhcloud.com/usopen/"><img src="https://mgreau.github.io/posts/images/posts/websocket_example.png" alt="Mise en oeuvre des WebSocket (Java API et Javascript API)"></a>
+</div>
+<div class="title">Figure 2. Mise en oeuvre des WebSocket (Java API et Javascript API)</div>
+</div>
+<div class="paragraph">
+<p>Non cette démonstration n&#8217;est <strong>pas une application de chat :)</strong>
+Il est évident que la démo "chat" est celle qui vient en premier à l&#8217;esprit pour illustrer l&#8217;utilisation de la technologie WebSocket. Néanmoins, il existe beaucoup d&#8217;autres cas d&#8217;utilisation, comme par exemple le travail collaboratif sur un document texte en ligne. Ou encore les jeux en ligne comme le jeu d'échec présenté lors de la <a href="https://blogs.oracle.com/javaone/entry/the_javaone_2013_technical_keynote">keynote de JavaOne 2013</a>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>'Cette application est disponible sur le Cloud grâce à <a href="https://www.openshift.com/">OpenShift</a>, la solution Cloud de RedHat. Elle est déployée sur le serveur d&#8217;applications Wildfly 8.0.0-Beta3 (normalement certifié Java EE 7 fin 2013). Pour mettre en place un serveur de ce type, il suffit de suivre <a href="https://www.openshift.com/blogs/deploy-websocket-web-applications-with-jboss-wildfly">le post de Shekhar Gulati</a>'</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_websocket_ws_un_nouveau_protocole_diff_rent_de_http">WebSocket (WS) : un nouveau protocole différent de HTTP</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="http://tools.ietf.org/html/rfc2616">HTTP</a> est le protocole standard utilisé pour le Web, il est très efficace pour certains cas d&#8217;utilisation mais il dispose néanmoins de <strong>quelques inconvénients</strong> dans le cas <strong>d&#8217;applications Web intéractives</strong> :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>half-duplex</strong> : basé sur le pattern request/response, le client envoi une requête puis le serveur réalise un traitement avant de renvoyer une réponse, le client est donc contraint d&#8217;attendre une réponse du serveur</p>
+</li>
+<li>
+<p><strong>verbose</strong> : beaucoup d&#8217;informations sont présentes avec les headers HTTP associés au message, aussi bien dans la requête HTTP que dans la réponse HTTP</p>
+</li>
+<li>
+<p>pour faire du <strong>server push</strong>, il est nécessaire d&#8217;utiliser des méthodes de contournement (polling, long polling, Comet/Ajax) car il n&#8217;existe pas de standard.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Ce protocole n&#8217;est donc pas optimisé pour scaler sur des applications qui ont d&#8217;important besoins de communication temps réel bi-directionnelle. C&#8217;est pourquoi le <strong>nouveau protocole WebSocket</strong> propose des fonctionnalités plus évoluées que HTTP, puisqu&#8217;il est :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>basé sur <strong>1 unique connexion TCP entre 2 peers</strong> (en HTTP chaque requête/réponse necessite une nouvelle connexion TCP)</p>
+</li>
+<li>
+<p><strong>bi-directionnel</strong> : le client peut envoyer un message au serveur et le serveur peut envoyer un message au client</p>
+</li>
+<li>
+<p><strong>full-duplex</strong> : le client peut envoyer plusieurs messages vers le serveur et le serveur vers le client sans attendre de réponse l&#8217;un de l&#8217;autre</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>'Le terme <strong>client</strong> est utilisé uniquement pour définir celui qui va initialiser la connexion. Dès lors que la connexion est établie, le client et le serveur deviennent tous les deux des <strong>peers</strong>, avec les mêmes pouvoirs l&#8217;un par rapport à l&#8217;autre.'</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Le protocole WebSocket devait à l&#8217;origine faire partie de la spécification HTML5 mais comme celle-ci sortira officiellement en 2014, il est finalement défini, au même titre que HTTP, par une spécification IETF, <a href="http://tools.ietf.org/html/rfc6455">la RFC 6455</a>.</p>
+</div>
+<div class="paragraph">
+<p>Comme le montre le schéma ci-après, le <strong>protocole WebSocket fonctionne en 2 phases</strong> nommées :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>handshake</strong></p>
+</li>
+<li>
+<p><strong>data transfer</strong></p>
+</li>
+</ol>
+</div>
+<div id="websocket_protocol" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/posts/WebSocket_Protocol.png" alt="Schéma d'explications du protocole WebSocket" width="550">
+</div>
+<div class="title">Figure 3. Explication du protocole WebSocket</div>
+</div>
+<div class="sect2">
+<h3 id="_handshake">Handshake</h3>
+<div class="paragraph">
+<p>La phase nommée <strong>Handshake</strong> correspond à un <strong>unique échange requête/réponse HTTP</strong> entre l&#8217;initiateur de la connexion (peer client)  et le peer serveur. Cet échange HTTP est spécifique car il utilise la notion <a href="http://tools.ietf.org/html/rfc2616#section-14.42"><strong>d&#8217;Upgrade, définie dans la spécification HTTP</strong>.</a><br>
+Le principe est simple : <strong>l&#8217;Upgrade HTTP</strong> permet au client de communiquer avec le serveur pour lui demander de changer de protocole de communication et ainsi faire en sorte que le client et le serveur utilisent un protocole autre que HTTP pour discuter.</p>
+</div>
+<div id="eg1-callouts" class="exampleblock">
+<div class="title">Example 1. Exemple de Requête HTTP Handshake</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">GET /usopen/matches/1234 HTTP/1.1     <i class="conum" data-value="1"></i><b>(1)</b>
+Host: wildfly-mgreau.rhcloud.com:8000  <i class="conum" data-value="2"></i><b>(2)</b>
+Upgrade: websocket  <i class="conum" data-value="3"></i><b>(3)</b>
+Connection: Upgrade <i class="conum" data-value="4"></i><b>(4)</b>
+Origin: http://wildfly-mgreau.rhcloud.com
+Sec-WebSocket-Key:0EK7XmpTZL341oOh7x1cDw==
+Sec-WebSocket-Version:13</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Methode HTTP GET et version 1.1 obligatoires</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Host utilisé pour la connexion WebSocket</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Demande d&#8217;Upgrade vers le protocole WebSocket</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Demande d&#8217;Upgrade HTTP pour changer de protocole</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="eg2-callouts" class="exampleblock">
+<div class="title">Example 2. Exemple de Réponse HTTP Handshake</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">HTTP/1.1 101 Switching Protocols <i class="conum" data-value="1"></i><b>(1)</b>
+Connection:Upgrade
+Sec-WebSocket-Accept:SuQ5/hh0kStSr6oIzDG6gRfTx2I=
+Upgrade:websocket <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Code HTTP 101, le serveur est compatible et accepte le changement de protocole</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>L&#8217;upgrade vers le protocole WebSocket est accepté</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>'Lorsque la demande d&#8217;upgrade du protocole HTTP vers le protocole Web Socket a été validée par le serveur endpoint, il n&#8217;y a plus de communication possible en HTTP, tous les échanges sont réalisés via le protocole WebSocket.'</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data_transfer">Data transfer</h3>
+<div class="paragraph">
+<p>Une fois que le <strong>handshake</strong> est acceptée, la mise en place du protocole WebSocket est donc acquise. Une connexion côté 'peer server' est ouverte ainsi que côté 'peer client', une gestion de callback est activée pour initier la communication.<br>
+La phase de <strong>Data transfer</strong> peut alors entrer en jeu, c&#8217;est-à-dire que les 2 peers peuvent désormais <strong>s'échanger des messages dans une communication bi-directionnelle et full-duplex</strong>.<br></p>
+</div>
+<div class="paragraph">
+<p>Comme le montre le schéma de la <strong>Figure 3</strong>, le peer server peut envoyer plusieurs messages (dans l&#8217;exemple : 1 message à chaque point du match) sans aucune réponse du peer client qui, lui, peut également envoyer des messages à n&#8217;importe quel moment (dans l&#8217;exemple : le pari sur le vainqueur du match).
+Chaque peer peut envoyer un message spécifique afin de clôturer la connexion.<br></p>
+</div>
+<div class="paragraph">
+<p>Dans Java EE7, le code côté peer server est en <strong>Java</strong> alors que le code côté peer client est en <strong>Java ou en Javascript</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_websocket_javascript_api_client">WebSocket Javascript API (Client)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Pour communiquer à partir d&#8217;une application Web avec un serveur en utilisant le protocole WebSocket, il est nécessaire d&#8217;utiliser <strong>une API cliente en Javascript</strong>. C&#8217;est le W3C qui définit cette API.<br>
+La spécification W3C de cette <a href="http://w3.org/TR/websockets/">API Javascript pour WebSocket</a> est en cours de finalisation. <a href="http://www.w3.org/TR/websockets/#websocket">L&#8217;interface WebSocket</a> propose, entre-autres, les éléments suivants :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>un attribut pour l&#8217;URL de connexion au server Endpoint (url)</p>
+</li>
+<li>
+<p>un attribut sur l'état de la connexion (readyState : CONNECTING, OPEN, CLOSING, CLOSED)</p>
+</li>
+<li>
+<p>des <strong>Event-Handler (gestionnaire d'évènement)</strong> pour s&#8217;adapter aux méthodes du cycle de vie des WebSocket, par exemple :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>l&#8217;Event-Handler onopen est appelé lorsqu&#8217;une nouvelle connexion est initiée</p>
+</li>
+<li>
+<p>l&#8217;Event-Handler onerror est appelé lorsqu&#8217;une erreur est reçue pendant la communication</p>
+</li>
+<li>
+<p>l&#8217;Event-Handler onmessage est appelé lorsqu&#8217;un message est reçu</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>les méthodes (send(DOMString data), send(Blob data)) avec lesquelles il est possible d&#8217;envoyer différents types de flux (texte, binaire) vers le serveur Endpoint</p>
+</li>
+</ul>
+</div>
+<div id="eg3-callouts" class="exampleblock">
+<div class="title">Example 3. Exemple de code Javascript, issue de <a href="http://websocket.org" class="bare">http://websocket.org</a></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">var wsUri = "ws://echo.websocket.org/";
+
+function testWebSocket() {
+
+	websocket = new WebSocket(wsUri);
+	websocket.onopen = function(evt) { onOpen(evt) };
+	websocket.onclose = function(evt) { onClose(evt) };
+	websocket.onmessage = function(evt) { onMessage(evt) };
+	websocket.onerror = function(evt) { onError(evt) }; }
+}
+
+function onOpen(evt) {
+	writeToScreen("CONNECTED");
+	doSend("WebSocket rocks");
+}
+function onClose(evt) {
+	writeToScreen("DISCONNECTED");
+}
+function onMessage(evt) {
+	writeToScreen('&lt;span style="color: blue;"&gt;RESPONSE: ' + evt.data+'&lt;/span&gt;');
+	websocket.close();
+}
+
+function onError(evt) {
+	writeToScreen('&lt;span style="color: red;"&gt;ERROR:&lt;/span&gt; ' + evt.data);
+}
+function doSend(message) {
+	writeToScreen("SENT: " + message);
+	websocket.send(message);
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_jsr_386_java_api_pour_websocket">JSR 386 : Java API pour WebSocket</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Le W3C définit donc comment utiliser WebSocket en Javascript, le <strong>Java Communitee Process (JCP)</strong> fait de même pour le monde Java via la JSR 386 .<br>
+La JSR 356 définit ainsi une <a href="http://jcp.org/en/jsr/detail?id=356">API Java pour WebSocket</a> qui propose :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>la création d&#8217;un *WebSocket Endpoint* (serveur ou client), nom donné au composant Java capable de communiquer via le protocole WebSocket</p>
+</li>
+<li>
+<p>la possibilité d&#8217;utiliser l&#8217;approche par <strong>annotation Java</strong> ou par programmation</p>
+</li>
+<li>
+<p>la possibilité <strong>d&#8217;envoyer et de consommer des messages</strong> de contrôles, textuels ou binaires via ce protocole</p>
+<div class="ulist">
+<ul>
+<li>
+<p>de gérer le message en tant que message complet ou par une séquence de messages partiels</p>
+</li>
+<li>
+<p>envoyer ou recevoir les messages en tant qu&#8217;objets Java (notion d'<strong>encoders/decoders</strong>)</p>
+</li>
+<li>
+<p>envoyer les messages <strong>en synchrone ou en asynchrone</strong></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>la configuration et la <strong>gestion des sessions WebSocket</strong> (timeout, cookies&#8230;&#8203;)</p>
+</li>
+<li>
+<p>une intégration dans <strong>Java EE Web Profile</strong></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+'L&#8217;implémentation de référence Java pour l&#8217;API WebSocket est <a href="https://tyrus.java.net/">le projet Tyrus</a>'
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_websocket_endpoint_serveur">WebSocket Endpoint : Serveur</h3>
+<div class="paragraph">
+<p>La transformation d&#8217;un Plain Old Java Object (POJO) vers un <strong>WebSocket Endpoint</strong> de type serveur (c&#8217;est-à-dire capable de gérer des requêtes de plusieurs clients sur une même URI) est <strong>extrêment simple</strong>, puisqu&#8217;il suffit d&#8217;annoter la classe avec <strong>@ServerEndpoint</strong> et une méthode du POJO avec <strong>@OnMessage</strong> :</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import javax.websocket.OnMessage;
+import javax.websocket.ServerEndpoint;
+
+@ServerEndpoint("/echo") <i class="conum" data-value="1"></i><b>(1)</b>
+public class EchoServer {
+
+	@OnMessage <i class="conum" data-value="2"></i><b>(2)</b>
+	public String handleMessage(String message){
+		return "Thanks for the message: " + message;
+	}
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>L&#8217;annotation @ServerEndpoint transforme le POJO en WebSocket Endpoint, l&#8217;attribut <strong>value</strong> est obligatoire afin de préciser l&#8217;URI d&#8217;accès à cet Endpoint</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>la méthode handleMessage sera évoquée lors de chaque message reçu</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_annotations">Annotations</h3>
+<div class="paragraph">
+<p>L&#8217;API met à disposition plusieurs types d&#8217;annotations afin d'être entièrement compatible avec le procotole WebSocket :</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Annotation</th>
+<th class="tableblock halign-left valign-top">Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@ServerEndpoint</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Déclare un Server Endpoint</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@ClientEndpoint</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Déclare un Client Endpoint</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@OnOpen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Défini la méthode appelée pour gérer l'évenement d&#8217;ouverture de la connexion</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@OnMessage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Défini la méthode appelée pour gérer l'évenement de réception d&#8217;un message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@OnError</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Défini la méthode appelée pour gérer l'évenement lors d&#8217;une erreur</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@OnClose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Défini la méthode appelée pour gérer l'évenement de clôture de la connexion</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Les attributs de l&#8217;annotation @ServerEndpoint sont les suivants :</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">value</dt>
+<dd>
+<p>URI relative ou URI template (ex: "/echo", "/chat/{subscriver-level}")</p>
+</dd>
+<dt class="hdlist1">decoders</dt>
+<dd>
+<p>liste de noms de classes utilisées pour décoder les messages entrants</p>
+</dd>
+<dt class="hdlist1">encoders</dt>
+<dd>
+<p>liste de noms de classes utilisées pour encoder les messages sortants</p>
+</dd>
+<dt class="hdlist1">subprotocols</dt>
+<dd>
+<p>liste de sous-protocoles autorisés (ex: <a href="http://wamp.ws" class="bare">http://wamp.ws</a>)</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_encoders_et_decoders">Encoders et Decoders</h3>
+<div class="paragraph">
+<p>Comme il a été décrit plus tôt dans cet article, le serveur Endpoint peut recevoir différents types de contenu dans les messages : des données au format texte (JSON, XML&#8230;&#8203;) ou au format binaire.<br>
+Afin de gérer efficacement les messages provenant des 'peers client' ou à destination de ceux-ci dans le code métier de l&#8217;application, il est possible de créer des classes Java de type <strong>Decoders et Encoders</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Quelque soit l&#8217;algorithme de transformation, il va alors être possible de transformer  :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>le POJO métier vers un flux au format désiré pour l&#8217;envoi (JSON, XML, Binaire&#8230;&#8203;)</p>
+</li>
+<li>
+<p>les flux entrants dans format spécifique (JSON, XML..) vers le POJO métier</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Ainsi, le code de l&#8217;application est organisé de telle façon que la logique métier n&#8217;est pas impactée par le type et le format de flux échangés entre le 'peer serveur' et les 'peers clients'.
+Un exemple concret est présenté dans la suite de l&#8217;article.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_websocket_endpoint_client">WebSocket Endpoint : Client</h3>
+<div class="paragraph">
+<p>L&#8217;API propose donc également le support pour créer des Endpoints côté client en Java.</p>
+</div>
+<div id="eg4-callouts" class="exampleblock">
+<div class="title">Example 4. Exemple de Client Endpoint en Java</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@ClientEndpoint
+public class HelloClient {
+
+	@OnMessage
+	public String message(String message){
+		// traitement
+	}
+}
+
+WebSocketContainer c = ContainerProvider.getWebSocketContainer();
+c.connectToServer(HelloClient.class, "hello");</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_application_us_open">Application US OPEN</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>L&#8217;application exemple est déployée sous forme de WAR issue d&#8217;un projet Apache Maven.
+Outre la gestion classique du cycle de vie WebSocket, le workflow d&#8217;envoi de messages est le suivant :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>à chaque point du match, les 'peers clients' recoivent les données du match (score, service&#8230;&#8203;)</p>
+</li>
+<li>
+<p>le 'peer client' peut envoyer un message pour parier sur le gagnant du match</p>
+</li>
+<li>
+<p>à la fin du match, les 'peers clients' reçoivent un message contenant le nom du vainqueur</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Tous les messages sont échangés au format JSON.</strong><br></p>
+</div>
+<div class="paragraph">
+<p>L&#8217;arborescence du projet est la suivante :</p>
+</div>
+<div id="eg5-callouts" class="exampleblock">
+<div class="title">Example 5. Structure du projet Maven</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">+ src/main/java
+   |+ com.mgreau.wildfly.websocket
+      |+ decoders
+         |- MessageDecoder.java   <i class="conum" data-value="1"></i><b>(1)</b>
+      |+ encoders       <i class="conum" data-value="2"></i><b>(2)</b>
+         |- BetMessageEncoder.java
+         |- MatchMessageEncoder.java
+      |+ messages       <i class="conum" data-value="3"></i><b>(3)</b>
+         |- BetMessage.java
+         |- MatchMessage.java
+         |- Message.java
+      |- MatchEndpoint.java    <i class="conum" data-value="4"></i><b>(4)</b>
+      |- StarterService.java   <i class="conum" data-value="5"></i><b>(5)</b>
+      |- TennisMatch.java      <i class="conum" data-value="6"></i><b>(6)</b>
++ src/main/resources
++ scr/main/webapp
+   |+ css
+   |+ images
+   |- index.html
+   |- websocket.js  <i class="conum" data-value="7"></i><b>(7)</b>
+pom.xml</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Decode le message JSON provenant du 'peer client' concernant le pari sur le vainqueur en POJO ('BetMessage')</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Encode à destination des 'peers clients', en JSON (via JSON-P), les messages contenant le détail du match et le résultat du pari sur le vainqueur</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>POJOs représentant les types de messages échangés entre peers</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>WebSocket Server Endpoint de l&#8217;application ('peer server')</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>EJB @Startup permettant d&#8217;initialiser l&#8217;application lors du déploiement</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>POJO pour gérer les informations du match</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Fichier Javascript pour la communication WebSocket du 'peer client' via l&#8217;API Javascript</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_d_pendances_maven_java_ee_7">Dépendances Maven Java EE 7</h3>
+<div id="eg6-callouts" class="exampleblock">
+<div class="title">Example 6. pom.xml</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;project&gt;
+...
+&lt;properties&gt;
+	&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+	&lt;!-- Java EE 7 --&gt;
+	&lt;javaee.api.version&gt;7.0&lt;/javaee.api.version&gt;
+&lt;/properties
+
+&lt;dependencies&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;javax&lt;/groupId&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+		&lt;artifactId&gt;javaee-api&lt;/artifactId&gt;
+		&lt;version&gt;${javaee.api.version}&lt;/version&gt;
+		&lt;scope&gt;provided&lt;/scope&gt;
+	&lt;/dependency&gt;
+&lt;/dependencies&gt;
+...
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>il est important d&#8217;utiliser les dépendances de la spécification Java EE 7 afin de pouvoir déployer l&#8217;application dans plusieurs serveurs d&#8217;applications Java EE sans changement de code (Wildfly, Glassfish&#8230;&#8203;)</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cr_er_le_server_endpoint">Créer le Server Endpoint</h3>
+<div class="paragraph">
+<p>Cet Endpoint permet de recevoir les messages concernant les paris sur le vainqueur du match et également d&#8217;envoyer aux 'peers clients' les informations du déroulement du match.</p>
+</div>
+<div id="eg7-callouts" class="exampleblock">
+<div class="title">Example 7. Server Endpoint : MatchEndpoint.java</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@ServerEndpoint(
+		value = "/matches/{match-id}",  <i class="conum" data-value="1"></i><b>(1)</b>
+		        decoders = { MessageDecoder.class }, <i class="conum" data-value="2"></i><b>(2)</b>
+		        encoders = { MatchMessageEncoder.class, BetMessageEncoder.class } <i class="conum" data-value="3"></i><b>(3)</b>
+		)
+public class MatchEndpoint {
+
+	private static final Logger logger = Logger.getLogger("MatchEndpoint");
+
+	/* Queue for all open WebSocket sessions */
+	static Queue&lt;Session&gt; queue = new ConcurrentLinkedQueue&lt;&gt;();
+
+	@OnOpen
+	public void openConnection(Session session,
+				@PathParam("match-id") String matchId) {	<i class="conum" data-value="4"></i><b>(4)</b>
+	    /* Register this connection in the queue */
+	    queue.add(session);
+	    session.getUserProperties().put(matchId, true);
+	    logger.log(Level.INFO, "Connection opened for game : " + matchId);
+	}
+
+	public static void send(MatchMessage msg, String matchId) {
+	  try {
+	    /* Send updates to all open WebSocket sessions for this match */
+	    for (Session session : queue) {
+    	  if (Boolean.TRUE.equals(session.getUserProperties().get(matchId))){
+	        if (session.isOpen()){
+		      session.getBasicRemote().sendObject(msg);	<i class="conum" data-value="5"></i><b>(5)</b>
+		      logger.log(Level.INFO, "Score Sent: {0}", msg);
+	        }
+    	  }
+	    }
+	  } catch (IOException | EncodeException e) {
+	    logger.log(Level.INFO, e.toString());
+	  }
+	}
+
+	@OnMessage
+	public void message(final Session session, BetMessage msg) {	<i class="conum" data-value="6"></i><b>(6)</b>
+	    logger.log(Level.INFO, "Received: Bet Match Winner - {0}", msg.getWinner());
+	    session.getUserProperties().put("betMatchWinner", msg);
+	}
+...
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>URI pour accéder à cet Endpoint, comme le context-root de l&#8217;application est '/usopen', un exemple d&#8217;URL est ws://&lt;host&gt;:&lt;port&gt;/usopen/matches/1234</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>la classe 'MessageDecoder' permet de transformer le flux JSON entrant pour le pari sur le vainqueur en POJO 'BetMessage'</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>les 2 encodeurs permettent de transformer les POJO 'MatchMessage' et 'BetMessage' en flux JSON</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>l&#8217;annotation @PathParam permet ici d&#8217;extraire l'élément de la requête WS et de passer la valeur (identifiant du match) en paramètre de la méthode, il est ainsi possible de gérer plusieurs matchs avec des clients différents pour chaque match.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Envoi du message concernant le match aux peers connectés, grâce à l''Encoder' il suffit de passer en paramètre un objet 'MatchMessage'</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Gestion de la réception des messages de pari sur le vainqueur du match, grâce au 'Decoder' la méthode prend en paramètre un objet 'BetMessage'</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_encoder_et_d_coder_les_messages_chang_s">Encoder et Décoder les messages échangés</h3>
+<div class="paragraph">
+<p>Pour encoder ou décoder les messages échangés entre peers, il suffit d&#8217;implémenter l&#8217;interface adéquate selon le type de message (Texte, Binaire) et le sens de traitement (encodage, décodage), puis de redéfinir la méthode associée.<br>
+Dans l&#8217;exemple ci-dessous, il s&#8217;agit de l&#8217;encodeur pour le POJO MatchMessage vers le format JSON. L&#8217;API utilisée pour réaliser ce traitement est une des nouvelles API de Java EE 7 : <a href="http://jcp.org/en/jsr/detail?id=353">Java API for JSON Processiong (JSON-P)</a></p>
+</div>
+<div id="eg8-callouts" class="exampleblock">
+<div class="title">Example 8. src/main/java/com/mgreau/wildfly/websocket/encoders/MatchMessageEncoder.java</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class MatchMessageEncoder implements Encoder.Text&lt;MatchMessage&gt; {
+
+	@Override
+	public String encode(MatchMessage m) throws EncodeException {
+		StringWriter swriter = new StringWriter();
+		try (JsonWriter jsonWrite = Json.createWriter(swriter)) {
+			JsonObjectBuilder builder = Json.createObjectBuilder();
+			builder.add(
+				"match",
+				Json.createObjectBuilder()
+					.add("serve", m.getMatch().getServe())
+					.add("title", m.getMatch().getTitle())
+					...
+			}
+
+			jsonWrite.writeObject(builder.build());
+		}
+		return swriter.toString();
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_client_web_html5">Client Web HTML5</h3>
+<div class="paragraph">
+<p>L&#8217;unique page HTML de cette application charge le fichier <strong>websocket.js</strong> pour mettre en oeuvre l&#8217;API Javascript WebSocket et ainsi intéragir avec le Server Endpoint Java.</p>
+</div>
+<div id="eg9-callouts" class="exampleblock">
+<div class="title">Example 9. API Javascript : websocket.js</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-javascript" data-lang="javascript">var wsUrl;
+if (window.location.protocol == 'https:') {  <i class="conum" data-value="1"></i><b>(1)</b>
+	wsUrl = 'wss://' + window.location.host + ':8443/usopen/matches/1234';
+} else {
+	wsUrl = 'ws://' + window.location.host + ':8000/usopen/matches/1234';
+}
+
+function createWebSocket(host) {
+	if (!window.WebSocket) {    <i class="conum" data-value="2"></i><b>(2)</b>
+	...
+	} else {
+		socket = new WebSocket(host);   <i class="conum" data-value="3"></i><b>(3)</b>
+		socket.onopen = function() {
+			document.getElementById("m1-status").innerHTML = 'CONNECTED...';
+		};
+		socket.onclose = function() {
+			document.getElementById("m1-status").innerHTML = 'FINISHED';
+		};
+		...
+		socket.onmessage = function(msg) {
+			try {
+				console.log(data);
+				var obj = JSON.parse(msg.data);     <i class="conum" data-value="4"></i><b>(4)</b>
+				if (obj.hasOwnProperty("match")){   <i class="conum" data-value="5"></i><b>(5)</b>
+					//title
+					m1title.innerHTML = obj.match.title;
+					// comments
+					m1comments.value = obj.match.comments;
+					// serve
+					if (obj.match.serve === "player1") {
+						m1p1serve.innerHTML = "S";
+						m1p2serve.innerHTML = "";
+					} else {
+						m1p1serve.innerHTML = "";
+						m1p2serve.innerHTML = "S";
+					}
+					..
+				}
+				...
+			} catch (exception) {
+				data = msg.data;
+				console.log(data);
+			}
+		}
+	}
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Choix du protocole WS selon le type de protocole HTTP utilisé (sécurisé ou non)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Test du support par le navigateur de l&#8217;API WebSocket</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Création du WebSocket</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Sur l&#8217;Event-Handler onmessage , traitement du flux JSON reçu via le 'peer serveur'</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Test du type d&#8217;objet reçu (Match ou Pari) afin de réaliser le traitement adéquat avec le DOM</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Pour savoir quels sont les <strong>navigateurs compatibles avec l&#8217;API WebSocket</strong>, <a href="http://caniuse.com/#search=websocket">consultez le site caniuse.com</a>. Aujourd&#8217;hui, les dernières versions des navigateurs sont compatibles exceptées pour Opéra mini et Android Browser, qui représentent, à eux deux, seulement 3% du traffic web.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sources_de_l_exemple_sur_github">Sources de l&#8217;exemple sur Github</h3>
+<div class="paragraph">
+<p>Vous pouvez <strong>forker le code sur Github</strong> à l&#8217;URL *https://github.com/mgreau/javaee7-websocket*</p>
+</div>
+<div class="paragraph">
+<p>Cette application exemple est très basique, les idées d&#8217;améliorations possibles sont nombreuses : gérer un tournoi avec plusieurs matchs, parier sur d&#8217;autres critères, voir en live les paris des autres internautes&#8230;&#8203;</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>'Une feature, qui serait particulièrement intéressante techniquement, serait de créer un nouveau type de pari sur <strong>la zone de terrain des points gagnants</strong>. Il suffit de dessiner le terrain grâce à l&#8217;API HTML5 Canvas et de gérer les coordonnées de l&#8217;emplacement cliqué par l&#8217;internaute (comme zone gagnante) puis de les comparer aux coordonnées réelles lors d&#8217;un point gagnant.'</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_construire_et_d_ployer_le_war">Construire et Déployer le WAR</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Pré-requis :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>JDK 7</p>
+</li>
+<li>
+<p>Apache Maven 3.0.4+</p>
+</li>
+<li>
+<p>Serveur d&#8217;applications Java EE 7 : Wildfly 8 ou Glassfish 4</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Pour créer l&#8217;archive WAR, il suffit d&#8217;executer la commande Apache Maven ci-dessous ;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">mvn clean package</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Si vous utilisez Wildfly, le déploiement est automatique (le serveur doit être démarré) avec la commande ci-dessous :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">mvn jboss-as:deploy</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il suffit ensuite d&#8217;accéder à l&#8217;URL : <a href="http://localhost:8080/usopen/" class="bare">http://localhost:8080/usopen/</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_performances_websocket_vs_rest">Performances : WebSocket vs REST</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Afin d&#8217;avoir des métriques concernant les performances de ce nouveau protocole, Arun Gupta a developpé <a href="https://github.com/arun-gupta/javaee7-samples/tree/master/websocket/websocket-vs-rest">une application qui permet de comparer les temps d&#8217;execution</a> d&#8217;un même traitement réalisé avec du code développé en utilisant les technologies WebSocket et REST.</p>
+</div>
+<div class="paragraph">
+<p>Les 2 endpoints de l&#8217;application (REST Endpoint et WebSocket Endpoint) ne font que renvoyer le flux qu&#8217;ils recoivent. L&#8217;interface Web de cette application permet de définir la taille du message et le nombre de fois que ce message doit être envoyé avant la fin du test.</p>
+</div>
+<div class="paragraph">
+<p>Les résultats de ses tests, présentés ci-dessous, sont éloquents :</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Type de Requête</th>
+<th class="tableblock halign-left valign-top">Temps execution<br>
+<strong>REST Endpoint</strong></th>
+<th class="tableblock halign-left valign-top">Temps execution<br>
+<strong>WebSocket Endpoint</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Envoi de 10 messages de 1 byte</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">220 ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7 ms</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Envoi de 100 messages de 10 bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">986 ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">57 ms</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Envoi de 1000 messages de 100 bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10 210 ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">179 ms</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Envoi de 5000 messages de 1000 bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">54 449 ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1202 ms</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_r_f_rences_pour_tout_savoir_sur_les_websocket">Références pour tout savoir sur les WebSocket</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Je vous recommande plus particulièrement les conférences d' <a href="https://twitter.com/arungupta">Arun Gupta</a>, qui vous permettent, en moins d'1 heure, de tout connaître/comprendre sur la technologie WebSocket en général et sur l&#8217;API Java en particulier.<br>
+Pour des informations plus avancées, l&#8217;idéal reste les spécifications IETF, W3C et Java.</p>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a href="http://tools.ietf.org/html/rfc6455">RFC 6455: The WebSocket Protocol</a> - 'Spécification IETF'</p>
+</li>
+<li>
+<p><a href="http://w3.org/TR/websockets/">W3C: The WebSocket API</a> - 'Spécification W3C' (Candidate Recommandation)</p>
+</li>
+<li>
+<p><a href="http://jcp.org/en/jsr/detail?id=356">JSR 356: Java API for WebSocket Protocol</a> - 'Spécification Java'</p>
+</li>
+<li>
+<p><a href="https://glassfish.java.net/adoptajsr/jsr356.html">Adopt a JSR - JSR 356</a></p>
+</li>
+<li>
+<p><a href="http://www.youtube.com/watch?v=QqbuDFIT5To">Java EE 7 &amp; WebSocket API</a> - 'Conférence Arun Gupta SF' (à partir de la 46e minute)</p>
+</li>
+<li>
+<p><a href="http://www.parleys.com/play/51c1cceae4b0ed8770356828/chapter4/about">Getting Started with WebSocket and SSE</a> - 'Conférence Arun Gupta Devoxx UK 2013'</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>'Cet article a été structuré en se basant sur la conférence Devoxx UK 2013.'</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion">Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cet article a introduit, grâce à un exemple concret, <strong>le protocole WebSocket, l&#8217;API WebSocket HTML5 et l&#8217;API Java pour les WebSocket sortie avec Java EE 7</strong>. Il était déjà possible d&#8217;utiliser les WebSocket en Java grâce à des frameworks comme Atmosphere mais il manquait un standard.<br>
+Aujourd&#8217;hui tous <strong>les standards sont finalisés ou en passe de l'être</strong>, cette nouvelle technologie répond à un besoin précis et est prometteuse en terme de performance. Pour qu&#8217;elle soit massivement utilisée, il faudra tout de même que ce protocole soit autorisée dans les entreprises là où bien souvent seul le protocole HTTP est disponible.</p>
+</div>
+</div>
+</div>
+          </div>
+          <footer class="post-footer">
+            <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img itemprop="image" src="https://avatars.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <h4 class="post-footer-heading">Written By</h4>
+                <a href="http://mgreau.com/posts/" itemprop="url" class="post-author-name">
+                  <span itemprop="name">Maxime Gréau</span>
+                </a>
+                <p itemprop="description" class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+                  <p class="post-author-location">Nantes, France</p>
+                  <p class="post-author-website">
+                    <a href="http://mgreau.com/posts/" rel="nofollow">http://mgreau.com/posts/</a>
+                  </p>
+                <p class="post-info">
+                  <b class="post-info-title">Published on</b>
+                  <time class="post-date">September 27, 2013</time>
+                </p>
+              </div>
+            </div>
+            <div class="post-social">
+              <h4 class="post-footer-heading">Spread the word</h4>
+              <a href="#" data-action="share-twitter"><i class="fa fa-fw fa-lg fa-twitter"></i></a>
+              <a href="#" data-action="share-facebook"><i class="fa fa-fw fa-lg fa-facebook"></i></a>
+              <a href="#" data-action="share-gplus"><i class="fa fa-fw fa-lg fa-google-plus"></i></a>
+            </div>
+          </footer>
+        </section>
+      <section itemprop="comment" class="post-comments">
+        <div id="disqus_thread"></div>
+      </section>
+    </article>
+
+    <footer role="contentinfo" class="footer">
+      <p><small>Copyright &copy; <span itemprop="copyrightHolder">@mgreau :: Blog</span>. 2016. All Rights Reserved.</small></p>
+      <p><small><a href="http://ghostium.oswaldoacauan.com/" target="_blank">Ghostium Theme</a> by <a href="http://twitter.com/oswaldoacauan" target="_blank">@oswaldoacauan</a></small></p>
+      <p><small>Adapted by <a href="https://twitter.com/mgreau">Maxime Gréau</a></small></p>
+      <p><small>Published with <a href="http://hubpress.io">HubPress</a></small></p>
+    </footer>
+  </div>
+</section>
+
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+  var disqus_shortname = 'mgreau'; // required: replace example with your forum shortname
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();
+      </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1469272021164"></script>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-20147445-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+  </body>
+</html>

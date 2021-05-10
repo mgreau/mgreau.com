@@ -1,0 +1,9 @@
+= Maven, ADT and AOP: To weave or not to weave!
+
+http://stackoverflow.com/questions/3660547/apt-and-aop-in-the-same-project-using-maven
+
+
+https://github.com/mojohaus/aspectj-maven-plugin
+
+https://github.com/jcabi/jcabi-maven-plugin
+

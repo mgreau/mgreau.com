@@ -1,0 +1,129 @@
+= Agenda Asciidoctor @ DevoxxFR et t-shirts à gagner
+Maxime Greau <greau.maxime@gmail.com>
+v1.0, April 08, 2015: First version
+//HubPress attributes
+:hp-alt-title: agenda asciidoctor devoxxfr tshirt a gagner
+:published_at: 2015-04-08
+:hp-tags: Asciidoctor, AsciiDoc, DevoxxFR, talk
+:hp-image: https://pbs.twimg.com/media/CBmiX7sWYAAyo74.jpg:large
+//Asciidoctor attributes
+:toc:
+:toc-placement: preamble
+:toc-title: Table of Contents
+:toclevels: 4
+:experimental:
+:mdash: &#8212;
+:language: asciidoc
+:includedir: ../includes
+:icons: font
+:imagesdir: ../images/
+//Refs
+:link-prefix-twitter-avatar: https://pbs.twimg.com/profile_images/
+:link-avatar-gscheibel: {link-prefix-twitter-avatar}378800000758259411/ad7fb6994b8b07d8e17e408e167bb4d0_bigger.jpeg
+:link-twitter-gscheibel: https://twitter.com/g_scheibel
+:link-avatar-mojavelinux: {link-prefix-twitter-avatar}2044454472/headshot-speaking-20120403_bigger.jpg
+:link-twitter-mojavelinux: https://twitter.com/mojavelinux
+:link-avatar-carbonfray: {link-prefix-twitter-avatar}2287810145/v48eg1ewz77d8fej7rgb.png
+:link-twitter-carbonfray: https://twitter.com/carbonfray
+:link-avatar-carbonfray: {link-prefix-twitter-avatar}2287810145/v48eg1ewz77d8fej7rgb.png
+:link-twitter-carbonfray: https://twitter.com/carbonfray
+:link-avatar-mgreau: {link-prefix-twitter-avatar}588747726910857216/b0nJW3an_bigger.jpg
+:link-twitter-mgreau: https://twitter.com/mreau
+:link-photo-tshirt-asciidoctor: https://pbs.twimg.com/media/CBmiX7sWYAAyo74.jpg:large
+
+Dans quelques heures c'est le début de *Devoxx France 2015* ! +
+Alors que toute l'équipe organisatrice est encore au travail (déjà bravo à eux d'ailleurs), il est temps de préparer votre programme personnalisé pour ces 3 jours de geeks.
+
+== Asciidoctor : the big boss is here !
+
+Dans ce billet, je vous propose une synthèse des événements DevoxxFR relatifs à Asciidoctor. Comme vous le savez, {link-twitter-mojavelinux}[Dan Allen] le *lead du projet Asciidoctor* est présent cette année, c'est donc le bon moment pour apprendre du guru d'http://asciidoctor.org[Asciidoctor] :). Vous pourrez rencontrer également {link-twitter-carbonfray}[Sarah White], {link-twitter-gscheibel}[Guillaume Scheibel] et moi-même.
+
+Si vous ne nous reconnaissez pas, nous aurons sûrement des *t-shirts Asciidoctor* sur nous :)
+
+pass::[more]
+
+== Agenda
+
+=== Mercredi 08 Avril 2015
+
+==== Tools In Action @ 18h40 - 19h10
+
+*_Et si on arrêtait de se prendre la tête avec la documentation_*
+
+image::{link-avatar-gscheibel}[Guillaume, 50,float="left",align="left"]
+*Guillaume Sheibel* +
+@gscheibel +
+
+[NOTE]
+.Et si on arrêtait de se prendre la tête avec la documentation
+====
+* Salle Neuilly 253 Lab
+* 18h40 - 19h10
+====
+
+
+=== Jeudi 09 Avril 2015
+
+==== Keynote @ 10h30
+
+*_Reading and Writing in 20 Years_*
+
+image::{link-avatar-mojavelinux}[Dan, 50,float="left",align="left"]
+*Dan Allen* +
+@mojavelinux +
+
+[NOTE]
+.Reading and Writing in 20 Years
+====
+* Amphi Bleu
+* 10h30 - 10h50
+====
+
+==== BOF Asciidoctor
+
+image::{link-avatar-mojavelinux}[Dan, 50,float="left",align="left"]
+*Dan Allen* +
+@mojavelinux +
+
+image::{link-avatar-gscheibel}[Guillaume, 50,float="left",align="left"]
+*Guillaume Sheibel* +
+@gscheibel +
+
+image::{link-avatar-mgreau}[Maxime, 50,float="left",align="left"]
+*Maxime Gréau* +
+@mgreau +
+
+
+=== Vendredi 10 Aril 2015
+
+=== Conférence @ 14h05 - 14h55
+
+*_Write in AsciiDoc, Publish Everywhere!_*
+
+image::{link-avatar-mojavelinux}[Dan]
+*Dan Allen* +
+@mojavelinux +
+
+image::{link-avatar-mgreau}[Maxime]
+*Maxime Gréau* +
+@mgreau +
+
+[NOTE]
+.Write in AsciiDoc, Publish Everywhere!
+====
+* Salle Neuilly 252 AB
+* 14h05 - 14h55
+====
+
+== Des T-Shirts à gagner !
+
+Nous aurons des *beaux t-shirts à manches longues à gagner* pendant ces 3 jours à Devoxx France donc surtout ne loupez pas les événements *Asciidoctor* :)
+
+[[docker_arquillian_asciidoctor]]
+.T-shirts Asciidoctor @ Devoxx France (Edition limitée)
+image::{link-photo-tshirt-asciidoctor}[T-shirts Asciidoctor @ Devoxx France,400]
+
+
+Pour ma part, c'est mon premier Devoxx France, je compte bien en profiter au maximum (même si j'ai la pression jusqu'au vendredi am :) )
+
+See you au Palais des Congrès !

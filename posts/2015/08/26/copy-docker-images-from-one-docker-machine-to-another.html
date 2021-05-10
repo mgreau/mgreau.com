@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>#docker4Dev: Copy Docker images from one docker machine to another</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="#docker4Dev: Copy Docker images from one docker machine to another">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="#docker4Dev: Copy Docker images from one docker machine to another">
+    <meta property="og:description" content="">
+
+    <!-- <meta name="twitter:site" content="">
+
+<meta name="twitter:creator" content="">
+
+<meta name="google-site-verification" content="">
+
+<meta property="fb:admins" content="">
+ -->
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link href="//fonts.googleapis.com/" rel="dns-prefetch">
+    <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1488400593641"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1488400593641"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1488400593641"/>
+
+
+
+
+    <script type="text/javascript">
+      var ga_ua = 'UA-XXXXX-X';
+      
+      var disqus_shortname = 'example';
+      
+      var enable_pjax = true;
+
+      // Pace Options
+      // ==============
+      window.paceOptions = {
+        catchupTime: 100,
+        minTime: 100,
+        elements: false,
+        restartOnRequestAfter: 500,
+        startOnPageLoad: false
+      }
+
+      // Ghostium Globals
+      // ==============
+      window.GHOSTIUM = {};
+      GHOSTIUM.haveGA = typeof ga_ua !== 'undefined' && ga_ua !== 'UA-XXXXX-X';
+      GHOSTIUM.haveDisqus = typeof disqus_shortname !== 'undefined' && disqus_shortname !== 'example';
+      GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
+    </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1488400593641"></script>
+
+    <link rel="canonical" href="https://mgreau.github.io/posts/2015/08/26/copy-docker-images-from-one-docker-machine-to-another.html" />
+    <meta name="referrer" content="origin" />
+    
+    <meta property="og:site_name" content="@mgreau :: Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="#docker4Dev: Copy Docker images from one docker machine to another" />
+    <meta property="og:description" content="Overview In this post, you will see how to copy images from one docker machine to another by using docker-machine scp command available since docker-machine 0.3.0. It may be useful if you have no Internet access neither local docker registry installed. if you are already familiar with docker-machine," />
+    <meta property="og:url" content="https://mgreau.github.io/posts/2015/08/26/copy-docker-images-from-one-docker-machine-to-another.html" />
+    <meta property="article:tag" content="docker4Dev" />
+    <meta property="article:tag" content=" docker-machine" />
+    <meta property="article:tag" content=" docker" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="#docker4Dev: Copy Docker images from one docker machine to another" />
+    <meta name="twitter:description" content="Overview In this post, you will see how to copy images from one docker machine to another by using docker-machine scp command available since docker-machine 0.3.0. It may be useful if you have no Internet access neither local docker registry installed. if you are already familiar with docker-machine," />
+    <meta name="twitter:url" content="https://mgreau.github.io/posts/2015/08/26/copy-docker-images-from-one-docker-machine-to-another.html" />
+    
+    <script type="application/ld+json">
+null
+    </script>
+
+    <meta name="generator" content="HubPress" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+  </head>
+  <body class="post-template tag-docker4-Dev tag-docker-machine tag-docker">
+
+    <button data-action="open-drawer" id="drawer-button" class="drawer-button"><i class="fa fa-bars"></i></button>
+    <nav tabindex="-1" class="drawer">
+      <div class="drawer-container">
+        <!--.drawer-search(role="search")-->
+        <ul role="navigation" class="drawer-list">
+          
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" data-pjax>
+              <i class="fa fa-home"></i>Home
+            </a>
+          </li>
+          <!-- <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+              <i class="fa fa-list-alt"></i>All posts
+            </a>
+          </li> -->
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts/rss/">
+              <i class="fa fa-rss"></i>Subscribe to Feed
+            </a>
+          </li>
+          <li class="drawer-list-divider"></li>
+          <li class="drawer-list-item drawer-list-title">
+            Follow me
+          </li>
+          
+          
+          <li class="drawer-list-item">
+            <a href="https://twitter.com/mgreau" title="Twitter" target="_blank">
+              <i class="fa fa-twitter"></i>Twitter
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://github.com/mgreau" title="Github" target="_blank">
+              <i class="fa fa-github"></i>Github
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://plus.google.com/u/0/+maximegreau-aka-mgreau/" title="Google+" target="_blank">
+              <i class="fa fa-google-plus"></i>Google+
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://fr.linkedin.com/pub/maxime-gréau/26/645/994" title="LinkedIn" target="_blank">
+              <i class="fa fa-linkedin"></i>LinkedIn
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="mailto:greau.maxime@gmail.com" title="Email" target="_blank">
+              <i class="fa fa-envelope-o"></i>Email
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="drawer-overlay"></div>
+    <main id="container" role="main" class="container">
+      <div class="surface">
+        <div class="surface-container">
+          <div data-pjax-container class="content">
+            
+<section class="wrapper wrapper-post">
+  <div class="wrapper-container">
+    <article itemscope itemtype="http://schema.org/BlogPosting" role="article" class="post post tag-docker4-Dev tag-docker-machine tag-docker">
+        <section class="post-container">
+          <header class="post-header">
+            <ul class="post-meta-list">
+              <li class="post-meta-item">
+                <time datetime="2015-08-26" itemprop="datePublished">
+                  2 years ago
+                </time>
+              </li>
+                <li class="post-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/docker4-Dev/">docker4Dev</a>, <a href="https://mgreau.github.io/posts/tag/docker-machine/"> docker-machine</a>, <a href="https://mgreau.github.io/posts/tag/docker/"> docker</a></span>
+                  </span>
+                </li>
+              <li class="post-meta-item">
+                <a href="#disqus_thread" data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+            <h1 itemprop="name headline" class="post-title"><a href="/" itemprop="url" data-pjax title="#docker4Dev: Copy Docker images from one docker machine to another">#docker4Dev: Copy Docker images from one docker machine to another</a></h1>
+            <!--h2 itemprop="about" class="post-subtitle"></h2-->
+          </header>
+          <aside class="post-side">
+            <div class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img src="https://avatars2.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <a href="http://mgreau.com/posts/" class="post-author-name">
+                  Maxime Gréau
+                </a>
+                <p class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+              </div>
+            </div>
+          </aside>
+          <div itemprop="articleBody" class="post-body">
+            <div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Overview</div>
+<div class="paragraph">
+<p>In this post, you will see how to <strong>copy images from one docker machine to another by using docker-machine scp command</strong> available since docker-machine 0.3.0.
+It may be useful if you have <strong>no Internet access neither local docker registry installed</strong>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>if you are already familiar with docker-machine, you can jump ahead and start <a href="#_copy_image_from_machine_to_machine">reading how to copy images</a>.</p>
+</li>
+<li>
+<p>if you want to see it in action right know, you can <a href="#_see_it_in_action_terminal_session_demo">watch the terminal session video</a> recorded with <a href="https://asciinema.org/">Asciinema</a> (01:25, speed x3)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">About this post</div>
+<p>Language <strong><em>EN</em></strong> /  Timereading <strong><em>10 mn</em></strong></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Today I really think that Docker is not only a revolution for Ops and DevOps teams, but also on the Development environment side and that&#8217;s just a beginning.</p>
+</div>
+<div class="paragraph">
+<p>That&#8217;s why I have <strong>a lot of docker machines created on my laptop</strong> in order to organize my several development environments. But the fact is that you frequently want to use an image on a machine that is already present on another existing docker machine. And if you are offline or if you Internet connection is slow, <strong>you can&#8217;t execute a 'docker pull' command</strong>, so <strong>how to deal with that?</strong></p>
+</div>
+<div id="docker_machine_scp" class="imageblock">
+<div class="content">
+<img src="http://mgreau.com/posts/images/cover-docker-machine-scp.png" alt="Docker Machine scp" width="950">
+</div>
+<div class="title">Figure 1. Copy Docker images from machine to machine with scp</div>
+</div>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_install_docker_machine">Install Docker Machine</a>
+<ul class="sectlevel2">
+<li><a href="#_installation_via_docker_toolbox">Installation via Docker Toolbox</a></li>
+<li><a href="#_installation_via_command_line">Installation via Command line</a></li>
+</ul>
+</li>
+<li><a href="#_copy_image_from_machine_to_machine">Copy image from machine to machine</a>
+<ul class="sectlevel2">
+<li><a href="#_commands_explained">Commands explained</a></li>
+<li><a href="#_see_it_in_action_terminal_session_demo">See it in action: Terminal Session demo</a></li>
+</ul>
+</li>
+<li><a href="#_export_an_image_from_a_machine_and_load_it_to_another_machine_thought_your_host">Export an image from a machine and load it to another machine thought your host</a></li>
+</ul>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_install_docker_machine">Install Docker Machine</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_installation_via_docker_toolbox">Installation via Docker Toolbox</h3>
+<div class="paragraph">
+<p>Two weeks ago, Docker announced a <strong>new installer</strong> for Mac OS X and Windows called <strong>Toolbox</strong>.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+Toolbox installs everything you need to get Docker running in development: the Docker client, Compose (Mac only), Kitematic, Machine, and VirtualBox.
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Even if, under the hood, Machine still uses <strong>Boot2Docker</strong>, now containers are managed by <strong>Machine</strong>.</p>
+</div>
+<div class="paragraph">
+<p>You can find all informations about <strong>Toolbox</strong> at the following URLs:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ToolBox blog post: <a href="http://blog.docker.com/2015/08/docker-toolbox/">ANNOUNCING DOCKER TOOLBOX</a></p>
+</li>
+<li>
+<p><a href="https://www.docker.com/toolbox">ToolBox install packages</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installation_via_command_line">Installation via Command line</h3>
+<div class="paragraph">
+<p>If you still want to install Docker machine without Toolbox, you can execute the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl -L https://github.com/docker/machine/releases/download/v0.4.1/docker-machine_linux-amd64 &gt; /usr/local/bin/docker-machine  <i class="conum" data-value="1"></i><b>(1)</b>
+$ chmod +x /usr/local/bin/docker-machine <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Download the latest docker-machine binary <strong>according to your target platform</strong></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Apply executable permissions to the binary</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Then whatever the choice you made for installing it, you should be able to execute the <strong>docker-machine</strong> help command to see the <strong>scp command</strong> on the list:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ docker-machine help
+...
+Version: 0.4.1 (e2c88d6)  <i class="conum" data-value="1"></i><b>(1)</b>
+...
+Commands:
+  active		Print which machine is active
+  ...
+  scp			Copy files between machines  <i class="conum" data-value="2"></i><b>(2)</b>
+  ...
+  help, h		Shows a list of commands or help for one command</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Docker Machine 0.4.1 released on August, 14, 2015</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <strong>scp</strong> command is available since <a href="https://blog.docker.com/2015/06/docker-machine-0-3-0-deep-dive/">docker-machine 0.3.0</a></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_copy_image_from_machine_to_machine">Copy image from machine to machine</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Unfortunately, for now it is not possible to do it with one command.
+Indeed, the machine scp command is used to copy the export image file between machines, so, before that, the docker machine ssh command is used to manage file on the source machine and at the end on the target machine.</p>
+</div>
+<div class="paragraph">
+<p>The docker machine scp usage is based on the machine names, and is similar to the default scp syntax.</p>
+</div>
+<div class="sect2">
+<h3 id="_commands_explained">Commands explained</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ docker-machine ls --filter=state=Running  <i class="conum" data-value="1"></i><b>(1)</b>
+NAME                ACTIVE   DRIVER       STATE     URL                         SWARM
+default                      virtualbox   Running   tcp://192.168.99.102:2376       <i class="conum" data-value="2"></i><b>(2)</b>
+devnation-2015      *        virtualbox   Running   tcp://192.168.99.104:2376       <i class="conum" data-value="3"></i><b>(3)</b>
+docker4dev-ee7-js            virtualbox   Running   tcp://192.168.99.105:2376       <i class="conum" data-value="4"></i><b>(4)</b>
+
+
+$ docker-machine ssh devnation-2015 docker images | grep node  <i class="conum" data-value="5"></i><b>(5)</b>
+node                             latest              20a32f7a591c        8 weeks ago         711.5 MB
+node                             0.12.4              f9ba67676f8f        9 weeks ago         711.8 MB
+
+$ docker-machine ssh docker4dev-ee7-js docker images | grep node  <i class="conum" data-value="6"></i><b>(6)</b>
+
+$ docker-machine ssh devnation-2015 "docker save -o /tmp/node.tar node:0.12.4" <i class="conum" data-value="7"></i><b>(7)</b>
+$ docker-machine scp devnation-2015:/tmp/node.tar docker4dev-ee7-js:/tmp/node.tar <i class="conum" data-value="8"></i><b>(8)</b>
+$ docker-machine ssh docker4dev-ee7-js "docker load -i /tmp/node.tar"  <i class="conum" data-value="9"></i><b>(9)</b>
+$ docker-machine ssh docker4dev-ee7-js docker images | grep node       <i class="conum" data-value="10"></i><b>(10)</b>
+node                0.12.4              f9ba67676f8f        9 weeks ago         711.8 MB</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>display all running machines</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><strong>default machine</strong> created when you launch the terminal shortcut provided by Toolbox</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>the source machine containing the <strong>node:0.12.4 image to copy</strong></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>the <strong>target</strong> machine</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>display all <strong>images related to node</strong> on the <strong>source machine</strong></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>check that there is <strong>no image</strong> related to node on the <strong>target machine</strong> for now</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>export the node image to a TAR file on the source machine</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td><strong>copy the TAR file</strong> from the source machine to the target machine <strong>via scp command</strong></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="9"></i><b>9</b></td>
+<td><strong>load the node image</strong> to the docker local registry of the <strong>target machine</strong></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="10"></i><b>10</b></td>
+<td>check that the node image is now available on the target machine</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_see_it_in_action_terminal_session_demo">See it in action: Terminal Session demo</h3>
+<div class="paragraph">
+<p>All commands described above have been executed on my laptop and thanks to <a href="https://asciinema.org">Asciinema</a>, they have been recorded too:</p>
+</div>
+<script type="text/javascript" src="https://asciinema.org/a/25473.js" id="asciicast-25473" async data-speed="3"></script>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_export_an_image_from_a_machine_and_load_it_to_another_machine_thought_your_host">Export an image from a machine and load it to another machine thought your host</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An other way to do the same thing, without using the scp command, is to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>export directly the TAR file to your host</strong> with the <strong>docker client</strong> connected to the <strong>source</strong> machine</p>
+</li>
+<li>
+<p>and then <strong>load this file</strong> to the target machine with the <strong>docker client</strong> connected to the target machine</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ docker-machine ls  <i class="conum" data-value="1"></i><b>(1)</b>
+
+NAME                           ACTIVE   DRIVER       STATE     URL                         SWARM
+default                        *        virtualbox   Running   tcp://192.168.99.102:2376
+devnation-2015                          virtualbox   Running   tcp://192.168.99.104:2376
+
+
+$ eval $(docker-machine env devnation-2015)  <i class="conum" data-value="2"></i><b>(2)</b>
+$ docker images | grep alpine                <i class="conum" data-value="3"></i><b>(3)</b>
+alpine                           3.1                 fa60145ca189        11 weeks ago        5.033 MB
+alpine                           3.2                 8697b6cc1f48        11 weeks ago        5.242 MB
+
+
+$ docker save  -o /tmp/alpine-3.2.tar alpine:3.2  <i class="conum" data-value="4"></i><b>(4)</b>
+$ ls /tmp/alpine*
+/tmp/alpine-3.2.tar
+
+$ docker-machine create -d virtualbox docker4dev-ee7-js  <i class="conum" data-value="5"></i><b>(5)</b>
+$ eval $(docker-machine env docker4dev-ee7-js)           <i class="conum" data-value="6"></i><b>(6)</b>
+$ docker images                                        <i class="conum" data-value="7"></i><b>(7)</b>
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+$ docker load -i /tmp/alpine-3.2.tar                   <i class="conum" data-value="8"></i><b>(8)</b>
+$ docker-images                                        <i class="conum" data-value="9"></i><b>(9)</b>
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+alpine              3.2                 8697b6cc1f48        11 weeks ago        5.242 MB</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>display all machines</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><strong>point the docker client</strong> to the source machine</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>display all images related to alpine on source machine</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><strong>export the alpine:3.2 image</strong> from the source machine to the host</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>create a new machine with the virtualbox driver</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td><strong>point the docker client</strong> to the target machine</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>check that the target machine does not contain image</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td><strong>load the alpine:3.2</strong> image from the host to the docker registry of the target machine</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="9"></i><b>9</b></td>
+<td>check that the alpine:3.2 is now available on the target machine</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>How do you do this? Do you use a local docker registry reachable by all machines?<br>
+I&#8217;d love to have your advices.</p>
+</div>
+</div>
+</div>
+          </div>
+          <footer class="post-footer">
+            <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img itemprop="image" src="https://avatars2.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <h4 class="post-footer-heading">Written By</h4>
+                <a href="http://mgreau.com/posts/" itemprop="url" class="post-author-name">
+                  <span itemprop="name">Maxime Gréau</span>
+                </a>
+                <p itemprop="description" class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+                  <p class="post-author-location">Nantes, France</p>
+                  <p class="post-author-website">
+                    <a href="http://mgreau.com/posts/" rel="nofollow">http://mgreau.com/posts/</a>
+                  </p>
+                <p class="post-info">
+                  <b class="post-info-title">Published on</b>
+                  <time class="post-date">August 26, 2015</time>
+                </p>
+              </div>
+            </div>
+            <div class="post-social">
+              <h4 class="post-footer-heading">Spread the word</h4>
+              <a href="#" data-action="share-twitter"><i class="fa fa-fw fa-lg fa-twitter"></i></a>
+              <a href="#" data-action="share-facebook"><i class="fa fa-fw fa-lg fa-facebook"></i></a>
+              <a href="#" data-action="share-gplus"><i class="fa fa-fw fa-lg fa-google-plus"></i></a>
+            </div>
+          </footer>
+        </section>
+      <section itemprop="comment" class="post-comments">
+        <div id="disqus_thread"></div>
+      </section>
+    </article>
+
+    <footer role="contentinfo" class="footer">
+      <p><small>Copyright &copy; <span itemprop="copyrightHolder">@mgreau :: Blog</span>. 2017. All Rights Reserved.</small></p>
+      <p><small><a href="http://ghostium.oswaldoacauan.com/" target="_blank">Ghostium Theme</a> by <a href="http://twitter.com/oswaldoacauan" target="_blank">@oswaldoacauan</a></small></p>
+      <p><small>Adapted by <a href="https://twitter.com/mgreau">Maxime Gréau</a></small></p>
+      <p><small>Published with <a href="http://hubpress.io">HubPress</a></small></p>
+    </footer>
+  </div>
+</section>
+
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+  var disqus_shortname = 'mgreau'; // required: replace example with your forum shortname
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();
+      </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1488400593641"></script>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-20147445-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+  </body>
+</html>

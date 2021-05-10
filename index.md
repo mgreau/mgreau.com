@@ -1,4 +1,4 @@
-## Welcome to mgreau.com
+## Welcome!
 
 
 ### Blog

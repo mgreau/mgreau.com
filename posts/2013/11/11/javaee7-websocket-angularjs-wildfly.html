@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly">
+    <meta property="og:description" content="">
+
+    <!-- <meta name="twitter:site" content="">
+
+<meta name="twitter:creator" content="">
+
+<meta name="google-site-verification" content="">
+
+<meta property="fb:admins" content="">
+ -->
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link href="//fonts.googleapis.com/" rel="dns-prefetch">
+    <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1480415674605"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1480415674605"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1480415674605"/>
+
+
+
+
+    <script type="text/javascript">
+      var ga_ua = 'UA-XXXXX-X';
+      
+      var disqus_shortname = 'example';
+      
+      var enable_pjax = true;
+
+      // Pace Options
+      // ==============
+      window.paceOptions = {
+        catchupTime: 100,
+        minTime: 100,
+        elements: false,
+        restartOnRequestAfter: 500,
+        startOnPageLoad: false
+      }
+
+      // Ghostium Globals
+      // ==============
+      window.GHOSTIUM = {};
+      GHOSTIUM.haveGA = typeof ga_ua !== 'undefined' && ga_ua !== 'UA-XXXXX-X';
+      GHOSTIUM.haveDisqus = typeof disqus_shortname !== 'undefined' && disqus_shortname !== 'example';
+      GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
+    </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1480415674605"></script>
+
+    <link rel="canonical" href="https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" />
+    <meta name="referrer" content="origin" />
+    
+    <meta property="og:site_name" content="@mgreau :: Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly" />
+    <meta property="og:description" content="This post was originally published in November 2013 and has been updated on February 3rd, 2016 for the following reasons: Use the newest final  version of WildFly 10.0.0 App deployed in a Docker Container at http://javaee7-websocket.mgreau.com thanks to Clever Cloud PaaS! This app is not" />
+    <meta property="og:url" content="https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" />
+    <meta property="article:tag" content="Java EE" />
+    <meta property="article:tag" content=" WebSocket" />
+    <meta property="article:tag" content=" WildFly" />
+    <meta property="article:tag" content=" angularJS" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly" />
+    <meta name="twitter:description" content="This post was originally published in November 2013 and has been updated on February 3rd, 2016 for the following reasons: Use the newest final  version of WildFly 10.0.0 App deployed in a Docker Container at http://javaee7-websocket.mgreau.com thanks to Clever Cloud PaaS! This app is not" />
+    <meta name="twitter:url" content="https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" />
+    
+    <script type="application/ld+json">
+null
+    </script>
+
+    <meta name="generator" content="HubPress" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+  </head>
+  <body class="post-template tag-Java-EE tag-Web-Socket tag-Wild-Fly tag-angularJS">
+
+    <button data-action="open-drawer" id="drawer-button" class="drawer-button"><i class="fa fa-bars"></i></button>
+    <nav tabindex="-1" class="drawer">
+      <div class="drawer-container">
+        <!--.drawer-search(role="search")-->
+        <ul role="navigation" class="drawer-list">
+          
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" data-pjax>
+              <i class="fa fa-home"></i>Home
+            </a>
+          </li>
+          <!-- <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+              <i class="fa fa-list-alt"></i>All posts
+            </a>
+          </li> -->
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts/rss/">
+              <i class="fa fa-rss"></i>Subscribe to Feed
+            </a>
+          </li>
+          <li class="drawer-list-divider"></li>
+          <li class="drawer-list-item drawer-list-title">
+            Follow me
+          </li>
+          
+          
+          <li class="drawer-list-item">
+            <a href="https://twitter.com/mgreau" title="Twitter" target="_blank">
+              <i class="fa fa-twitter"></i>Twitter
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://github.com/mgreau" title="Github" target="_blank">
+              <i class="fa fa-github"></i>Github
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://plus.google.com/u/0/+maximegreau-aka-mgreau/" title="Google+" target="_blank">
+              <i class="fa fa-google-plus"></i>Google+
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://fr.linkedin.com/pub/maxime-gréau/26/645/994" title="LinkedIn" target="_blank">
+              <i class="fa fa-linkedin"></i>LinkedIn
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="mailto:maxime.greau@gmail.com" title="Email" target="_blank">
+              <i class="fa fa-envelope-o"></i>Email
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="drawer-overlay"></div>
+    <main id="container" role="main" class="container">
+      <div class="surface">
+        <div class="surface-container">
+          <div data-pjax-container class="content">
+            
+<section class="wrapper wrapper-post">
+  <div class="wrapper-container">
+    <article itemscope itemtype="http://schema.org/BlogPosting" role="article" class="post post tag-Java-EE tag-Web-Socket tag-Wild-Fly tag-angularJS">
+        <section class="post-container">
+          <header class="post-header">
+            <ul class="post-meta-list">
+              <li class="post-meta-item">
+                <time datetime="2013-11-11" itemprop="datePublished">
+                  3 years ago
+                </time>
+              </li>
+                <li class="post-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/Java-EE/">Java EE</a>, <a href="https://mgreau.github.io/posts/tag/Web-Socket/"> WebSocket</a>, <a href="https://mgreau.github.io/posts/tag/Wild-Fly/"> WildFly</a>, <a href="https://mgreau.github.io/posts/tag/angularJS/"> angularJS</a></span>
+                  </span>
+                </li>
+              <li class="post-meta-item">
+                <a href="#disqus_thread" data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+            <h1 itemprop="name headline" class="post-title"><a href="https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" itemprop="url" data-pjax title="Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly">Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly</a></h1>
+            <!--h2 itemprop="about" class="post-subtitle"></h2-->
+          </header>
+          <aside class="post-side">
+            <div class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img src="https://avatars.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <a href="http://mgreau.com/posts/" class="post-author-name">
+                  Maxime Gréau
+                </a>
+                <p class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+              </div>
+            </div>
+          </aside>
+          <div itemprop="articleBody" class="post-body">
+            <div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="title">This post was originally published in November 2013 and has been updated on February 3rd, 2016 for the following reasons:</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the newest final  version of <strong>WildFly 10.0.0</strong></p>
+</li>
+<li>
+<p>App deployed in a <strong>Docker</strong> Container at <a href="http://javaee7-websocket.mgreau.com" class="bare">http://javaee7-websocket.mgreau.com</a> thanks to <a href="https://www.clever-cloud.com">Clever Cloud</a> PaaS!</p>
+</li>
+<li>
+<p><em>This app is not anymore available on OpenShift</em></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Overview</div>
+<div class="paragraph">
+<p>This blog post describes the <strong><a href="http://jcp.org/en/jsr/detail?id=356">Java API for WebSocket Protocol (JSR 356)</a></strong> (which is one of four newest JSRs for the <strong><a href="http://jcp.org/en/jsr/detail?id=342">Java EE 7</a></strong> platform) and provides a concrete application deployed on a <a href="http://wildfly.org">WildFly 10</a> <strong>Docker Container</strong> and <a href="http://javaee7-websocket.mgreau.com">available online thanks to Clever Cloud </a>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[FR] La version française (<a href="http://mgreau.com/posts/2013/09/27/javaee7-api-websocket-html5.html">HTML</a> ou <a href="http://mgreau.com/doc/javaee7-api-websocket-html5.pdf">PDF</a>) de ce post est basée uniquement sur la démonstration avec l&#8217;API Javascript sans AngularJS.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Once you will have read this post, you will be able to understand <a href="https://twitter.com/arungupta">Arun Gupta</a>'s definition about what is it possible to do with WebSocket technology.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+WebSocket gives you bidirectionnal, full duplex, communication channel over a single TCP.
+</blockquote>
+<div class="attribution">
+&#8212; Arun Gupta (Java EE Evangelist at Oracle)<br>
+<cite>Devoxx UK 2013</cite>
+</div>
+</div>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_java_ee_7_overview">Java EE 7 overview</a></li>
+<li><a href="#_demo_angularjs_html5_jsr_356_api_application_deployed_on_wildfly_10_clever_cloud">DEMO : AngularJS - HTML5 / JSR-356 API application deployed on WildFly 10 (Clever Cloud)</a></li>
+<li><a href="#_websocket_ws_a_new_protocol_different_from_http">WebSocket (WS): a new protocol different from HTTP</a>
+<ul class="sectlevel2">
+<li><a href="#_opening_handshake">Opening Handshake</a></li>
+<li><a href="#_data_transfer">Data transfer</a></li>
+<li><a href="#_closing_handshake">Closing Handshake</a></li>
+</ul>
+</li>
+<li><a href="#_websocket_javascript_api_client">WebSocket Javascript API (Client)</a></li>
+<li><a href="#_jsr_386_java_api_for_websocket_protocol">JSR 386 : Java API for WebSocket protocol</a>
+<ul class="sectlevel2">
+<li><a href="#_websocket_server_endpoint">WebSocket Server Endpoint</a></li>
+<li><a href="#_annotations">Annotations</a></li>
+<li><a href="#_encoders_and_decoders">Encoders and Decoders</a></li>
+<li><a href="#_websocket_client_endpoint">WebSocket Client Endpoint</a></li>
+</ul>
+</li>
+<li><a href="#_us_open_application">US OPEN Application</a>
+<ul class="sectlevel2">
+<li><a href="#_maven_dependencies_for_java_ee_7_api">Maven dependencies for Java EE 7 API</a></li>
+<li><a href="#_add_server_endpoint">Add Server Endpoint</a></li>
+<li><a href="#_encodes_and_decodes_messages">Encodes and Decodes messages</a></li>
+<li><a href="#_html5_web_client_single_match_index_html">HTML5 Web Client (single match - index.html)</a></li>
+<li><a href="#_angularjs_client_several_matches_live_html">AngularJS Client (several matches - live.html)</a></li>
+<li><a href="#_source_code_on_github">Source code on Github</a></li>
+<li><a href="#_build_and_deploy_the_war">Build and Deploy the WAR</a></li>
+</ul>
+</li>
+<li><a href="#_benchmark_websocket_vs_rest">Benchmark : WebSocket VS REST</a></li>
+<li><a href="#_references_about_websocket">References about WebSocket</a></li>
+<li><a href="#_conclusion">Conclusion</a></li>
+</ul>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_java_ee_7_overview">Java EE 7 overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <strong>Java Platform Enterprise Edition</strong> was released in Version 7 (Java EE 7) in <strong>June 2013</strong>.
+In line with the two previous versions (Java EE 5 and Java EE 6) <strong>Java EE 7</strong> always proposes to simplify the work of the developer.
+This version decorates previous versions with 3 main objectives :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>embraces <strong>HTML5</strong> (WebSocket API, JSON-P API, JAX-RS)</p>
+</li>
+<li>
+<p>provide an <strong>even better productivity</strong> to developer (JMS)</p>
+</li>
+<li>
+<p>meeting <strong>enterprise demands</strong> (Batch API, Concurrency Utilities)</p>
+</li>
+</ul>
+</div>
+<div id="javaee7_intro" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/javaee7_intro.png" alt="Java EE 7 goals">
+</div>
+<div class="title">Figure 1. The 3 goals of Java EE 7</div>
+</div>
+<div class="paragraph">
+<p>Java Platform, Entreprise Edition 7 (JSR 342) can be summmed up around :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>4 newest specifications : <strong>Java API for WebSocket 1.0</strong>, <strong>Java API for JSON Processing 1.0</strong> , <strong>Batch Applications 1.0</strong> and <strong>Concurrency Utilities for Java EE 1.0</strong></p>
+</li>
+<li>
+<p>3 specifications with major updates : <strong>JMS 2.0</strong>, <strong>JAX-RS 2.0</strong> and <strong>EL 3.0</strong></p>
+</li>
+<li>
+<p>and 6 specifications with minor updates : <strong>JPA 2.1</strong>, <strong>Servlet 3.1</strong>, <strong>EJB 3.2</strong>, <strong>CDI 1.1</strong>, <strong>JSF 2.2</strong> and <strong>Bean Validation 1.1</strong></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_demo_angularjs_html5_jsr_356_api_application_deployed_on_wildfly_10_clever_cloud">DEMO : AngularJS - HTML5 / JSR-356 API application deployed on WildFly 10 (Clever Cloud)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you want to see right away what it looks like, you can access {link-demo}[the online application] whose code will be in part explained in this article.
+It&#8217;s an application that give you the ability :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>to watch one or several tennis matches in <strong>live mode</strong> (Quarter Final U.S. Open 2013)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>click on each match that you want to access live</p>
+</li>
+<li>
+<p>click on exit button to disconnect from a specific match</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>to bet on the winner of the match</p>
+<div class="ulist">
+<ul>
+<li>
+<p>each time a user bet on the same match, the counter is incremented</p>
+</li>
+<li>
+<p>at this end of the match, you will see the result of your bet</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You will say: '"Nothing special !"', and you&#8217;re right :)</p>
+</div>
+<div class="paragraph">
+<p>At first glance, it sounds like something already seen in many of today&#8217;s applications, but it&#8217;s the technique used behind which does matter because, as you will see below, everything is based around the <strong>standard of the new WebSocket protocol (ws:// ou wss://)</strong> and not on "HTTP hacking".</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">The technologies used for the development of this application are :</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Frontend : HTML5, CSS, Javascript (WebSocket API) with 'Bootstrap CSS and AngularJS'</p>
+</li>
+<li>
+<p>Backend : Java API for WebSocket, EJB, JSON-P, JAX-RS</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="websocket_example" class="imageblock">
+<div class="content">
+<a class="image" href="http://javaee7-websocket.mgreau.com"><img src="https://mgreau.github.io/posts/images/websocket_wildfly_angularjs_tennis.png" alt="Implementation of WebSocket (Java API et Javascript API)"></a>
+</div>
+<div class="title">Figure 2. US Open Application  - Implementation of WebSocket (Java API et Javascript API)</div>
+</div>
+<div class="paragraph">
+<p>Nope! This demonstration is <strong>not a chat application :)</strong>
+It&#8217;s obvious that the "chat demo" is the one that first comes to mind to illustrate the use of WebSocket technology. However, there are many other use cases, such as collaborative work on a text document online or online games like chess presented at the <a href="https://blogs.oracle.com/javaone/entry/the_javaone_2013_technical_keynote">JavaOne 2013 keynote</a>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This application is available on the Cloud thanks to <span class="line-through"><a href="https://www.openshift.com/">OpenShift</a>, the cloud computing PaaS product by RedHat. It&#8217;s deployed on WildFly 8.0.0-Beta1 (normaly certified Java EE 7 to the end of 2013). To set up an application server like WildFly on OpenShit, you just need to read <a href="https://www.openshift.com/blogs/deploy-websocket-web-applications-with-jboss-wildfly">this Shekhar Gulati&#8217;s blog post</a></span> <a href="https://www.clever-cloud.com">Clever Cloud</a> PaaS!</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_websocket_ws_a_new_protocol_different_from_http">WebSocket (WS): a new protocol different from HTTP</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="http://tools.ietf.org/html/rfc2616">HTTP</a> is the standard protocol for the Web, it&#8217;s very effective for a lot of use cases but, nevertheless, has <strong>some drawbacks</strong> in the case of <strong>interactive Web applications</strong> :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>half-duplex</strong>: based on the request/response pattern, the client sends a request and the server performs processing before sending a response, the client is forced to wait for a server response</p>
+</li>
+<li>
+<p><strong>verbose</strong>: a lot of information are send in HTTP headers associated with the message, both in the HTTP request and in the HTTP response</p>
+</li>
+<li>
+<p>in order to add a <strong>server push</strong> mode, you need to use workaround (polling, long polling, Comet/Ajax) since there is no standard</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This protocol is not optimized to scale on large applications that have significant needs of real-time bi-directional communication. This is why the <strong>new WebSocket protocol</strong> offers more advanced features than HTTP because it is:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>based on <strong>1 unique TCP connection between 2 peers</strong> (whereas each HTTP request/response needs a new TCP connection)</p>
+</li>
+<li>
+<p><strong>bidirectionnal</strong> : client can send message to server and server can also send message to client</p>
+</li>
+<li>
+<p><strong>full-duplex</strong> : client can send multiple messages to server, as well as server to client without waiting for a response from each other</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>'The term <strong>client</strong> is used only to define the one that initiate the connection. Once the connection is established, client and server become both <strong>peers</strong>, with the same capacity.'</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The WebSocket protocol was originally intended to be part of the HTML5 specification but as HTML5 will be officially released in 2014, the WebSocket protocol is finally set, as well as HTTP protocol, by an IETF specification, <a href="http://tools.ietf.org/html/rfc6455">with RFC 6455</a>.</p>
+</div>
+<div class="paragraph">
+<p>As shown in the diagram below, the <strong>WebSocket protocol works in two phases</strong> named :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>handshake (open and close)</strong></p>
+</li>
+<li>
+<p><strong>data transfer</strong></p>
+</li>
+</ol>
+</div>
+<div id="websocket_protocol" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/WebSocket_Protocol.png" alt="Diagram which explain how does the WebSocket protocol work" width="550">
+</div>
+<div class="title">Figure 3. How does the WebSocket protocol work</div>
+</div>
+<div class="sect2">
+<h3 id="_opening_handshake">Opening Handshake</h3>
+<div class="paragraph">
+<p>The <strong>Opening Handshake</strong> phase is a <strong>unique HTTP request/response</strong> between the one who initiate the connection (peer client) and the peer server. This HTTP exchange is specific because it uses the concept of <a href="http://tools.ietf.org/html/rfc2616#section-14.42"><strong>Upgrade, defined in the HTTP specification</strong></a>.
+The principle is simple : <strong>Upgrade HTTP</strong> allows the client to ask the server to change the communication protocol and thus ensure that the client and server can discuss using a protocol other than HTTP.</p>
+</div>
+<div id="eg1-callouts" class="exampleblock">
+<div class="title">Example 1. HTTP Handshake sample request</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">GET /usopen/matches/1234 HTTP/1.1     <i class="conum" data-value="1"></i><b>(1)</b>
+Host: wildfly-mgreau.rhcloud.com:8000  <i class="conum" data-value="2"></i><b>(2)</b>
+Upgrade: websocket  <i class="conum" data-value="3"></i><b>(3)</b>
+Connection: Upgrade <i class="conum" data-value="4"></i><b>(4)</b>
+Origin: http://wildfly-mgreau.rhcloud.com
+Sec-WebSocket-Key:0EK7XmpTZL341oOh7x1cDw==
+Sec-WebSocket-Version:13</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>HTTP GET method and HTTP 1.1 version required</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Host used for the WebSocket connection</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Request to upgrade to the WebSocket protocol</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Request to upgrade from HTTP to another protocol</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="eg2-callouts" class="exampleblock">
+<div class="title">Example 2. HTTP Handshake Response sample</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">HTTP/1.1 101 Switching Protocols <i class="conum" data-value="1"></i><b>(1)</b>
+Connection:Upgrade
+Sec-WebSocket-Accept:SuQ5/hh0kStSr6oIzDG6gRfTx2I=
+Upgrade:websocket <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>HTTP Response Code 101 : server is compatible and accept to send messages through another protocol</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Upgrade to the WebSocket protocol is accepted</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>'When the upgrade request from HTTP to WebSocket protocol is approved by the endpoint server, it&#8217;s no longer possible to use HTTP communication, all exchanges have to be made through the WebSocket protocol.'</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data_transfer">Data transfer</h3>
+<div class="paragraph">
+<p>Once the <strong>handshake</strong> is approved, the use of WebSocket protocol is established. There are an open connection on the 'peer server side' as well on the 'peer client side', callback handlers are called to initiate the communication.<br>
+The <strong>Data transfer</strong> can now begin, so the 2 peers can exchange messages in a bidirectionnal and full-duplex communication.</p>
+</div>
+<div class="paragraph">
+<p>As shown in the diagram named <strong>Figure 3</strong>, the peer server can send multiple messages ('in this example : 1 message for each scored point, 1 message each time any user bet on this game and 1 message at the end of the match') without any peer client response and the peer client can also send messages at any time ('in this example : betting on the winner of the match').
+Each peer can send a specific message to close the connection.<br></p>
+</div>
+<div class="paragraph">
+<p>With Java EE7 Platform, the peer server side code is written in <strong>Java</strong> while the peer client side code is in <strong>Java or Javascript</strong>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_closing_handshake">Closing Handshake</h3>
+<div class="paragraph">
+<p>This phase <strong>can be initiated by both peer</strong>. A peer that want to close the communication need to send a <strong>close control frame</strong> and it will received a close control frame too as a response.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_websocket_javascript_api_client">WebSocket Javascript API (Client)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To communicate from a Web application with a server using the WebSocket protocol, it&#8217;s necessary to use a <strong>client Javascript API</strong>. It&#8217;s the role of W3C to define this API.
+The W3C specification for the <a href="http://w3.org/TR/websockets/">JavaScript WebSocket API</a> is being finalized. <a href="http://www.w3.org/TR/websockets/#websocket">The WebSocket interface</a> provides, among others, the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>an attribute to define the connection URL to the server Endpoint (url)</p>
+</li>
+<li>
+<p>an attribute to know the status of the connection (readyState : CONNECTING, OPEN, CLOSING, CLOSED)</p>
+</li>
+<li>
+<p>some <strong>Event Handler</strong> in connection with the WebSocket lifecycle, eg :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>the Event Handler onopen is called when a new connection is open</p>
+</li>
+<li>
+<p>the Event Handler onerror is called when an error occured during the communication</p>
+</li>
+<li>
+<p>the Event Handler onmessage is called when a message arrives from the server</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>methods (send(DOMString data), send(Blob data)) with which it&#8217;s possible to send different type of flow(text, binary) to the Endpoint server</p>
+</li>
+</ul>
+</div>
+<div id="eg3-callouts" class="exampleblock">
+<div class="title">Example 3. Javascript source code example, from <a href="http://websocket.org" class="bare">http://websocket.org</a></div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">var wsUri = "ws://echo.websocket.org/";
+
+function testWebSocket() {
+
+	websocket = new WebSocket(wsUri);
+	websocket.onopen = function(evt) { onOpen(evt) };
+	websocket.onclose = function(evt) { onClose(evt) };
+	websocket.onmessage = function(evt) { onMessage(evt) };
+	websocket.onerror = function(evt) { onError(evt) }; }
+}
+
+function onOpen(evt) {
+	writeToScreen("CONNECTED");
+	doSend("WebSocket rocks");
+}
+function onClose(evt) {
+	writeToScreen("DISCONNECTED");
+}
+function onMessage(evt) {
+	writeToScreen('&lt;span style="color: blue;"&gt;RESPONSE: ' + evt.data+'&lt;/span&gt;');
+	websocket.close();
+}
+
+function onError(evt) {
+	writeToScreen('&lt;span style="color: red;"&gt;ERROR:&lt;/span&gt; ' + evt.data);
+}
+function doSend(message) {
+	writeToScreen("SENT: " + message);
+	websocket.send(message);
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_jsr_386_java_api_for_websocket_protocol">JSR 386 : Java API for WebSocket protocol</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As the W3C defines how to use WebSocket in Javascript, the <strong>Java Communitee Process (JCP)</strong> does the same for the Java world via the JSR 386.<br>
+JSR 356 defines a <a href="http://jcp.org/en/jsr/detail?id=356">Java API for WebSocket protocol</a> which be part of <strong>Java EE Web Profile</strong> and give the ability to :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>create a *WebSocket Endpoint* (server or client), the name given to the Java component that can communicate via the WebSocket protocol</p>
+</li>
+<li>
+<p>the choice of <strong>annotation</strong> or programmatic approach</p>
+</li>
+<li>
+<p><strong>send and consume messages</strong> controls, text or binary via this protocol</p>
+<div class="ulist">
+<ul>
+<li>
+<p>manage the message as a complete message or a sequence of partial messages</p>
+</li>
+<li>
+<p>send or receive messages as Java objects (concept of <strong>encoders / decoders</strong>)</p>
+</li>
+<li>
+<p>send messages <strong>synchronously or asynchronously</strong></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>configure and manage <strong>WebSocket Session</strong> (timeout, cookies&#8230;&#8203;)</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+'The open source JSR-356 RI (Reference Implementation) is <a href="https://tyrus.java.net/">the project Tyrus</a>'
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_websocket_server_endpoint">WebSocket Server Endpoint</h3>
+<div class="paragraph">
+<p>The transformation of a Plain Old Java Object (POJO) to a <strong>Server WebSocket Endpoint</strong> (namely capable of handling requests from different customers on the same URI) is <strong>very easy</strong> since you only have to annotate the Java Class with <strong>@ServerEndpoint</strong> and one method with <strong>@OnMessage</strong> :</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import javax.websocket.OnMessage;
+import javax.websocket.ServerEndpoint;
+
+@ServerEndpoint("/echo") <i class="conum" data-value="1"></i><b>(1)</b>
+public class EchoServer {
+
+	@OnMessage <i class="conum" data-value="2"></i><b>(2)</b>
+	public String handleMessage(String message){
+		return "Thanks for the message: " + message;
+	}
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>@ServerEndpoint transforms this POJO into a WebSocket Endpoint, the <strong>value</strong> attribute is mandatory in order to set the access URI to this Endpoint</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>the 'handleMessage' method will be invoked for each received message</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_annotations">Annotations</h3>
+<div class="paragraph">
+<p>This Java API provides several types of annotations to be fully compatible with the WebSocket protocol :</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Annotation</th>
+<th class="tableblock halign-left valign-top">Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@ServerEndpoint</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare a Server Endpoint</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@ClientEndpoint</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare a Client Endpoint</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@OnOpen</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare this method handles open events</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@OnMessage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare this method handles Websocket messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@OnError</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare this method handles error</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@OnClose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Declare this method handles WebSocket close events</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>@ServerEndpoint attributes are listed below :</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">value</dt>
+<dd>
+<p>relative URI or template URI (ex: "/echo", "/matches/{match-id}")</p>
+</dd>
+<dt class="hdlist1">decoders</dt>
+<dd>
+<p>list of message decoder classnames</p>
+</dd>
+<dt class="hdlist1">encoders</dt>
+<dd>
+<p>liste of message encoder classnames</p>
+</dd>
+<dt class="hdlist1">subprotocols</dt>
+<dd>
+<p>list of the names of the supported subprotocols (ex: <a href="http://wamp.ws" class="bare">http://wamp.ws</a>)</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_encoders_and_decoders">Encoders and Decoders</h3>
+<div class="paragraph">
+<p>As described earlier in this article, the Endpoint server can receive different types of content in messages : data in text format (JSON, XML &#8230;&#8203;) or binary format.<br>
+To effectively manage the messages from 'peers client' or to them in the application business code, it is possible to create <strong>Encoders and Decoders</strong> Java classes.</p>
+</div>
+<div class="paragraph">
+<p>Whatever the transformation algorithm, it will then be possible to transform  :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the business POJO to flow in the desired format for communication (JSON, XML, Binary &#8230;&#8203;)</p>
+</li>
+<li>
+<p>inflows in specific format(JSON, XML..) to the business POJO</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Thus, the application code is structured so that the business logic is not affected by the type and format of messages exchanged between the 'peer server' and 'peers client' flows.</p>
+</div>
+<div class="paragraph">
+<p>A concrete example is presented later in the article.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_websocket_client_endpoint">WebSocket Client Endpoint</h3>
+<div class="paragraph">
+<p>This Java API also offers support for creating client-side Java Endpoints.</p>
+</div>
+<div id="eg4-callouts" class="exampleblock">
+<div class="title">Example 4. Java Client Endpoint sample</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@ClientEndpoint
+public class HelloClient {
+
+	@OnMessage
+	public String message(String message){
+		// code
+	}
+}
+
+WebSocketContainer c = ContainerProvider.getWebSocketContainer();
+c.connectToServer(HelloClient.class, "hello");</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_us_open_application">US OPEN Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The sample application is deployed as a WAR outcome of a build with Apache Maven.
+In addition to the traditional management WebSocket lifecycle, the sending messages workflow is as follows :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>each 'peer client' can connect to 1 or 4 live matches</p>
+</li>
+<li>
+<p>each 'peer client' can disconnect from a match</p>
+</li>
+<li>
+<p>at each point of a match, clients which are connected to this match will receive datas (score, service&#8230;&#8203;)</p>
+</li>
+<li>
+<p>the 'peer client' may send a message to bet on the winner of the match</p>
+</li>
+<li>
+<p>each time that one 'peer client' bet on a match, all others 'peers clients' which have bet on the same match, will receive a message with the total number of bettors</p>
+</li>
+<li>
+<p>at the end of the match, 'peers client' receive a message containing the name of the winner and a specific message if they bet on this match</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>All messages are exchanged in JSON format</strong><br></p>
+</div>
+<div class="paragraph">
+<p>The project layout is as follows :</p>
+</div>
+<div id="eg5-callouts" class="exampleblock">
+<div class="title">Example 5. Maven project structure</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">+ src/main/java
+   |+ com.mgreau.wildfly.websocket
+      |+ decoders
+         |- MessageDecoder.java   <i class="conum" data-value="1"></i><b>(1)</b>
+      |+ encoders       <i class="conum" data-value="2"></i><b>(2)</b>
+         |- BetMessageEncoder.java
+         |- MatchMessageEncoder.java
+      |+ messages       <i class="conum" data-value="3"></i><b>(3)</b>
+         |- BetMessage.java
+         |- MatchMessage.java
+         |- Message.java
+      |+ rest       <i class="conum" data-value="4"></i><b>(4)</b>
+         |- RestApplication.java
+         |- TournamentREST.java
+      |- MatchEndpoint.java    <i class="conum" data-value="5"></i><b>(5)</b>
+      |- StarterService.java   <i class="conum" data-value="6"></i><b>(6)</b>
+      |- TennisMatch.java      <i class="conum" data-value="7"></i><b>(7)</b>
++ src/main/resources
++ scr/main/webapp
+   |+ css
+   |+ images
+   |+ js
+      |+ live    <i class="conum" data-value="8"></i><b>(8)</b>
+         |- app.js
+         |- controllers.js
+         |- directives.js
+         |- services.js
+      |- websocket.js  <i class="conum" data-value="9"></i><b>(9)</b>
+   |+ templates
+      |- bet.html
+      |- match.html
+      |- msg.html
+   |- index.html
+   |- live.html
+pom.xml</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Decode JSON messages sent from the 'peer client' (about bet on the winner) to a POJO ('BetMessage')</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Encode in JSON format (via JSON-P), all messages about the winner and the match details for 'peers clients'</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>POJOs to handle messages sent between peers</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>REST endpoint to list all tournament&#8217;s matches</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>The application WebSocket Server Endpoint ('peer server')</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>EJB @Startup in order to initialize this application at deployment time</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>POJO to handle informations about the match</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>AngularJS files to handle several matches (live.html) with REST and WebSocket calls</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="9"></i><b>9</b></td>
+<td>File containing the implementation of Javascript API for WebSocket protocol to handle the client side of the communication for the simple case (index.html)</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_maven_dependencies_for_java_ee_7_api">Maven dependencies for Java EE 7 API</h3>
+<div id="eg6-callouts" class="exampleblock">
+<div class="title">Example 6. pom.xml with Java EE 7 dependencies</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;project&gt;
+...
+&lt;properties&gt;
+	&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+	&lt;!-- Java EE 7 --&gt;
+	&lt;javaee.api.version&gt;7.0&lt;/javaee.api.version&gt;
+&lt;/properties
+
+&lt;dependencies&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;javax&lt;/groupId&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+		&lt;artifactId&gt;javaee-api&lt;/artifactId&gt;
+		&lt;version&gt;${javaee.api.version}&lt;/version&gt;
+		&lt;scope&gt;provided&lt;/scope&gt;
+	&lt;/dependency&gt;
+&lt;/dependencies&gt;
+...
+&lt;/project&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>It&#8217;s important to use the Java EE 7 dependencies to be able to deploy the same application in multiple Java EE application servers (WildFly, Glassfish&#8230;&#8203;) <strong>without changing code</strong>.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_add_server_endpoint">Add Server Endpoint</h3>
+<div class="paragraph">
+<p>This endpoint can receive messages about betting on the winner of a match (identified by match-id) and it can also send to 'peers client' all informations about the course of the match and bets.</p>
+</div>
+<div id="eg7-callouts" class="exampleblock">
+<div class="title">Example 7. Server Endpoint : MatchEndpoint.java</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@ServerEndpoint(
+		value = "/matches/{match-id}",  <i class="conum" data-value="1"></i><b>(1)</b>
+		        decoders = { MessageDecoder.class }, <i class="conum" data-value="2"></i><b>(2)</b>
+		        encoders = { MatchMessageEncoder.class, BetMessageEncoder.class } <i class="conum" data-value="3"></i><b>(3)</b>
+		)
+public class MatchEndpoint {
+
+	private static final Logger logger = Logger.getLogger("MatchEndpoint");
+
+ 	/** All open WebSocket sessions */
+	static Set&lt;Session&gt; peers = Collections.synchronizedSet(new HashSet&lt;Session&gt;());
+
+	/** Handle number of bets by match */
+	static Map&lt;String, AtomicInteger&gt; nbBetsByMatch = new ConcurrentHashMap&lt;&gt;();
+
+	@Inject StarterService ejbService;
+
+	@OnOpen
+	public void openConnection(Session session,
+					@PathParam("match-id") String matchId) { <i class="conum" data-value="4"></i><b>(4)</b>
+    	session.getUserProperties().put(matchId, true);
+    	peers.add(session);
+
+    	//Send live result for this match
+    	send(new MatchMessage(ejbService.getMatches().get(matchId)), matchId);
+	}
+
+	public static void send(MatchMessage msg, String matchId) {
+	  try {
+	    /* Send updates to all open WebSocket sessions for this match */
+	    for (Session session : queue) {
+    	  if (Boolean.TRUE.equals(session.getUserProperties().get(matchId))){
+	        if (session.isOpen()){
+		      session.getBasicRemote().sendObject(msg);	<i class="conum" data-value="5"></i><b>(5)</b>
+	        }
+    	  }
+	    }
+	  } catch (IOException | EncodeException e) {
+	    logger.log(Level.INFO, e.toString());
+	  }
+	}
+
+	public static void sendBetMessage(Session session, BetMessage betMsg, String matchId)
+	{
+	  try {
+	      betMsg.setNbBets(nbBetsByMatch.get(matchId).get());
+	      session.getBasicRemote().sendObject(betMsg);
+		  logger.log(Level.INFO, "BetMsg Sent: {0}", betMsg.toString());
+	  } catch (IOException | EncodeException e) {
+		  logger.log(Level.SEVERE, e.toString());
+	  }
+	}
+
+	@OnMessage
+	public void message(final Session session, BetMessage msg,    <i class="conum" data-value="6"></i><b>(6)</b>
+					@PathParam("match-id") String matchId) {
+	  session.getUserProperties().put("bet", msg.getWinner());
+
+	  //Send betMsg with bet count
+	  if (!nbBetsByMatch.containsKey(matchId)){
+	     nbBetsByMatch.put(matchId, new AtomicInteger());
+	  }
+	  nbBetsByMatch.get(matchId).incrementAndGet();
+	  sendBetMessages(null, matchId, false);
+	}
+
+	@OnClose
+	public void closedConnection(Session session,
+	                    @PathParam("match-id") String matchId) {
+	  if (session.getUserProperties().containsKey("bet")){
+		  nbBetsByMatch.get(matchId).decrementAndGet();
+		  sendBetMessages(null, matchId, false);
+	  }
+	  /* Remove this connection from the queue */
+	  peers.remove(session);
+	}
+...
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Access URI to this Endpoint, as the application context-root is '/usopen', the final URL looks like this : ws://&lt;host&gt;:&lt;port&gt;/usopen/matches/1234</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>'MessageDecoder' transforms the incoming JSON flow (about the bet on the winner) into a POJO 'BetMessage'</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>This 2 encoders add the ability to transform from 'MatchMessage' POJO and 'BetMessage' POJO to messages in JSON format</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>@PathParam annotation allows to extract part of the WebSocket request and pass the value (id match) as the parameter of the method, it is possible to manage several match with multiple clients for each match.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Send, to connected peers, messages about the course of the match. Thanks to the 'MatchMessageEncoder' object, simply pass the 'MatchMessage' object.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Handle received messages about the bet on the winner, thanks to the 'MessageDecoder' object, one of the parameters of this method is a 'BetMessage' object</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_encodes_and_decodes_messages">Encodes and Decodes messages</h3>
+<div class="paragraph">
+<p>To encode or decode messages exchanged between peers, simply implement the appropriate interface according to the message type (text, binary) and direction of processing (encoding, decoding), then redefine the associated method.<br>
+In the example below, it&#8217;s the <strong>encoder</strong> for MatchMessage POJO to JSON format. The API used to perform this treatment is also a new API released with Java EE 7 : <a href="http://jcp.org/en/jsr/detail?id=353">Java API for JSON Processiong (JSON-P)</a></p>
+</div>
+<div id="eg8-callouts" class="exampleblock">
+<div class="title">Example 8. Text Encoder : MatchMessageEncoder.java</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class MatchMessageEncoder implements Encoder.Text&lt;MatchMessage&gt; {
+
+	@Override
+	public String encode(MatchMessage m) throws EncodeException {
+		StringWriter swriter = new StringWriter();
+		try (JsonWriter jsonWrite = Json.createWriter(swriter)) {
+			JsonObjectBuilder builder = Json.createObjectBuilder();
+			builder.add(
+				"match",
+				Json.createObjectBuilder()
+					.add("serve", m.getMatch().getServe())
+					.add("title", m.getMatch().getTitle())
+					...
+			}
+
+			jsonWrite.writeObject(builder.build());
+		}
+		return swriter.toString();
+	}
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_html5_web_client_single_match_index_html">HTML5 Web Client (single match - index.html)</h3>
+<div class="paragraph">
+<p>The index.html page of this application loads the <strong>websocket.js</strong> file to implement the Javascript WebSocket API and thus interact with the Java Server Endpoint. This page handle only one single match.</p>
+</div>
+<div id="eg9-callouts" class="exampleblock">
+<div class="title">Example 9. API Javascript implemented into websocket.js</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-javascript" data-lang="javascript">var wsUrl;
+if (window.location.protocol == 'https:') {  <i class="conum" data-value="1"></i><b>(1)</b>
+	wsUrl = 'wss://' + window.location.host + ':8443/usopen/matches/1234';
+} else {
+	wsUrl = 'ws://' + window.location.host + ':8000/usopen/matches/1234';
+}
+
+function createWebSocket(host) {
+	if (!window.WebSocket) {    <i class="conum" data-value="2"></i><b>(2)</b>
+	...
+	} else {
+		socket = new WebSocket(host);   <i class="conum" data-value="3"></i><b>(3)</b>
+		socket.onopen = function() {
+			document.getElementById("m1-status").innerHTML = 'CONNECTED...';
+		};
+		socket.onclose = function() {
+			document.getElementById("m1-status").innerHTML = 'FINISHED';
+		};
+		...
+		socket.onmessage = function(msg) {
+			try {
+				console.log(data);
+				var obj = JSON.parse(msg.data);     <i class="conum" data-value="4"></i><b>(4)</b>
+				if (obj.hasOwnProperty("match")){   <i class="conum" data-value="5"></i><b>(5)</b>
+					//title
+					m1title.innerHTML = obj.match.title;
+					// comments
+					m1comments.value = obj.match.comments;
+					// serve
+					if (obj.match.serve === "player1") {
+						m1p1serve.innerHTML = "S";
+						m1p2serve.innerHTML = "";
+					} else {
+						m1p1serve.innerHTML = "";
+						m1p2serve.innerHTML = "S";
+					}
+					..
+				}
+				...
+			} catch (exception) {
+				data = msg.data;
+				console.log(data);
+			}
+		}
+	}
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Choose the appropriate WebSocket protocol according to the HTTP protocol currently used (secure or not)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Check if the browser supports WebSocket API</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Create the WebSocket object</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Try to parse the JSON message sent by 'peer server', into the function called by onmessage Event Handler</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Check the received object type (MatchMessage or BetMessage) to achieve adequate treatment with DOM</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To find out which browsers are compatible with <strong>WebSocket API</strong> <a href="http://caniuse.com/#search=websocket">visit the website caniuse.com</a>. Today, the latest versions of browsers are compatible excepted for Android and Opera Mini Browser, which represent, both together, only 3% of web traffic.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_angularjs_client_several_matches_live_html">AngularJS Client (several matches - live.html)</h3>
+<div class="paragraph">
+<p>As we saw on the beginning of this post, the version to handle severals matches is developed with AngularJS on the client side.
+So there are 4 JS files which contains :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>app.js : just define the 'tennisApp' angular application</p>
+</li>
+<li>
+<p>controllers.js : the TournamentCtrl controller</p>
+</li>
+<li>
+<p>directives.js :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>bet directive and bet.html template to show the number of bettors and the current bet</p>
+</li>
+<li>
+<p>match directive and match.html template to handle live informations</p>
+</li>
+<li>
+<p>msg directive and msg.html template to shwo a message at the end of the match with the bet result if needed</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>services.js :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>WebSocketService : to handle WebSocket lifecycle with callback</p>
+</li>
+<li>
+<p>TournamentRESTService : to get all matches from REST Endpoint server</p>
+</li>
+<li>
+<p>BetsService and MatchesServices</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>'This post is not a tutorial about AngularJS since it&#8217;s my first app with this framework. But it was a quick solution to handle several matches on the client side. You can read the 3 following posts to better understand the JS code : <a href="http://www.frangular.com/2013/10/scope-isole-dans-les-directives.html">directives in French</a> and <a href="http://suhairhassan.com/2013/10/21/refactoring-to-angularjs-directive.html#.Un1t12S1Xv2">Refactoring to AngularJS directives</a> and <a href="http://clintberry.com/2013/angular-js-websocket-service/">AngularJS WebSocket Service example</a>'</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_source_code_on_github">Source code on Github</h3>
+<div class="paragraph">
+<p>You can <strong>fork this project on Github</strong> at *https://github.com/mgreau/javaee7-websocket*</p>
+</div>
+<div class="paragraph">
+<p>This sample application is basic, there could be many improvements like betting on other criteria&#8230;&#8203;</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>'A feature that could be interesting technically, would be to create a new type of <strong>bet based on the coordinates of each winning point</strong>. Simply draw the ground through the HTML5 Canvas API and manage the coordinates selected by the user (such as winning point) and then compare with the actual coordinates at a point winner. '</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build_and_deploy_the_war">Build and Deploy the WAR</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Prerequisite :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>JDK 7</p>
+</li>
+<li>
+<p>Apache Maven 3.0.4+</p>
+</li>
+<li>
+<p>Java EE 7 Application Server (WildFly 8)</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In order to build the WAR, you just have to execute the Maven command below ;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">mvn clean package</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If your application server is WildFly, you can quickly deploy the WAR with the command below (WildFly has to be started) :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">mvn jboss-as:deploy</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The usopen application is then available at :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://localhost:8080/usopen/" class="bare">http://localhost:8080/usopen/</a> for the simple case with only native Javascript</p>
+</li>
+<li>
+<p><a href="http://localhost:8080/usopen/matches" class="bare">http://localhost:8080/usopen/matches</a> for the version with severals matches and AngularJS</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>WildFly 10 uses its new *Web Server called http://undertow.io[Undertow]* which replaces Tomcat.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>'I didn&#8217;t test this application on Glassfish 4, but since I&#8217;m using only Java EE 7 API dependencies, it could work with the same code without problem. Let me know if you have troubles with GlassFish. '</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_benchmark_websocket_vs_rest">Benchmark : WebSocket VS REST</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to have some metrics about the performance of this new protocol, Arun Gupta has developed <a href="https://github.com/arun-gupta/javaee7-samples/tree/master/websocket/websocket-vs-rest">an application that allows compare the execution time of</a> the same treatment performed by WebSocket code and REST code.</p>
+</div>
+<div class="paragraph">
+<p>Each endpoint (REST Endpoint and WebSocket Endpoint) just do an "echo" so they only return the flows they receive. The web interface of the application allows you to define the size of the message and the number of times that the message must be sent before the end of the test.</p>
+</div>
+<div class="paragraph">
+<p>The benchmark results, shown below, are quite eloquent :</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Request</th>
+<th class="tableblock halign-left valign-top">Total execution time<br>
+<strong>REST Endpoint</strong></th>
+<th class="tableblock halign-left valign-top">Total execution time<br>
+<strong>WebSocket Endpoint</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sending 10 messages of 1 byte</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">220 ms (63 ms)*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7 ms (29ms)*</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sending 100 messages of 10 bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">986 ms (587 ms)*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">57 ms (74 ms)*</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sending 1000 messages of 100 bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10 210 ms (4 636 ms)*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">179 ms (288 ms)*</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sending 5000 messages of 1000 bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">54 449 ms (18 049 ms)*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1202 ms (2862 ms)*</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>'Values between ()* represent the same tests on my laptop (MacBook Pro 2013 i5 - 8Go - 128SSD) with WildFly 8.0.0-beta1 with default configuration.'</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_references_about_websocket">References about WebSocket</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>I would particularly recommend <a href="https://twitter.com/arungupta">Arun Gupta</a>'s conferences, which allow you in less than 1 hour to discover and understand the WebSocket technology in general and the Java API for WebSocket.<br>
+For more advanced information, the ideal is IETF, W3C and Java specifications.</p>
+</div>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a href="http://tools.ietf.org/html/rfc6455">RFC 6455: The WebSocket Protocol</a> - 'IETF Specification'</p>
+</li>
+<li>
+<p><a href="http://w3.org/TR/websockets/">W3C: The WebSocket API</a> - 'W3C Specification' (Candidate Recommandation)</p>
+</li>
+<li>
+<p><a href="http://jcp.org/en/jsr/detail?id=356">JSR 356: Java API for WebSocket Protocol</a> - 'Java Specification'</p>
+</li>
+<li>
+<p><a href="https://glassfish.java.net/adoptajsr/jsr356.html">Adopt a JSR - JSR 356</a></p>
+</li>
+<li>
+<p><a href="http://www.youtube.com/watch?v=QqbuDFIT5To">Java EE 7 &amp; WebSocket API</a> - 'Arun Gupta&#8217;s conference @ SF' (from the 46th minute)</p>
+</li>
+<li>
+<p><a href="http://www.parleys.com/play/51c1cceae4b0ed8770356828/chapter4/about">Getting Started with WebSocket and SSE</a> - 'Arun Gupta&#8217;s conference @ Devoxx UK 2013'</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>'This article was structured based on the UK 2013 Devoxx conference.'</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion">Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This article has introduced, through a concrete example, <strong>the WebSocket protocol, the HTML5 WebSocket API and Java API for WebSocket released with Java EE 7</strong>. It was already possible to use WebSocket with Java frameworks like <a href="http://async-io.org/download.html">Atmosphere</a> but lacked a standard.<br>
+Today all <strong>standards are completed or about to be</strong>, this new technology meets a specific need and is promising in terms of performance. To be heavily used, this protocol will need to be allowed in businesses where often only the HTTP protocol is permitted.</p>
+</div>
+</div>
+</div>
+          </div>
+          <footer class="post-footer">
+            <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img itemprop="image" src="https://avatars.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <h4 class="post-footer-heading">Written By</h4>
+                <a href="http://mgreau.com/posts/" itemprop="url" class="post-author-name">
+                  <span itemprop="name">Maxime Gréau</span>
+                </a>
+                <p itemprop="description" class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+                  <p class="post-author-location">Nantes, France</p>
+                  <p class="post-author-website">
+                    <a href="http://mgreau.com/posts/" rel="nofollow">http://mgreau.com/posts/</a>
+                  </p>
+                <p class="post-info">
+                  <b class="post-info-title">Published on</b>
+                  <time class="post-date">November 11, 2013</time>
+                </p>
+              </div>
+            </div>
+            <div class="post-social">
+              <h4 class="post-footer-heading">Spread the word</h4>
+              <a href="#" data-action="share-twitter"><i class="fa fa-fw fa-lg fa-twitter"></i></a>
+              <a href="#" data-action="share-facebook"><i class="fa fa-fw fa-lg fa-facebook"></i></a>
+              <a href="#" data-action="share-gplus"><i class="fa fa-fw fa-lg fa-google-plus"></i></a>
+            </div>
+          </footer>
+        </section>
+      <section itemprop="comment" class="post-comments">
+        <div id="disqus_thread"></div>
+      </section>
+    </article>
+
+    <footer role="contentinfo" class="footer">
+      <p><small>Copyright &copy; <span itemprop="copyrightHolder">@mgreau :: Blog</span>. 2016. All Rights Reserved.</small></p>
+      <p><small><a href="http://ghostium.oswaldoacauan.com/" target="_blank">Ghostium Theme</a> by <a href="http://twitter.com/oswaldoacauan" target="_blank">@oswaldoacauan</a></small></p>
+      <p><small>Adapted by <a href="https://twitter.com/mgreau">Maxime Gréau</a></small></p>
+      <p><small>Published with <a href="http://hubpress.io">HubPress</a></small></p>
+    </footer>
+  </div>
+</section>
+
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+  var disqus_shortname = 'mgreau'; // required: replace example with your forum shortname
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();
+      </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1480415674605"></script>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-20147445-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+  </body>
+</html>

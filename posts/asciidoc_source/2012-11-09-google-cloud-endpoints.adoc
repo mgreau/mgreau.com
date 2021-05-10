@@ -1,0 +1,22 @@
+= [Talk] Google Cloud Endpoints @ DevFest 2012 
+Maxime Greau <greau.maxime@gmail.com>
+v1.0, November 09, 2012
+//HubPress attributes
+:hp-alt-title: google cloud endpoints
+:published_at: 2012-11-09
+:hp-tags: Google, Android, AppEngine, Javascript, DevFest, DevFest2012, talk
+:hp-image: http://image.slidesharecdn.com/googlecloudendpoints-devfest-nantes2012-121116034354-phpapp02/95/google-cloud-endpoints-devfest-nantes-2012-25-638.jpg?cb=1353040273
+
+
+My Session about *Google Cloud Endpoints* at http://devfest2012.gdgnantes.com/sessions[*DevFest Nantes 2012*] with a Web application (Bacbkone JS, HTML5, AppEngine) and Android demo:
+
+** icon:file[] http://fr.slideshare.net/mgreau/google-cloud-endpoints-dev-fest-nantes2012[Slides Google Cloud Endpoints DevFest @ *Slideshare*]
+** icon:youtube[] https://www.youtube.com/watch?v=qbphOvgKcgg&feature=plcp[Vidéo Google Cloud Endpoints DevFest @ *Youtube*]
+** icon:code[] https://github.com/mgreau/appengine-endpoints-booking[Source Code @ *Github*]
+
+++++
+<iframe src="//fr.slideshare.net/slideshow/embed_code/key/1XcrsJWD1PvLhf" width="100%" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//fr.slideshare.net/mgreau/google-cloud-endpoints-dev-fest-nantes2012" title="Google Cloud Endpoints - DevFest - Nantes 2012" target="_blank">Google Cloud Endpoints - DevFest - Nantes 2012</a> </strong> from <strong><a href="//www.slideshare.net/mgreau" target="_blank">Maxime Gréau</a></strong> </div>
+     
+++++
+
+video::qbphOvgKcgg[youtube]

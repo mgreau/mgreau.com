@@ -1,0 +1,23 @@
+= XStream on EAP 6 with Sun14ReflectionProvider
+Maxime Gréau
+2013-08-26
+//HubPress attributes
+:hp-alt-title: xstream and JBossEAP6
+:published_at: 2013-08-26
+:hp-tags: Java EE, JBoss, EAP, XStream
+:hp-image: http://paulhammant.com/images/xstream.png
+
+If you want to use the Sun14ReflectionProvider with XStream, you have to add a dependency to the "sun.jdk" module.
+
+pass::[more]
+
+[source,xml]
+--
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.0" name="mymodule">
+  ...
+  <dependencies>
+    <module name="sun.jdk" />
+  </dependencies>
+</module>
+--

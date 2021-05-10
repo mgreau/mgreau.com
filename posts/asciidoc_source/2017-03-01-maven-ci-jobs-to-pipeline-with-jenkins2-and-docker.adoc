@@ -1,0 +1,52 @@
+= [Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker 
+Maxime Greau <greau.maxime@gmail.com>
+v1.0, March 01, 2017
+//HubPress attributes
+:hp-alt-title: maven ci jobs to pipeline with jenkins2 and docker
+:published_at: 2017-03-01
+:hp-tags: docker, maven, jenkins, pipeline, talk
+:hp-image: http://mgreau.com/jenkins2-pipeline-maven-docker/images/exo-swf-dsl-pipeline.svg
+
+This is the talk I gave at DevopsDDay 2016 and Docker Meetup Nantes 2017 about Jenkins 2, Maven, Pipeline as Code and Docker. It was the opportunity to revisit the problems that we have had and the solutions adopted, and some best practices around *Maven builds in Docker containers*, all managed by the *Jenkins Pipeline as Code pattern*:
+
+* icon:youtube[] https://youtu.be/MxaQW56tiGE?list=PLAnrr6UexefnE4mJVeTDwGld3nU9VZ3bX[Video Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker @ DevopsDDay]
+* icon:file[] http://mgreau.com/jenkins2-pipeline-maven-docker/[Slides Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker]
+* Source Code
+** icon:code[] https://github.com/mgreau/jenkins2-pipeline-maven-docker/tree/master/demo[Source Code - docker-compose.yml for Jenkins and Sonar @ *Github*]
+** icon:code[] https://github.com/mgreau/dockerfiles/tree/master/jenkins2[Source Code - mgreau/jenkins2 Dockerfile @ *Github*]
+** icon:code[] https://github.com/mgreau/exo-pipeline-library/tree/master/[Source Code - exo-pipeline-library samples @ *Github*]
+
+== Embedded Video
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MxaQW56tiGE?list=PLAnrr6UexefnE4mJVeTDwGld3nU9VZ3bX" frameborder="0" allowfullscreen></iframe><div style="margin-bottom:5px"> Recorded @ <strong>DevopsDDay 2016</strong> </div>
+++++
+
+== Embedded Slides
+
+++++
+<iframe src="//mgreau.com/jenkins2-pipeline-maven-docker/" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//mgre
+au.com/jenkins2-pipeline-maven-docker/" title="Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker" target="_blank">Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker</a> </strong> from <strong><a href="//mgreau.com/jenkins2-pipeline-maven-docker/" target="_blank">DevopsDDay 2016 & Docker Meetup 2017</a></strong> </div>
+
+++++
+
+== Summary of the presentation
+
+Click, click, click...
+The clicks in the Jenkins UI to handle all the Maven jobs haunt you even at night? 
+You want to manage them with the same process that you use for source code?
+
+If I tell you that you can manage all your Maven builds with 3 lines of Groovy in a Jenkinsfile, it’s cool, isn’it?
+
+[source,groovy]
+----
+exoCI {
+    dockerImage = ‘exoplatform/ci:jdk8-maven32’
+}
+----
+
+With this case study you will understand why and how we have upgraded more than 300 Jenkins “standard Maven jobs” to Pipelines on our eXo Platform CI instance. +
+This talk is an opportunity to revisit the problems that we have had and the solutions adopted, and *some best practices around Maven builds in Docker containers*, all managed by the *Jenkins Pipeline as Code* pattern.
+
+
+

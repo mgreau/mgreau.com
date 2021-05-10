@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker">
+    <meta property="og:description" content="">
+
+    <!-- <meta name="twitter:site" content="">
+
+<meta name="twitter:creator" content="">
+
+<meta name="google-site-verification" content="">
+
+<meta property="fb:admins" content="">
+ -->
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link href="//fonts.googleapis.com/" rel="dns-prefetch">
+    <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1492593683638"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1492593683638"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1492593683638"/>
+
+
+
+
+    <script type="text/javascript">
+      var ga_ua = 'UA-XXXXX-X';
+      
+      var disqus_shortname = 'example';
+      
+      var enable_pjax = true;
+
+      // Pace Options
+      // ==============
+      window.paceOptions = {
+        catchupTime: 100,
+        minTime: 100,
+        elements: false,
+        restartOnRequestAfter: 500,
+        startOnPageLoad: false
+      }
+
+      // Ghostium Globals
+      // ==============
+      window.GHOSTIUM = {};
+      GHOSTIUM.haveGA = typeof ga_ua !== 'undefined' && ga_ua !== 'UA-XXXXX-X';
+      GHOSTIUM.haveDisqus = typeof disqus_shortname !== 'undefined' && disqus_shortname !== 'example';
+      GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
+    </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1492593683638"></script>
+
+    <link rel="canonical" href="https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" />
+    <meta name="referrer" content="origin" />
+    
+    <meta property="og:site_name" content="@mgreau :: Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker" />
+    <meta property="og:description" content="This is the talk I gave at DevopsDDay 2016 and Docker Meetup Nantes 2017 about Jenkins 2, Maven, Pipeline as Code and Docker. It was the opportunity to revisit the problems that we have had and the solutions adopted, and some best practices around Maven builds in Docker containers, all" />
+    <meta property="og:url" content="https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" />
+    <meta property="article:tag" content="docker" />
+    <meta property="article:tag" content=" maven" />
+    <meta property="article:tag" content=" jenkins" />
+    <meta property="article:tag" content=" pipeline" />
+    <meta property="article:tag" content=" talk" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker" />
+    <meta name="twitter:description" content="This is the talk I gave at DevopsDDay 2016 and Docker Meetup Nantes 2017 about Jenkins 2, Maven, Pipeline as Code and Docker. It was the opportunity to revisit the problems that we have had and the solutions adopted, and some best practices around Maven builds in Docker containers, all" />
+    <meta name="twitter:url" content="https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" />
+    
+    <script type="application/ld+json">
+null
+    </script>
+
+    <meta name="generator" content="HubPress" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+  </head>
+  <body class="post-template tag-docker tag-maven tag-jenkins tag-pipeline tag-talk">
+
+    <button data-action="open-drawer" id="drawer-button" class="drawer-button"><i class="fa fa-bars"></i></button>
+    <nav tabindex="-1" class="drawer">
+      <div class="drawer-container">
+        <!--.drawer-search(role="search")-->
+        <ul role="navigation" class="drawer-list">
+          
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" data-pjax>
+              <i class="fa fa-home"></i>Home
+            </a>
+          </li>
+          <!-- <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+              <i class="fa fa-list-alt"></i>All posts
+            </a>
+          </li> -->
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts/rss/">
+              <i class="fa fa-rss"></i>Subscribe to Feed
+            </a>
+          </li>
+          <li class="drawer-list-divider"></li>
+          <li class="drawer-list-item drawer-list-title">
+            Follow me
+          </li>
+          
+          
+          <li class="drawer-list-item">
+            <a href="https://twitter.com/mgreau" title="Twitter" target="_blank">
+              <i class="fa fa-twitter"></i>Twitter
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://github.com/mgreau" title="Github" target="_blank">
+              <i class="fa fa-github"></i>Github
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://plus.google.com/u/0/+maximegreau-aka-mgreau/" title="Google+" target="_blank">
+              <i class="fa fa-google-plus"></i>Google+
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://fr.linkedin.com/pub/maxime-gréau/26/645/994" title="LinkedIn" target="_blank">
+              <i class="fa fa-linkedin"></i>LinkedIn
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="mailto:greau.maxime@gmail.com" title="Email" target="_blank">
+              <i class="fa fa-envelope-o"></i>Email
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="drawer-overlay"></div>
+    <main id="container" role="main" class="container">
+      <div class="surface">
+        <div class="surface-container">
+          <div data-pjax-container class="content">
+            
+<section class="wrapper wrapper-post">
+  <div class="wrapper-container">
+    <article itemscope itemtype="http://schema.org/BlogPosting" role="article" class="post post tag-docker tag-maven tag-jenkins tag-pipeline tag-talk">
+        <section class="post-container">
+          <header class="post-header">
+            <ul class="post-meta-list">
+              <li class="post-meta-item">
+                <time datetime="2017-03-01" itemprop="datePublished">
+                  2 months ago
+                </time>
+              </li>
+                <li class="post-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/docker/">docker</a>, <a href="https://mgreau.github.io/posts/tag/maven/"> maven</a>, <a href="https://mgreau.github.io/posts/tag/jenkins/"> jenkins</a>, <a href="https://mgreau.github.io/posts/tag/pipeline/"> pipeline</a>, <a href="https://mgreau.github.io/posts/tag/talk/"> talk</a></span>
+                  </span>
+                </li>
+              <li class="post-meta-item">
+                <a href="#disqus_thread" data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+            <h1 itemprop="name headline" class="post-title"><a href="https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" itemprop="url" data-pjax title="[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker">[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker</a></h1>
+            <!--h2 itemprop="about" class="post-subtitle"></h2-->
+          </header>
+          <aside class="post-side">
+            <div class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img src="https://avatars2.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <a href="http://mgreau.com/posts/" class="post-author-name">
+                  Maxime Gréau
+                </a>
+                <p class="post-author-bio">Technology enthusiast: Docker, Java, Go, Javascript, Asciidoctor, Git, Maven and Web. </p>
+              </div>
+            </div>
+          </aside>
+          <div itemprop="articleBody" class="post-body">
+            <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is the talk I gave at DevopsDDay 2016 and Docker Meetup Nantes 2017 about Jenkins 2, Maven, Pipeline as Code and Docker. It was the opportunity to revisit the problems that we have had and the solutions adopted, and some best practices around <strong>Maven builds in Docker containers</strong>, all managed by the <strong>Jenkins Pipeline as Code pattern</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="icon"><i class="fa fa-youtube"></i></span> <a href="https://youtu.be/MxaQW56tiGE?list=PLAnrr6UexefnE4mJVeTDwGld3nU9VZ3bX">Video Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker @ DevopsDDay</a></p>
+</li>
+<li>
+<p><span class="icon"><i class="fa fa-file"></i></span> <a href="http://mgreau.com/jenkins2-pipeline-maven-docker/">Slides Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker</a></p>
+</li>
+<li>
+<p>Source Code</p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="icon"><i class="fa fa-code"></i></span> <a href="https://github.com/mgreau/jenkins2-pipeline-maven-docker/tree/master/demo">Source Code - docker-compose.yml for Jenkins and Sonar @ <strong>Github</strong></a></p>
+</li>
+<li>
+<p><span class="icon"><i class="fa fa-code"></i></span> <a href="https://github.com/mgreau/dockerfiles/tree/master/jenkins2">Source Code - mgreau/jenkins2 Dockerfile @ <strong>Github</strong></a></p>
+</li>
+<li>
+<p><span class="icon"><i class="fa fa-code"></i></span> <a href="https://github.com/mgreau/exo-pipeline-library/tree/master/">Source Code - exo-pipeline-library samples @ <strong>Github</strong></a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_embedded_video">Embedded Video</h2>
+<div class="sectionbody">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MxaQW56tiGE?list=PLAnrr6UexefnE4mJVeTDwGld3nU9VZ3bX" frameborder="0" allowfullscreen></iframe><div style="margin-bottom:5px"> Recorded @ <strong>DevopsDDay 2016</strong> </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_embedded_slides">Embedded Slides</h2>
+<div class="sectionbody">
+<iframe src="//mgreau.com/jenkins2-pipeline-maven-docker/" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//mgre
+au.com/jenkins2-pipeline-maven-docker/" title="Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker" target="_blank">Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker</a> </strong> from <strong><a href="//mgreau.com/jenkins2-pipeline-maven-docker/" target="_blank">DevopsDDay 2016 & Docker Meetup 2017</a></strong> </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary_of_the_presentation">Summary of the presentation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Click, click, click&#8230;&#8203;
+The clicks in the Jenkins UI to handle all the Maven jobs haunt you even at night?
+You want to manage them with the same process that you use for source code?</p>
+</div>
+<div class="paragraph">
+<p>If I tell you that you can manage all your Maven builds with 3 lines of Groovy in a Jenkinsfile, it’s cool, isn’it?</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">exoCI {
+    dockerImage = ‘exoplatform/ci:jdk8-maven32’
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With this case study you will understand why and how we have upgraded more than 300 Jenkins “standard Maven jobs” to Pipelines on our eXo Platform CI instance.<br>
+This talk is an opportunity to revisit the problems that we have had and the solutions adopted, and <strong>some best practices around Maven builds in Docker containers</strong>, all managed by the <strong>Jenkins Pipeline as Code</strong> pattern.</p>
+</div>
+</div>
+</div>
+          </div>
+          <footer class="post-footer">
+            <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img itemprop="image" src="https://avatars2.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <h4 class="post-footer-heading">Written By</h4>
+                <a href="http://mgreau.com/posts/" itemprop="url" class="post-author-name">
+                  <span itemprop="name">Maxime Gréau</span>
+                </a>
+                <p itemprop="description" class="post-author-bio">Technology enthusiast: Docker, Java, Go, Javascript, Asciidoctor, Git, Maven and Web. </p>
+                  <p class="post-author-location">Nantes, France</p>
+                  <p class="post-author-website">
+                    <a href="http://mgreau.com/posts/" rel="nofollow">http://mgreau.com/posts/</a>
+                  </p>
+                <p class="post-info">
+                  <b class="post-info-title">Published on</b>
+                  <time class="post-date">March 01, 2017</time>
+                </p>
+              </div>
+            </div>
+            <div class="post-social">
+              <h4 class="post-footer-heading">Spread the word</h4>
+              <a href="#" data-action="share-twitter"><i class="fa fa-fw fa-lg fa-twitter"></i></a>
+              <a href="#" data-action="share-facebook"><i class="fa fa-fw fa-lg fa-facebook"></i></a>
+              <a href="#" data-action="share-gplus"><i class="fa fa-fw fa-lg fa-google-plus"></i></a>
+            </div>
+          </footer>
+        </section>
+      <section itemprop="comment" class="post-comments">
+        <div id="disqus_thread"></div>
+      </section>
+    </article>
+
+    <footer role="contentinfo" class="footer">
+      <p><small>Copyright &copy; <span itemprop="copyrightHolder">@mgreau :: Blog</span>. 2017. All Rights Reserved.</small></p>
+      <p><small><a href="http://ghostium.oswaldoacauan.com/" target="_blank">Ghostium Theme</a> by <a href="http://twitter.com/oswaldoacauan" target="_blank">@oswaldoacauan</a></small></p>
+      <p><small>Adapted by <a href="https://twitter.com/mgreau">Maxime Gréau</a></small></p>
+      <p><small>Published with <a href="http://hubpress.io">HubPress</a></small></p>
+    </footer>
+  </div>
+</section>
+
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+  var disqus_shortname = 'mgreau'; // required: replace example with your forum shortname
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();
+      </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1492593683638"></script>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-20147445-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+  </body>
+</html>

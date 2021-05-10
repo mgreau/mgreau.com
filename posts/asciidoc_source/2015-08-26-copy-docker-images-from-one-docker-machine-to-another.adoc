@@ -1,0 +1,189 @@
+= #docker4Dev: Copy Docker images from one docker machine to another
+Maxime Greau <greau.maxime@gmail.com>
+v1.0, August 24, 2015: First version
+//HubPress attributes
+:hp-alt-title: copy docker images from one docker machine to another
+:published_at: 2015-08-26
+:hp-tags: docker4Dev, docker-machine, docker
+:hp-image: http://mgreau.com/posts/images/cover-docker-machine-scp.png
+//Post attributes
+:toc: preamble
+:link-docker-toolbox: https://www.docker.com/toolbox
+:link-docker-toolbox-blog: http://blog.docker.com/2015/08/docker-toolbox/
+:link-machine-scp-pr: https://github.com/docker/machine/pull/1140/files
+:link-machine-scp-blog: https://blog.docker.com/2015/06/docker-machine-0-3-0-deep-dive/
+
+
+[NOTE]
+.Overview
+====
+In this post, you will see how to *copy images from one docker machine to another by using docker-machine scp command* available since docker-machine 0.3.0.
+It may be useful if you have *no Internet access neither local docker registry installed*.
+
+* if you are already familiar with docker-machine, you can jump ahead and start <<_copy_image_from_machine_to_machine, reading how to copy images>>.
+* if you want to see it in action right know, you can <<_see_it_in_action_terminal_session_demo, watch the terminal session video>> recorded with https://asciinema.org/[Asciinema] (01:25, speed x3)
+
+.About this post
+Language *_EN_* /  Timereading *_10 mn_*
+
+====
+
+Today I really think that Docker is not only a revolution for Ops and DevOps teams, but also on the Development environment side and that's just a beginning.
+
+That's why I have *a lot of docker machines created on my laptop* in order to organize my several development environments. But the fact is that you frequently want to use an image on a machine that is already present on another existing docker machine. And if you are offline or if you Internet connection is slow, *you can't execute a 'docker pull' command*, so *how to deal with that?*
+
+[[docker_machine_scp]]
+.Copy Docker images from machine to machine with scp
+image::{hp-image}[Docker Machine scp,950]
+
+== Install Docker Machine
+
+=== Installation via Docker Toolbox
+
+Two weeks ago, Docker announced a *new installer* for Mac OS X and Windows called *Toolbox*.
+
+[quote]
+Toolbox installs everything you need to get Docker running in development: the Docker client, Compose (Mac only), Kitematic, Machine, and VirtualBox.
+
+Even if, under the hood, Machine still uses *Boot2Docker*, now containers are managed by *Machine*.
+
+You can find all informations about *Toolbox* at the following URLs:
+
+* ToolBox blog post: {link-docker-toolbox-blog}[ANNOUNCING DOCKER TOOLBOX]
+* {link-docker-toolbox}[ToolBox install packages]
+
+=== Installation via Command line
+
+If you still want to install Docker machine without Toolbox, you can execute the following commands:
+
+[source, bash]
+--
+$ curl -L https://github.com/docker/machine/releases/download/v0.4.1/docker-machine_linux-amd64 > /usr/local/bin/docker-machine  <1>
+$ chmod +x /usr/local/bin/docker-machine <2>
+--
+<1> Download the latest docker-machine binary *according to your target platform*
+<2> Apply executable permissions to the binary
+
+
+Then whatever the choice you made for installing it, you should be able to execute the *docker-machine* help command to see the *scp command* on the list:
+
+[source, bash]
+--
+$ docker-machine help
+...
+Version: 0.4.1 (e2c88d6)  <1>
+...
+Commands:
+  active		Print which machine is active
+  ...
+  scp			Copy files between machines  <2>
+  ...
+  help, h		Shows a list of commands or help for one command
+--
+<1> Docker Machine 0.4.1 released on August, 14, 2015
+<2> The *scp* command is available since {link-machine-scp-blog}[docker-machine 0.3.0]
+
+== Copy image from machine to machine
+
+Unfortunately, for now it is not possible to do it with one command. 
+Indeed, the machine scp command is used to copy the export image file between machines, so, before that, the docker machine ssh command is used to manage file on the source machine and at the end on the target machine.
+
+The docker machine scp usage is based on the machine names, and is similar to the default scp syntax.
+
+
+=== Commands explained
+
+[source, bash]
+--
+$ docker-machine ls --filter=state=Running  <1>
+NAME                ACTIVE   DRIVER       STATE     URL                         SWARM
+default                      virtualbox   Running   tcp://192.168.99.102:2376       <2>
+devnation-2015      *        virtualbox   Running   tcp://192.168.99.104:2376       <3>
+docker4dev-ee7-js            virtualbox   Running   tcp://192.168.99.105:2376       <4>
+
+
+$ docker-machine ssh devnation-2015 docker images | grep node  <5>
+node                             latest              20a32f7a591c        8 weeks ago         711.5 MB
+node                             0.12.4              f9ba67676f8f        9 weeks ago         711.8 MB
+
+$ docker-machine ssh docker4dev-ee7-js docker images | grep node  <6>
+
+$ docker-machine ssh devnation-2015 "docker save -o /tmp/node.tar node:0.12.4" <7>
+$ docker-machine scp devnation-2015:/tmp/node.tar docker4dev-ee7-js:/tmp/node.tar <8>
+$ docker-machine ssh docker4dev-ee7-js "docker load -i /tmp/node.tar"  <9>
+$ docker-machine ssh docker4dev-ee7-js docker images | grep node       <10>
+node                0.12.4              f9ba67676f8f        9 weeks ago         711.8 MB
+--
+<1> display all running machines
+<2> *default machine* created when you launch the terminal shortcut provided by Toolbox
+<3> the source machine containing the *node:0.12.4 image to copy*
+<4> the *target* machine
+<5> display all *images related to node* on the *source machine*
+<6> check that there is *no image* related to node on the *target machine* for now
+<7> export the node image to a TAR file on the source machine
+<8> *copy the TAR file* from the source machine to the target machine *via scp command*
+<9> *load the node image* to the docker local registry of the *target machine*
+<10> check that the node image is now available on the target machine
+
+=== See it in action: Terminal Session demo
+
+All commands described above have been executed on my laptop and thanks to https://asciinema.org[Asciinema], they have been recorded too:
+
+[[demo]]
+++++
+<script type="text/javascript" src="https://asciinema.org/a/25473.js" id="asciicast-25473" async data-speed="3"></script>
+++++
+
+
+== Export an image from a machine and load it to another machine thought your host
+
+An other way to do the same thing, without using the scp command, is to:
+
+. *export directly the TAR file to your host* with the *docker client* connected to the *source* machine
+. and then *load this file* to the target machine with the *docker client* connected to the target machine
+
+[source, bash]
+--
+
+$ docker-machine ls  <1>
+
+NAME                           ACTIVE   DRIVER       STATE     URL                         SWARM
+default                        *        virtualbox   Running   tcp://192.168.99.102:2376
+devnation-2015                          virtualbox   Running   tcp://192.168.99.104:2376
+
+
+$ eval $(docker-machine env devnation-2015)  <2>
+$ docker images | grep alpine                <3>
+alpine                           3.1                 fa60145ca189        11 weeks ago        5.033 MB
+alpine                           3.2                 8697b6cc1f48        11 weeks ago        5.242 MB
+
+
+$ docker save  -o /tmp/alpine-3.2.tar alpine:3.2  <4>
+$ ls /tmp/alpine*
+/tmp/alpine-3.2.tar
+
+$ docker-machine create -d virtualbox docker4dev-ee7-js  <5>
+$ eval $(docker-machine env docker4dev-ee7-js)           <6>
+$ docker images                                        <7>
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+$ docker load -i /tmp/alpine-3.2.tar                   <8>
+$ docker-images                                        <9>
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+alpine              3.2                 8697b6cc1f48        11 weeks ago        5.242 MB
+
+--
+<1> display all machines
+<2> *point the docker client* to the source machine
+<3> display all images related to alpine on source machine
+<4> *export the alpine:3.2 image* from the source machine to the host
+<5> create a new machine with the virtualbox driver
+<6> *point the docker client* to the target machine
+<7> check that the target machine does not contain image
+<8> *load the alpine:3.2* image from the host to the docker registry of the target machine
+<9> check that the alpine:3.2 is now available on the target machine
+
+
+
+How do you do this? Do you use a local docker registry reachable by all machines? +
+I'd love to have your advices.
+

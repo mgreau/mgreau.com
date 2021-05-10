@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>@mgreau :: Blog</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="@mgreau :: Blog">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="@mgreau :: Blog">
+    <meta property="og:description" content="">
+
+    <!-- <meta name="twitter:site" content="">
+
+<meta name="twitter:creator" content="">
+
+<meta name="google-site-verification" content="">
+
+<meta property="fb:admins" content="">
+ -->
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link href="//fonts.googleapis.com/" rel="dns-prefetch">
+    <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1492593683526"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1492593683526"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1492593683526"/>
+
+
+
+
+    <script type="text/javascript">
+      var ga_ua = 'UA-XXXXX-X';
+      
+      var disqus_shortname = 'example';
+      
+      var enable_pjax = true;
+
+      // Pace Options
+      // ==============
+      window.paceOptions = {
+        catchupTime: 100,
+        minTime: 100,
+        elements: false,
+        restartOnRequestAfter: 500,
+        startOnPageLoad: false
+      }
+
+      // Ghostium Globals
+      // ==============
+      window.GHOSTIUM = {};
+      GHOSTIUM.haveGA = typeof ga_ua !== 'undefined' && ga_ua !== 'UA-XXXXX-X';
+      GHOSTIUM.haveDisqus = typeof disqus_shortname !== 'undefined' && disqus_shortname !== 'example';
+      GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
+    </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1492593683526"></script>
+
+    <link rel="canonical" href="https://mgreau.github.io/posts/" />
+    <meta name="referrer" content="origin" />
+    
+    <meta property="og:site_name" content="@mgreau :: Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@mgreau :: Blog" />
+    <meta property="og:url" content="https://mgreau.github.io/posts/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="@mgreau :: Blog" />
+    <meta name="twitter:url" content="https://mgreau.github.io/posts/" />
+    
+    <script type="application/ld+json">
+null
+    </script>
+
+    <meta name="generator" content="HubPress" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+  </head>
+  <body class="home-template">
+
+    <button data-action="open-drawer" id="drawer-button" class="drawer-button"><i class="fa fa-bars"></i></button>
+    <nav tabindex="-1" class="drawer">
+      <div class="drawer-container">
+        <!--.drawer-search(role="search")-->
+        <ul role="navigation" class="drawer-list">
+          
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" data-pjax>
+              <i class="fa fa-home"></i>Home
+            </a>
+          </li>
+          <!-- <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+              <i class="fa fa-list-alt"></i>All posts
+            </a>
+          </li> -->
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts/rss/">
+              <i class="fa fa-rss"></i>Subscribe to Feed
+            </a>
+          </li>
+          <li class="drawer-list-divider"></li>
+          <li class="drawer-list-item drawer-list-title">
+            Follow me
+          </li>
+          
+          
+          <li class="drawer-list-item">
+            <a href="https://twitter.com/mgreau" title="Twitter" target="_blank">
+              <i class="fa fa-twitter"></i>Twitter
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://github.com/mgreau" title="Github" target="_blank">
+              <i class="fa fa-github"></i>Github
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://plus.google.com/u/0/+maximegreau-aka-mgreau/" title="Google+" target="_blank">
+              <i class="fa fa-google-plus"></i>Google+
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://fr.linkedin.com/pub/maxime-gréau/26/645/994" title="LinkedIn" target="_blank">
+              <i class="fa fa-linkedin"></i>LinkedIn
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="mailto:greau.maxime@gmail.com" title="Email" target="_blank">
+              <i class="fa fa-envelope-o"></i>Email
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="drawer-overlay"></div>
+    <main id="container" role="main" class="container">
+      <div class="surface">
+        <div class="surface-container">
+          <div data-pjax-container class="content">
+            
+<aside role="banner" class="cover">
+  <div data-load-image="http://mgreau.com/posts/images/cover-blog-devoxxfr2015.jpg" class="cover-image"></div>
+  <div class="cover-container">
+      <a href="https://mgreau.github.io/posts" class="cover-logo" data-pjax>
+        <img src="https://1.gravatar.com/avatar/a81c764f137343d59a5e6264c2e3c1c2?s&#x3D;278" alt="Blog Logo">
+      </a>
+    <h1 class="cover-title"><a href="https://mgreau.github.io/posts" title="@mgreau :: Blog">@mgreau :: Blog</a></h1>
+    <p class="cover-description">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web.</p>
+  </div>
+</aside>
+
+<section class="wrapper" tabindex="0">
+  <div class="wrapper-container">
+    @mgreau :: Blog
+
+    <section class="post-list">
+        <article itemscope itemtype="http://schema.org/BlogPosting"
+          role="article" class="post-item post tag-docker tag-maven tag-jenkins tag-pipeline tag-talk">
+          <header class="post-item-header">
+            <h2 itemprop="name" class="post-item-title">
+              <a href="https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html" itemprop="url" data-pjax title="[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker">
+                [Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker
+                    <br/><img class="post-cover-image" src="http://mgreau.com/jenkins2-pipeline-maven-docker/images/exo-swf-dsl-pipeline.svg" alt="" title="[Talk] Migrate Maven CI jobs to Pipeline as code with Jenkins 2 and Docker"><br/>
+              </a>
+            </h2>
+          </header>
+          <section itemprop="description" class="post-item-excerpt">
+            <p>This is the talk I gave at DevopsDDay 2016 and Docker Meetup Nantes 2017 about Jenkins 2, Maven, Pipeline as Code and Docker. It was the opportunity to revisit the problems that we have had&hellip;</p>
+          </section>
+          <footer class="post-item-footer">
+            <ul class="post-item-meta-list">
+              <li class="post-item-meta-item">
+                <time datetime="2017-03-01" itemprop="datePublished">
+                  2 months ago
+                </time>
+              </li>
+                <li class="post-item-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/docker/">docker</a>, <a href="https://mgreau.github.io/posts/tag/maven/"> maven</a>, <a href="https://mgreau.github.io/posts/tag/jenkins/"> jenkins</a>, <a href="https://mgreau.github.io/posts/tag/pipeline/"> pipeline</a>, <a href="https://mgreau.github.io/posts/tag/talk/"> talk</a></span>
+                  </span>
+                </li>
+              <li class="post-item-meta-item">
+                <a href="https://mgreau.github.io/posts/2017/03/01/maven-ci-jobs-to-pipeline-with-jenkins2-and-docker.html#disqus_thread" data-pjax data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+          </footer>
+        </article>
+        <article itemscope itemtype="http://schema.org/BlogPosting"
+          role="article" class="post-item post tag-asciidoc tag-Asciidoctor tag-travis tag-docker tag-gh-pages">
+          <header class="post-item-header">
+            <h2 itemprop="name" class="post-item-title">
+              <a href="https://mgreau.github.io/posts/2016/03/28/asciidoc-to-gh-pages-with-travis-ci-docker-asciidoctor.html" itemprop="url" data-pjax title="Convert AsciiDoc to HTML/PDF &amp; publish to GitHub Pages with Travis CI and Asciidoctor Docker containers">
+                Convert AsciiDoc to HTML/PDF &amp; publish to GitHub Pages with Travis CI and Asciidoctor Docker containers
+                    <br/><img class="post-cover-image" src="http://mgreau.com/posts/images/cover-asciidoc-ghpages.svg" alt="" title="Convert AsciiDoc to HTML/PDF &amp; publish to GitHub Pages with Travis CI and Asciidoctor Docker containers"><br/>
+              </a>
+            </h2>
+          </header>
+          <section itemprop="description" class="post-item-excerpt">
+            <p>Purpose This blog post presents a simple way to automatically convert your AsciiDoc content to HTML and PDF, then publish those files to a public website on each commit. There are many way to do&hellip;</p>
+          </section>
+          <footer class="post-item-footer">
+            <ul class="post-item-meta-list">
+              <li class="post-item-meta-item">
+                <time datetime="2016-03-28" itemprop="datePublished">
+                  a year ago
+                </time>
+              </li>
+                <li class="post-item-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/asciidoc/">asciidoc</a>, <a href="https://mgreau.github.io/posts/tag/Asciidoctor/"> Asciidoctor</a>, <a href="https://mgreau.github.io/posts/tag/travis/"> travis</a>, <a href="https://mgreau.github.io/posts/tag/docker/"> docker</a>, <a href="https://mgreau.github.io/posts/tag/gh-pages/"> gh-pages</a></span>
+                  </span>
+                </li>
+              <li class="post-item-meta-item">
+                <a href="https://mgreau.github.io/posts/2016/03/28/asciidoc-to-gh-pages-with-travis-ci-docker-asciidoctor.html#disqus_thread" data-pjax data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+          </footer>
+        </article>
+        <article itemscope itemtype="http://schema.org/BlogPosting"
+          role="article" class="post-item post tag-docker tag-docker-compose tag-docker4dev tag-Java tag-Angular tag-HanoiJUG tag-JUG tag-talk">
+          <header class="post-item-header">
+            <h2 itemprop="name" class="post-item-title">
+              <a href="https://mgreau.github.io/posts/2015/11/05/improve-java-dev-environment-with-docker.html" itemprop="url" data-pjax title="[Talk] Improve your Java Environment with Docker @ HanoiJUG 2015">
+                [Talk] Improve your Java Environment with Docker @ HanoiJUG 2015
+                    <br/><img class="post-cover-image" src="http://image.slidesharecdn.com/hanoijug-dockercomposemachine-151106072802-lva1-app6892/95/improve-your-java-environment-with-docker-1-638.jpg?cb&#x3D;1446835393" alt="" title="[Talk] Improve your Java Environment with Docker @ HanoiJUG 2015"><br/>
+              </a>
+            </h2>
+          </header>
+          <section itemprop="description" class="post-item-excerpt">
+            <p>Our Session with Thomas Delhoménie about how to Improve your Java Development Environment with Docker at Hanoi JUG 2015 with a Java EE 7 / Angular / WildFly / Redis / MySQL Application with Docker containers:  Slides Improve your&hellip;</p>
+          </section>
+          <footer class="post-item-footer">
+            <ul class="post-item-meta-list">
+              <li class="post-item-meta-item">
+                <time datetime="2015-11-05" itemprop="datePublished">
+                  a year ago
+                </time>
+              </li>
+                <li class="post-item-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/docker/">docker</a>, <a href="https://mgreau.github.io/posts/tag/docker-compose/"> docker-compose</a>, <a href="https://mgreau.github.io/posts/tag/docker4dev/"> docker4dev</a>, <a href="https://mgreau.github.io/posts/tag/Java/"> Java</a>, <a href="https://mgreau.github.io/posts/tag/Angular/"> Angular</a>, <a href="https://mgreau.github.io/posts/tag/HanoiJUG/"> HanoiJUG</a>, <a href="https://mgreau.github.io/posts/tag/JUG/"> JUG</a>, <a href="https://mgreau.github.io/posts/tag/talk/"> talk</a></span>
+                  </span>
+                </li>
+              <li class="post-item-meta-item">
+                <a href="https://mgreau.github.io/posts/2015/11/05/improve-java-dev-environment-with-docker.html#disqus_thread" data-pjax data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+          </footer>
+        </article>
+        <article itemscope itemtype="http://schema.org/BlogPosting"
+          role="article" class="post-item post tag-docker4-Dev tag-docker-machine tag-docker">
+          <header class="post-item-header">
+            <h2 itemprop="name" class="post-item-title">
+              <a href="https://mgreau.github.io/posts/2015/08/26/copy-docker-images-from-one-docker-machine-to-another.html" itemprop="url" data-pjax title="#docker4Dev: Copy Docker images from one docker machine to another">
+                #docker4Dev: Copy Docker images from one docker machine to another
+                    <br/><img class="post-cover-image" src="http://mgreau.com/posts/images/cover-docker-machine-scp.png" alt="" title="#docker4Dev: Copy Docker images from one docker machine to another"><br/>
+              </a>
+            </h2>
+          </header>
+          <section itemprop="description" class="post-item-excerpt">
+            <p>Overview In this post, you will see how to copy images from one docker machine to another by using docker-machine scp command available since docker-machine 0.3.0. It may be useful if you have&hellip;</p>
+          </section>
+          <footer class="post-item-footer">
+            <ul class="post-item-meta-list">
+              <li class="post-item-meta-item">
+                <time datetime="2015-08-26" itemprop="datePublished">
+                  2 years ago
+                </time>
+              </li>
+                <li class="post-item-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/docker4-Dev/">docker4Dev</a>, <a href="https://mgreau.github.io/posts/tag/docker-machine/"> docker-machine</a>, <a href="https://mgreau.github.io/posts/tag/docker/"> docker</a></span>
+                  </span>
+                </li>
+              <li class="post-item-meta-item">
+                <a href="https://mgreau.github.io/posts/2015/08/26/copy-docker-images-from-one-docker-machine-to-another.html#disqus_thread" data-pjax data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+          </footer>
+        </article>
+        <article itemscope itemtype="http://schema.org/BlogPosting"
+          role="article" class="post-item post tag-Asciidoctor tag-Ascii-Doc tag-Dev-Nation tag-Dev-Nation2015 tag-talk">
+          <header class="post-item-header">
+            <h2 itemprop="name" class="post-item-title">
+              <a href="https://mgreau.github.io/posts/2015/06/22/asciidoc-create-and-publish-everywhere-from-anywhere.html" itemprop="url" data-pjax title="[Talk] AsciiDoc : Create and Publish everywhere from anywhere">
+                [Talk] AsciiDoc : Create and Publish everywhere from anywhere
+                    <br/><img class="post-cover-image" src="http://mgreau.com/posts/images/cover-slides-devnation2015.jpg" alt="" title="[Talk] AsciiDoc : Create and Publish everywhere from anywhere"><br/>
+              </a>
+            </h2>
+          </header>
+          <section itemprop="description" class="post-item-excerpt">
+            <p>My slides from DevNation 2015 at Boston in June.&hellip;</p>
+          </section>
+          <footer class="post-item-footer">
+            <ul class="post-item-meta-list">
+              <li class="post-item-meta-item">
+                <time datetime="2015-06-22" itemprop="datePublished">
+                  2 years ago
+                </time>
+              </li>
+                <li class="post-item-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/Asciidoctor/">Asciidoctor</a>, <a href="https://mgreau.github.io/posts/tag/Ascii-Doc/"> AsciiDoc</a>, <a href="https://mgreau.github.io/posts/tag/Dev-Nation/"> DevNation</a>, <a href="https://mgreau.github.io/posts/tag/Dev-Nation2015/"> DevNation2015</a>, <a href="https://mgreau.github.io/posts/tag/talk/"> talk</a></span>
+                  </span>
+                </li>
+              <li class="post-item-meta-item">
+                <a href="https://mgreau.github.io/posts/2015/06/22/asciidoc-create-and-publish-everywhere-from-anywhere.html#disqus_thread" data-pjax data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+          </footer>
+        </article>
+        <article itemscope itemtype="http://schema.org/BlogPosting"
+          role="article" class="post-item post tag-Asciidoctor tag-Ascii-Doc tag-DevoxxFR tag-talk">
+          <header class="post-item-header">
+            <h2 itemprop="name" class="post-item-title">
+              <a href="https://mgreau.github.io/posts/2015/04/08/agenda-asciidoctor-devoxxfr-tshirt-a-gagner.html" itemprop="url" data-pjax title="Agenda Asciidoctor @ DevoxxFR et t-shirts à gagner">
+                Agenda Asciidoctor @ DevoxxFR et t-shirts à gagner
+                    <br/><img class="post-cover-image" src="https://pbs.twimg.com/media/CBmiX7sWYAAyo74.jpg:large" alt="" title="Agenda Asciidoctor @ DevoxxFR et t-shirts à gagner"><br/>
+              </a>
+            </h2>
+          </header>
+          <section itemprop="description" class="post-item-excerpt">
+            <p>Dans quelques heures c&#8217;est le début de Devoxx France 2015 ! Alors que toute l'équipe organisatrice est encore au travail (déjà bravo à eux d&#8217;ailleurs), il est temps de préparer votre programme&hellip;</p>
+          </section>
+          <footer class="post-item-footer">
+            <ul class="post-item-meta-list">
+              <li class="post-item-meta-item">
+                <time datetime="2015-04-08" itemprop="datePublished">
+                  2 years ago
+                </time>
+              </li>
+                <li class="post-item-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/Asciidoctor/">Asciidoctor</a>, <a href="https://mgreau.github.io/posts/tag/Ascii-Doc/"> AsciiDoc</a>, <a href="https://mgreau.github.io/posts/tag/DevoxxFR/"> DevoxxFR</a>, <a href="https://mgreau.github.io/posts/tag/talk/"> talk</a></span>
+                  </span>
+                </li>
+              <li class="post-item-meta-item">
+                <a href="https://mgreau.github.io/posts/2015/04/08/agenda-asciidoctor-devoxxfr-tshirt-a-gagner.html#disqus_thread" data-pjax data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+          </footer>
+        </article>
+        <article itemscope itemtype="http://schema.org/BlogPosting"
+          role="article" class="post-item post tag-EN tag-Asciidoctor tag-docker tag-Wild-Fly tag-Arquillian">
+          <header class="post-item-header">
+            <h2 itemprop="name" class="post-item-title">
+              <a href="https://mgreau.github.io/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html" itemprop="url" data-pjax title="How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS">
+                How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS
+                    <br/><img class="post-cover-image" src="http://mgreau.com/images/posts/docker-asciidoctorj/docker-arquillian-asciidoctor.png" alt="" title="How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS"><br/>
+              </a>
+            </h2>
+          </header>
+          <section itemprop="description" class="post-item-excerpt">
+            <p>Language EN /  Timereading 10 mn Overview This post explains how we execute Arquillian tests for AsciidoctorJ to a Docker container, so we&#8217;ll talk about: docker-asciidoctorj, the dedicated github project on Asciidoctor organization the&hellip;</p>
+          </section>
+          <footer class="post-item-footer">
+            <ul class="post-item-meta-list">
+              <li class="post-item-meta-item">
+                <time datetime="2015-03-03" itemprop="datePublished">
+                  2 years ago
+                </time>
+              </li>
+                <li class="post-item-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/EN/">[EN]</a>, <a href="https://mgreau.github.io/posts/tag/Asciidoctor/"> Asciidoctor</a>, <a href="https://mgreau.github.io/posts/tag/docker/"> docker</a>, <a href="https://mgreau.github.io/posts/tag/Wild-Fly/"> WildFly</a>, <a href="https://mgreau.github.io/posts/tag/Arquillian/"> Arquillian</a></span>
+                  </span>
+                </li>
+              <li class="post-item-meta-item">
+                <a href="https://mgreau.github.io/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html#disqus_thread" data-pjax data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+          </footer>
+        </article>
+        <article itemscope itemtype="http://schema.org/BlogPosting"
+          role="article" class="post-item post tag-Java-EE tag-J-Bss tag-EAP tag-JSR">
+          <header class="post-item-header">
+            <h2 itemprop="name" class="post-item-title">
+              <a href="https://mgreau.github.io/posts/2013/12/10/jboss-eap-62-51-43-javaee-supported.html" itemprop="url" data-pjax title="JBoss EAP 4.3 / 5.1 / 6.2 - Java EE supported standards in each EAP releases">
+                JBoss EAP 4.3 / 5.1 / 6.2 - Java EE supported standards in each EAP releases
+                    <br/><img class="post-cover-image" src="http://blog.christianposta.com/images/as7_to_eap.png" alt="" title="JBoss EAP 4.3 / 5.1 / 6.2 - Java EE supported standards in each EAP releases"><br/>
+              </a>
+            </h2>
+          </header>
+          <section itemprop="description" class="post-item-excerpt">
+            <p>Language EN / Timereading 5 mn This post presents, as a diagram, all Java EE standards supported in each JBoss EAP version : This diagram was updated in December 2013 (fixes and addition of (*) information) Thanks to&hellip;</p>
+          </section>
+          <footer class="post-item-footer">
+            <ul class="post-item-meta-list">
+              <li class="post-item-meta-item">
+                <time datetime="2013-12-10" itemprop="datePublished">
+                  3 years ago
+                </time>
+              </li>
+                <li class="post-item-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/Java-EE/">Java EE</a>, <a href="https://mgreau.github.io/posts/tag/J-Bss/"> JBoss</a>, <a href="https://mgreau.github.io/posts/tag/EAP/"> EAP</a>, <a href="https://mgreau.github.io/posts/tag/JSR/"> JSR</a></span>
+                  </span>
+                </li>
+              <li class="post-item-meta-item">
+                <a href="https://mgreau.github.io/posts/2013/12/10/jboss-eap-62-51-43-javaee-supported.html#disqus_thread" data-pjax data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+          </footer>
+        </article>
+        <article itemscope itemtype="http://schema.org/BlogPosting"
+          role="article" class="post-item post tag-Java-EE tag-Web-Socket tag-Wild-Fly tag-angularJS">
+          <header class="post-item-header">
+            <h2 itemprop="name" class="post-item-title">
+              <a href="https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html" itemprop="url" data-pjax title="Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly">
+                Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly
+                    <br/><img class="post-cover-image" src="http://mgreau.com/images/posts/websocket_wildfly_angularjs_tennis.png" alt="" title="Java EE 7 and WebSocket API for Java (JSR 356) with AngularJS on WildFly"><br/>
+              </a>
+            </h2>
+          </header>
+          <section itemprop="description" class="post-item-excerpt">
+            <p>This post was originally published in November 2013 and has been updated on February 3rd, 2016 for the following reasons: Use the newest final  version of WildFly 10.0.0 App deployed in a Docker&hellip;</p>
+          </section>
+          <footer class="post-item-footer">
+            <ul class="post-item-meta-list">
+              <li class="post-item-meta-item">
+                <time datetime="2013-11-11" itemprop="datePublished">
+                  3 years ago
+                </time>
+              </li>
+                <li class="post-item-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/Java-EE/">Java EE</a>, <a href="https://mgreau.github.io/posts/tag/Web-Socket/"> WebSocket</a>, <a href="https://mgreau.github.io/posts/tag/Wild-Fly/"> WildFly</a>, <a href="https://mgreau.github.io/posts/tag/angularJS/"> angularJS</a></span>
+                  </span>
+                </li>
+              <li class="post-item-meta-item">
+                <a href="https://mgreau.github.io/posts/2013/11/11/javaee7-websocket-angularjs-wildfly.html#disqus_thread" data-pjax data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+          </footer>
+        </article>
+        <article itemscope itemtype="http://schema.org/BlogPosting"
+          role="article" class="post-item post tag-FR tag-Java-EE-7 tag-Java-EE tag-Web-Socket tag-HTM-L tag-Wild-Fly">
+          <header class="post-item-header">
+            <h2 itemprop="name" class="post-item-title">
+              <a href="https://mgreau.github.io/posts/2013/09/27/javaee7-api-websocket-html5.html" itemprop="url" data-pjax title="Java EE 7 et l&#x27;API Java pour WebSocket (JSR 356)">
+                Java EE 7 et l&#x27;API Java pour WebSocket (JSR 356)
+                    <br/><img class="post-cover-image" src="http://mgreau.com/images/posts/html5_websocket_simple.png" alt="" title="Java EE 7 et l&#x27;API Java pour WebSocket (JSR 356)"><br/>
+              </a>
+            </h2>
+          </header>
+          <section itemprop="description" class="post-item-excerpt">
+            <p>Cet article présente et met en oeuvre à travers un exemple concret et disponible en ligne, une des 4 nouvelles JSRs de Java EE 7, à savoir l&#8217;API Java pour communiquer via le&hellip;</p>
+          </section>
+          <footer class="post-item-footer">
+            <ul class="post-item-meta-list">
+              <li class="post-item-meta-item">
+                <time datetime="2013-09-27" itemprop="datePublished">
+                  4 years ago
+                </time>
+              </li>
+                <li class="post-item-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/FR/">[FR]</a>, <a href="https://mgreau.github.io/posts/tag/Java-EE-7/"> Java EE 7</a>, <a href="https://mgreau.github.io/posts/tag/Java-EE/"> Java EE</a>, <a href="https://mgreau.github.io/posts/tag/Web-Socket/"> WebSocket</a>, <a href="https://mgreau.github.io/posts/tag/HTM-L/"> HTML5</a>, <a href="https://mgreau.github.io/posts/tag/Wild-Fly/"> WildFly</a></span>
+                  </span>
+                </li>
+              <li class="post-item-meta-item">
+                <a href="https://mgreau.github.io/posts/2013/09/27/javaee7-api-websocket-html5.html#disqus_thread" data-pjax data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+          </footer>
+        </article>
+    </section>
+
+      <nav role="pagination" class="post-list-pagination">
+  <span class="post-list-pagination-item post-list-pagination-item-current">Page 1 of 2</span>
+    <a href="https://mgreau.github.io/posts/page/2/" class="post-list-pagination-item post-list-pagination-item-next" data-pjax>
+      Older&nbsp;<i class="fa fa-angle-double-right"></i>
+    </a>
+</nav>
+
+
+    <footer role="contentinfo" class="footer">
+      <p><small>Copyright &copy; <span itemprop="copyrightHolder">@mgreau :: Blog</span>. 2017. All Rights Reserved.</small></p>
+      <p><small><a href="http://ghostium.oswaldoacauan.com/" target="_blank">Ghostium Theme</a> by <a href="http://twitter.com/oswaldoacauan" target="_blank">@oswaldoacauan</a></small></p>
+      <p><small>Adapted by <a href="https://twitter.com/mgreau">Maxime Gréau</a></small></p>
+      <p><small>Published with <a href="http://hubpress.io">HubPress</a></small></p>
+    </footer>
+  </div>
+</section>
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();
+      </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1492593683526"></script>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-20147445-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+  </body>
+</html>

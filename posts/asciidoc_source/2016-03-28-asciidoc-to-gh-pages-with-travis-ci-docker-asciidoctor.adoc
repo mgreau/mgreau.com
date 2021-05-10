@@ -1,0 +1,252 @@
+= Convert AsciiDoc to HTML/PDF & publish to GitHub Pages with Travis CI and Asciidoctor Docker containers 
+Maxime Greau <greau.maxime@gmail.com>
+v1.0, March 28, 2016
+//HubPress attributes
+:published_at: 2016-03-28
+:hp-alt-title: asciidoc to gh pages with travis ci docker asciidoctor
+:hp-tags: asciidoc, Asciidoctor, travis, docker, gh-pages
+:hp-image: http://mgreau.com/posts/images/cover-asciidoc-ghpages.svg
+// Asciidoctor attributes
+:toc: preamble
+// HTTP links
+:link-github: https://github.com
+:link-docker: https://docker.com
+:link-travis: https://travis-ci.org
+:link-asciidoctor: https://asciidoctor.org
+:link-asciidoctor-docker:
+:link-travis: https://travis-ci.org/
+:link-travis-docker: https://docs.travis-ci.com/user/docker/
+:link-travis-guide: https://docs.travis-ci.com/user/for-beginners
+:link-github-ghpages: https://help.github.com/articles/creating-project-pages-manually/
+
+:link-github-project: https://github.com/mgreau/asciidoc-to-ghpages
+:link-github-project-master: https://github.com/mgreau/asciidoc-to-ghpages/tree/master
+:link-github-project-ghpages: https://mgreau.github.io/asciidoc-to-ghpages/
+:link-github-project-ghpages-io: https://mgreau.github.io/asciidoc-to-ghpages/
+:link-demo-adoc: https://raw.githubusercontent.com/mgreau/asciidoc-to-ghpages/master/demo.adoc
+:link-demo-html: {link-github-project-ghpages}/demo.html
+:link-demo-pdf: {link-github-project-ghpages}/demo.pdf
+// Images 
+:imagesdir: /posts/images/
+:img-github-token: /posts/images/asciidoc-ghpages-github-token.png
+:img-travis-activate: /posts/images/asciidoc-ghpages-travis-activate.png
+:img-travis-config: /posts/images/asciidoc-ghpages-travis-env.png
+:img-travis-build:  /posts/images/asciidoc-ghpages-travis-build.png
+:img-files-published:  /posts/images/asciidoc-ghpages-final.png
+
+
+
+[NOTE]
+.Purpose
+====
+This blog post presents a simple way to automatically convert your AsciiDoc content to HTML and PDF, then publish those files to a public website on each commit.
+
+There are many way to do it, maybe you have already used Jekyll or other static site generator like that. The real benefit of this one is that the workflow is done thanks to <<travis_configuration_file, *only one* Travis CI configuration file>>. 
+
+====
+
+*The High-Level View* +
+You have all your AsciiDoc sources files on one branch, all the generated files on another branch and *just one configuration file*. +
+All resources explained in this post are listed below:
+
+* `AsciiDoc` files and `.travis.yml` configuration file on {link-github-project-master}[asciidoc-to-ghpages project *master branch*]
+* `HTML` and `PDF` files on {link-github-project-ghpages}[asciidoc-to-ghpages project *gh-pages branch*]
+* Files published at {link-github-project-ghpages-io}
+
+== Overview
+
+The following diagram gives you a quick *overview of all interactions* between {link-github}[GitHub], {link-github}[Travis CI], {link-github}[Docker] and {link-github}[Asciidoctor]. +
+Travis CI makes it possible because it allows you to run any Docker container. This isolates your build from the machine running on Travis CI and allows you to use an Asciidoctor environment that has been prepared for you.
+
+[[asciidoc_ghpages_travis_docker]]
+.Convert your AsciiDoc content to HTML & PDF, then publish those files to GitHub Pages courtesy of Travis CI running Asciidoctor via the provided Docker container(s). 
+image::{hp-image}[AsciiDoc to Github Pages with Travis and Docker Asciidoctor,950,link={hp-image},window="_blank"]
+
+
+== Prerequisites
+
+This post assumes that:
+
+* [x] you know *AsciiDoc* and  {link-asciidoctor}[Asciidoctor]
+* [x] you have a *GitHub account* and a GitHub project configured to publish content from the *gh-pages* branch 
+** if it's not the case you can read {link-github-ghpages}[the GitHub tutorials about GitHub Pages]
+* [x] you have a *Travis account* linked to your GitHub account
+** if it's not the case, you can read the {link-travis-guide}[Travis CI Guide for beginners]
+
+== Prepare your GitHub project
+
+
+=== Add files to your GitHub project
+
+The first step is to push some files to your master branch. The following GitHub project gives you a sample AsciiDoc content using images and include directive.
+
+* {link-github-project-master}[AsciiDoc to GitHub Pages demo project (master branch)]
+
+[NOTE]
+All samples come from this https://github.com/opendevise/asciidoc-samples[OpenDevise GitHub repository], thanks to Dan Allen.
+
+All files available on this demo project are explained below:
+
+.Files listed on *master branch*
+====
+[source, text]
+----
++ images            
+   |- tiger.png     // <1>
++ includes           
+   |- include.adoc  // <2>  
+.gitignore
+.travis.yml    // <3>
+demo.adoc      // <4>
+LICENSE
+README.adoc    // <5>
+----
+<1> Image used in AsciiDoc content
+<2> AsciiDoc content included in the `demo.adoc` content
+<3> Travis configuration and scripts to build and publish the project, this file is explained in the <<travis_configuration_file, Travis part.>>  
+<4> Sample AsciiDoc file to convert
+<5> Documentation for the GitHub project, then converted to index.html file for the website
+====
+
+
+=== Create a Token for Travis CI
+
+Travis CI will push files on a dedicated branch of your GitHub project, so you need to *create a token* to *allow Travis CI* to do it. +
+As you can see on the following screenshot, you just need to access to your `GithHub Personal Settings` page and click on the `Generate token` button, then check the `public_repo` scope:
+
+[[asciidoc_ghpages_github_token]]
+.GitHub Configuration: Create a token used by Travis CI
+[.post-cover-image]
+image::{img-github-token}[GitHub Token Configuration,950]
+
+
+
+== Travis CI Configuration
+
+=== Connect Travis CI to your GitHub project
+
+Once your AsciiDoc project is available on the master branch, you need to access to your `Travis CI Dashboard` and do some quick configuration so that Travis CI can build your project:
+
+
+. First, on your *Travis Profile page*, you need to `Flick the repository switch on` for your GitHub project:
+
+[[asciidoc_ghpages_travis_activate]]
+.Travis CI Configuration: Activate Travis CI on the project
+[.post-cover-image]
+image::{img-travis-activate}[Travis Configuration,950]
+
+[NOTE]
+You can't see your project on the list? Click on the `Sync account` button (top right) and it should be ok.
+
+. Then, as shown below, go to the `Project Settings tabs` and configure it:
+.. Check some options on `General Settings`
+... check the `Build only if .travis.yml is present` option
+... check the `Build pushes` option
+..  Create some `Environment Variables` that will be used in <<travis_configuration_file, .travis.yml>> file:
+... `GH_USER_NAME` : your GitHub username
+... `GH_USER_EMAIL` : your GitHub account email 
+... `GH_TOKEN`: the token created on xref:create-a-token-for-travis-ci[previous step]
+[IMPORTANT]
+Uncheck the `Display value in build log` option
+... `GH_REF` : the URL to your github project
+
+[[asciidoc_ghpages_travis_config]]
+.Travis CI Configuration: Project Settings
+[.post-cover-image]
+image::{img-travis-config}[Travis Configuration,950]
+
+
+=== .travis.yml: Travis CI Configuration and Scripts
+
+The `.travis.yml` file is the most important file here ;) +
+Indeed, in this file, you tell to Travis CI how to process your AsciiDoc files and where to publish the generated files. +
+Those scripts will be executed after each update on master branch.
+
+[[travis_configuration_file]]
+.file .travis.yml
+[source, yaml]
+----
+sudo: required
+
+services:
+  - docker                  // <1>
+
+before_install:            // <2>
+  - mkdir -p output
+  - docker pull asciidoctor/docker-asciidoctor
+
+script:
+  - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-html asciidoctor/docker-asciidoctor asciidoctor -D /documents/output *.adoc      // <3>
+  - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-pdf asciidoctor/docker-asciidoctor asciidoctor-pdf -D /documents/output *.adoc    // <4>
+
+after_error: // <5>
+  - docker logs asciidoc-to-html
+  - docker logs asciidoc-to-pdf
+
+after_failure:
+  - docker logs asciidoc-to-html
+  - docker logs asciidoc-to-pdf
+
+after_success:      // <6>
+  - cd output ; mv README.html index.html ; cp -R ../images images
+  - git init
+  - git config user.name "${GH_USER_NAME}"
+  - git config user.email "{GH_USER_EMAIL}"
+  - git add . ; git commit -m "Deploy to GitHub Pages"
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages > /dev/null 2>&1
+----
+<1> Tell Travis CI that you want to use *Docker*
+<2> Create the needed *output directory* and download the official *Asciidoctor Docker* image from DockerHub
+<3> Convert AsciiDoc files to *HTML* to the `/documents/output/` path with a Docker container
+<4> Convert AsciiDoc files to *PDF* to the `/documents/output/` path with another Docker container
+<5> Display logs from containers if a problem occured
+<6> Initialize a git project in the `output/ sub-directory in order to *push the generated files and images* to the *gh-pages branch*
+
+
+=== Travis Build Logs
+
+Travis CI gives you access to each build logs. +
+You can see in realtime, what is going on when AsciiDoc files are *processed by Asciidoctor* on each Docker container (_one for HTML output and one for PDF output here_) 
+
+[[asciidoc_ghpages_travis_build]]
+.Travis CI Build
+[.post-cover-image]
+image::{img-travis-build}[Travis CI Build,950]
+
+
+== Published files (HTML & PDF)
+
+Finally, when the Travis CI Build has succeeded, you can view the generated files at:
+
+* {link-github-project-ghpages-io}
+** {link-demo-html}[Demo HTML]
+** {link-demo-pdf}[Demo PDF]
+
+.Files listed on *gh-pages branch*
+====
+[source, text]
+----
++ images            // <1>
+   |- tiger.png      
+demo.html         // <2>
+demo.pdf          // <3>
+index.html    // <4>
+README.pdf
+----
+<1> The images folder is copied so that images are published to GitHub Pages Website
+<2> The HTML output file
+<3> The PDF output file
+<4> The `README.html` is renamed to `index.html` in order to have a homepage file for the Website
+====
+
+
+You can see below a screenshot with both {link-demo-html}[demo.html] and {link-demo-pdf}[demo.pdf] files.
+
+[[asciidoc_ghpages_files_published]]
+.HTML and PDF files published on GitHub Pages converted from the same AsciiDoc content by Asciidoctor
+[.post-cover-image]
+image::{img-files-published}[AsciiDoc to HTML and PDF published files,950,link={img-files-published},window="ext-link"]
+
+
+I hope this post was useful and it helped you understand how to combine Travis CI and Docker to automatically convert content written in *AsciiDoc* and publish the output to GitHub Pages on each commit. +
+There are a lot of other ways to do it, I’d love to have your feedbacks about it, so feel free to add a comment.

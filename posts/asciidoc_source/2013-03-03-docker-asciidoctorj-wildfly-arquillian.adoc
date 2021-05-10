@@ -1,0 +1,561 @@
+= How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS
+Maxime Greau <greau.maxime@gmail.com>
+v1.0, March 03, 2015: First English version
+//HubPress
+:hp-alt-title: docker asciidoctorj wildfly arquillian
+:published_at: 2013-03-03
+:hp-tags: [EN], Asciidoctor, Docker, WildFly, Arquillian
+:hp-image: 
+//Asciidoctor
+:toc:
+:toc-placement: preamble
+:toc-title: Table of Contents
+:toclevels: 4
+:source-highlighter: highlight
+:experimental:
+:mdash: &#8212;
+:language: asciidoc
+:includedir: ../includes
+:icons: font
+:imagesdir: ../images/
+//Refs
+:link-devnation-talk: http://www.devnation.org/2014/#websocketAsciidoctor
+:link-devnation-bof: http://www.devnation.org/2014/#bofWildfly8
+:link-book-reviewed: http://mgreau.com/resume/resume.html#technical-writing
+:link-asciidoctorj-wildfly-pr: https://github.com/asciidoctor/asciidoctorj/pull/118
+:link-asciidoctorj-wildfly-issue: https://github.com/asciidoctor/asciidoctorj/issues/102
+:link-asciidoctorj-wildfly-discuss: http://discuss.asciidoctor.org/AsciidoctorJ-1-5-and-Java-EE-td1651.html
+:link-asciidoctorj-wildfly-doc: https://github.com/asciidoctor/asciidoctorj#wildfly-kludge
+:uri-asciidoctor: http://asciidoctor.org
+:uri-asciidoctor-list: http://discuss.asciidoctor.org/
+:uri-asciidoctor-dockerhub: https://registry.hub.docker.com/repos/asciidoctor/
+:uti-asciidoctor-processor-diagram: https://github.com/mojavelinux/decks/blob/master/discover-zen-writing-asciidoc/images/asciidoc-processor.png
+:uri-asciidoctorj: https://github.com/asciidoctor/asciidoctorj
+:uri-asciidoctorj-processor-diagram: https://raw.githubusercontent.com/mgreau/slides/master/websocket-asciidoctor/NantesJUG/images/asciidoctor-java.png
+:uri-asciidoctorj-doc: http://asciidoctor.org/docs/asciidoctorj/
+:uri-docker-asciidoctorj-github: http://github.com/asciidoctor/docker-asciidoctorj
+:uri-asciidoctor-docker-hub: https://registry.hub.docker.com/repos/asciidoctor/
+:uri-asciidoctor: http://asciidoctor.org
+:uri-arquillian-cube-github: https://github.com/arquillian/arquillian-cube
+:uri-arquillian-cube-news: http://arquillian.org/blog/2015/02/25/arquillian-cube-1-0-0-Alpha4/
+:uri-jboss-wildfly-docker: https://registry.hub.docker.com/u/jboss/wildfly/
+:uri-docker: http://docker.com
+:uri-dockerhub-asciidoctor: https://registry.hub.docker.com/u/asciidoctor/
+:uri-asciidoctorj-wildflyas-install: http://asciidoctor.org/docs/asciidoctorj/#running-asciidoctorj-on-wildfly-as
+:uri-twitter-dan-allen: https://twitter.com/mojavelinux
+:uri-twitter-alex-soto: https://twitter.com/alexsotob
+:uri-twitter-guillaume-scheibel: https://twitter.com/g_scheibel
+:uri-twitter-aslak-knutsen: https://twitter.com/aslakknutsen
+:uri-wildfly: http://wildfly.org/
+
+TIP: Language *_EN_* /  Timereading *_10 mn_*
+
+[NOTE]
+.Overview
+====
+This post explains how we execute Arquillian tests for AsciidoctorJ to a Docker container, so we'll talk about:
+
+* {uri-docker-asciidoctorj-github}[docker-asciidoctorj], the dedicated github project on Asciidoctor organization
+* {uri-asciidoctor-dockerhub}[the Asciidoctor organization on Docker Hub],
+* {uri-arquillian-cube-github}[Arquillian Cube], the Arquillian extension that can be used to *manage Docker containers from Arquillian*.
+* {uri-jboss-wildfly-docker}[the WildFly docker image] from JBoss
+====
+
+It's been a while since I wrote here but like many technical bloggers (I guess), I have a lot of blog posts on draft mode. And I have a lot to write about 2014 which was
+an *AMAZING year* : indeed, thanks to the {uri-asciidoctor}[*Asciidoctor project*] and +Java EE 7 / WildFly+ technologies, I gave *2 talks* at {link-devnation-talk}[+DevNation, San Francisco+] to speak about Open Source projects:) and I {link-book-reviewed}[reviewed a book]. +
+But I'll blogged about this +awesome experience+ soon.
+
+*So, what's this post about : Docker? Asciidoctor? Arquillian?*
+
+[[docker_arquillian_asciidoctor]]
+.The power of Arquillian & Docker for AsciidoctorJ integration tests
+image::posts/docker-asciidoctorj/docker-arquillian-asciidoctor.png[AsciidoctorJ Docker containers managed by Arquillian,750]
+
+You have just read the title and you said: +
+
+- _"Oh no, Not another post about Docker!"_,
+
+and I want to answer +
+
+- _"Well, it's 2015, is it possible to write a blog post without mentioning Docker ?_" +
+
+To be serious, it's more a blog post about the {uri-asciidoctorj}[AsciidoctorJ] project and how {uri-docker}[Docker] helps us to easily check that it's possible to execute AsciidoctorJ in a *Java EE application server* like {uri-wildfly}[WildFly]. +
+So it's not a post about Docker itself but more a use case where Docker is the key to the ease of tests...OK you're right, it's about Docker:)
+
+pass::[more]
+
+== Asciidoctor on the JVM with AsciidoctorJ
+
+I guess that I don't need to introduce {uri-asciidoctor}[*Asciidoctor*] (started in 2012) now that it became so popular thanks to the awesome work done by {uri-twitter-dan-allen}[*Dan Allen*] and the community. +
+Well, if you don't know, Asciidoctor is a *fast text processor* and *publishing toolchain* for *converting* *+AsciiDoc+* content to *HTML5*, *PDF*, *DocBook 5* (or 4.5) and other formats.
+Asciidoctor is written in *Ruby*, packaged as a RubyGem and published to RubyGems.org.
+
+[[asciidoctor_processor]]
+.Asciidoctor convert AsciiDoc files to several formats
+image::posts/docker-asciidoctorj/asciidoctor-processor.png[Diagram showing output files that Asciidoctor can generate ,750]
+
+
+*AsciidoctorJ* is the official library, started by {uri-twitter-alex-soto}[Alex Soto], for running +Asciidoctor on the JVM+.
+Using AsciidoctorJ, you can convert AsciiDoc content or analyze the structure of a parsed AsciiDoc document from *Java* and *other JVM languages*.
+
+
+[[asciidoctorj_jvm]]
+.Asciidoctor on the JVM with AsciidoctorJ
+image::{uri-asciidoctorj-processor-diagram}[Diagram which explains how AsciidoctorJ makes Asciidoctor to work on the JVM,750]
+
+== AsciidoctorJ in a Java application server
+
+So here we have a problem. +
+The problem is that if you want to include *AsciidoctorJ* in your Java application, it doesn't work easily. +
+Indeed, AsciidoctorJ is based on *+JRuby+* and there are some classloader troubles with JRuby as you can read in those different discussions: {link-asciidoctorj-wildfly-pr}[PR118],  {link-asciidoctorj-wildfly-issue}[Issue 102]
+and {link-asciidoctorj-wildfly-discuss}[this thread] on the asciidoctor discussion list. +
+If you tried to include it without success, you should have seen the message below:
+
+   Caused by: org.jruby.exceptions.RaiseException: (LoadError) no such file to load -- asciidoctor
+
+=== How to make it work?
+
+The solution is to create a new *JBoss module* with all *AsciidoctorJ dependencies* and
+then depend on this module in the target application. +
+The *module.xml* file, which describes the +Asciidoctor JBoss module+, includes the following JARs:
+
+[[eg1-callouts]]
+.Asciidoctor JBoss module descriptor
+====
+[source, xml]
+----
+<module xmlns="urn:jboss:module:1.0" name="org.asciidoctor">
+  <resources>
+    <resource-root path="asciidoctorj-1.5.2.jar"/>
+    <resource-root path="asciidoctorj-pdf-1.5.0-alpha.6.jar"/>
+    <resource-root path="jruby-complete-1.7.16.1.jar"/>
+    ...
+  </resources>
+
+  <dependencies>
+   ...
+  </dependencies>
+</module>
+----
+====
+
+So you can follow all _those manual steps_ describe in {link-asciidoctorj-wildfly-doc}[the documentation] to configure your WildFly installation.
+
+=== Make it easy thanks to the power of Arquillian & Docker
+
+OK well, we have a solution but there are several manual steps to follow and it's not efficient to do all those steps to test each new version of
+AsciidoctorJ or WildFly. Fortunately, the *Arquillian Cube extension* came into being! :)
+
+==== Arquillian Cube extension to the rescue!
+
+*Arquillian Cube* is a very nice project developed by {uri-twitter-alex-soto}[Alex Soto], {uri-twitter-aslak-knutsen}[Aslak Knutsen] and the Arquillian community. +
+With Arquillian Cube you can *control the lifecycle of Docker images* as part of the *test lifecycle*, either automatically or manually. +
+This gives you the chance to scale up from a integration/functional test level all the way up to the system test level. +
+
+This project gives you a lot of possibilities, if you want know more about all those features you can read {uri-arquillian-cube-news}[this news on the arquillian website] or the
+{uri-arquillian-cube-github}[documentation on the github project].
+
+==== Pull the official Docker image, execute tests and see the output
+
+To quickly test the project, just follow the steps below:
+
+   git clone https://github.com/asciidoctor/docker-asciidoctorj.git && cd docker-asciidoctorj
+   mvn clean test -Pwildfly82
+   ls /tmp/documents
+
+[IMPORTANT]
+.Prerequisites
+====
+Ensure that Java, Maven and Docker are installed. +
+If you are using boot2docker, you can pass some configuration to the Maven command like this:
+
+  mvn clean test -Pwildfly82 -Ddocker.serverProtocol=https  -Ddocker.serverIp=192.168.59.103 -Ddocker.serverPort=2376 
+
+_If you need help, you can read the Arquillian Cube https://github.com/arquillian/arquillian-cube#preliminaries[documentation about boot2docker configuration]._
+====
+
+Thanks to Arquillian Cube, the Maven command will do the following steps:
+
+. Download the AsciidoctorJ WildFly Docker image +asciidoctor/asciidoctorj-wildfly+ from the DockerHub registry
+. Install this image in your local registry
+. Start a container
+. Connect to WildFly
+. Deploy app and Execute tests
+. Disconnect from WildFly
+. Copy the generated files from the container location to the host location
+. Stop the container
+. Destroy the container
+
+
+[[cube_docker_process]]
+.Steps done thanks to Arquillian Cube 
+image::posts/docker-asciidoctorj/cube-docker-process.png[Diagram with interaction between Cube and Docker container	,750]
+
+
+[[eg8-callouts]]
+.Tests executed with Maven
+[source, text]
+====
+[INFO]
+[INFO] ------------------------------------------------------------------------
+
+[INFO] Building Docker AsciidoctorJ 1.0.0-SNAPSHOT
+
+[INFO] ------------------------------------------------------------------------
+[INFO]
+
+ -------------------------------------------------------
+ T E S T S
+ -------------------------------------------------------
+Running org.asciidoctor.ConverterServletTest
+Mar 01, 2015 10:31:47 PM org.jboss.arquillian.container.impl.MapObject populate
+WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
+Unused property entries: {host=127.0.0.1, target=wildfly:8.2.0.Final:remote}
+Supported property names: [managementAddress, password, managementPort, managementProtocol, username]
+Mar 01, 2015 10:32:39 PM org.xnio.Xnio <clinit>
+INFO: XNIO version 3.2.0.Beta4
+Mar 01, 2015 10:32:39 PM org.xnio.nio.NioXnio <clinit>
+INFO: XNIO NIO Implementation Version 3.2.0.Beta4
+Mar 01, 2015 10:32:39 PM org.jboss.remoting3.EndpointImpl <clinit>
+INFO: JBoss Remoting version (unknown)
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 65.087 sec - in org.asciidoctor.ConverterServletTest
+
+Results :
+
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+
+[INFO] BUILD SUCCESS
+
+[INFO] ------------------------------------------------------------------------
+
+====
+
+Those tests are very simple for now, they will convert the same AsciiDoc file (sample.adoc) to a one PDF file and one HTML file.
+
+[[sample_files_output]]
+.same sample.adoc file converted to PDF and HTML5 files by AsciidoctorJ on WildFly
+image::posts/docker-asciidoctorj/sample-pdf-html-output.png[Screenshot showing both sample PDF and HTML files ,750]
+
+
+==== docker-asciidoctorj project in detail
+
+The project +docker-asciidoctorj+ was created to test different versions of AsciidoctorJ, AsciidoctorJ PDF and others, quickly in the same environment. +
+Some of the most important files of the project are described on the following lines.
+
+The project layout is as follows:
+
+[[eg2-callouts]]
+.project structure
+====
+[source, text]
+----
++ dockerfiles
+   |+ wildfly82
+      |- Dockerfile   // <1>
++ src/main/java
+   |+ org.asciidoctor
+      |- AsciidoctorProcessor.java    // <2>
+      |- ConverterServlet.java   // <3>
++ src/main/resources
+   |+ adoc
+      |- sample.adoc   // <4>
++ src/test/java
+   |+ org.asciidoctor
+      |- ConverterServletTest.java   // <5>
++ src/test/resources
+   |+ wildfly
+      |- MANIFEST.MF   // <6>
+   |- arquillian.xml   // <7>
+pom.xml
+----
+<1> The Dockerfile used to build Docker image with AsciidoctorJ in WildFly 8.2
+<2> Java Bean which converts AsciiDoc file to HTML or PDF file
+<3> Java Servlet which uses the converter
+<4> Sample AsciiDoc file to convert
+<5> Tests to process AsciiDoc to HTML/PDF with AsciidoctorJ
+<6> MANIFEST file used to depend on AsciidoctorJ WilFly AS module ( Dependencies: org.asciidoctor )
+<7> Arquillian XML file to configure Docker containers
+====
+
+The whole +Dockerfile+ is described below:
+
+[[eg3-calouts]]
+.Dockerfile
+====
+[source, text]
+----
+FROM jboss/wildfly:8.2.0.Final  // <1>
+MAINTAINER Maxime Gréau <greau.maxime@gmail.com>
+
+# Create a WildFly admin user to deploy app with CLI
+RUN /opt/jboss/wildfly/bin/add-user.sh -up mgmt-users.properties admin Admin#70365 --silent  // <2>
+
+# Set env variables for versions  // <3>
+ENV ASCIIDOCTORJ_VERSION 1.5.2
+ENV ASCIIDOCTORJ_PDF_VERSION 1.5.0-alpha.6
+ENV ASCIIDOCTORJ_EPUB3_VERSION 1.5.0-alpha.4
+ENV JRUBY_VERSION 1.7.16.1
+
+# Handle asciidoctor-backends  // <4>
+ENV ASCIIDOCTOR_BACKENDS /opt/jboss/asciidoctor-backends
+RUN mkdir -p ${ASCIIDOCTOR_BACKENDS}
+
+# Create the AsciidoctorJ module
+RUN mkdir -p ${JBOSS_HOME}/modules/org/asciidoctor/main
+ENV ASCIIDOCTORJ_MODULE /opt/jboss/wildfly/modules/org/asciidoctor/main
+
+# Output directory to store generated files
+ENV OUTPUT_DIRECTORY /tmp/documents
+RUN mkdir -p ${OUTPUT_DIRECTORY}
+
+# Set the ULR_BASE env variable to download artifacts
+ENV URL_BASE https://repo1.maven.org/maven2/
+
+ADD module.xml ${ASCIIDOCTORJ_MODULE}/module.xml     // <5>
+
+RUN cd ${ASCIIDOCTORJ_MODULE} \  // <6>
+&& curl -O ${URL_BASE}org/asciidoctor/asciidoctorj/${ASCIIDOCTORJ_VERSION}/asciidoctorj-${ASCIIDOCTORJ_VERSION}.jar \
+&& curl -O ${URL_BASE}org/asciidoctor/asciidoctorj-pdf/${ASCIIDOCTORJ_PDF_VERSION}/asciidoctorj-pdf-${ASCIIDOCTORJ_PDF_VERSION}.jar \
+&& curl -O ${URL_BASE}org/asciidoctor/asciidoctorj-epub3/${ASCIIDOCTORJ_EPUB3_VERSION}/asciidoctorj-epub3-${ASCIIDOCTORJ_EPUB3_VERSION}.jar \
+&& curl -O -m 900 ${URL_BASE}org/jruby/jruby-complete/${JRUBY_VERSION}/jruby-complete-${JRUBY_VERSION}.jar \
+\
+&& (curl -LkSs https://api.github.com/repos/asciidoctor/asciidoctor-backends/tarball | tar xfz - -C ${ASCIIDOCTOR_BACKENDS} --strip-components=1)
+
+WORKDIR ${OUTPUT_DIRECTORY}
+VOLUME ${OUTPUT_DIRECTORY}  // <7>
+
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]  // <8>
+----
+<1> This image is based on the official WildFly 8.2 image
+<2> Add an admin user, used in arquillian.xml file to deploy application
+<3> Define variables for AsciidoctorJ core versions
+<4> Add backend files (templates) used to generate HTML5 presentations from AsciiDoc for example
+<5> Initialize the Asciidoctor JBoss Module with module.xml file
+<6> Add all AsciidoctorJ dependencies to the JBoss Module Ascciidoctor
+<7> Define a volume where the converted files will be copied
+<8> Start a WildFly instance with asciidoctor module
+====
+
+The +arquillian.xml+ file is explained here:
+
+[[eg4-callouts]]
+.arquillian.xml with containers configuration
+====
+[source, xml]
+----
+<arquillian>
+...
+<extension qualifier="docker">
+        <property name="serverVersion">${docker.serverVersion}</property>  // <1>
+        <property name="serverUri">${docker.serverProtocol}://${docker.serverIp}:${docker.serverPort}</property> // <2>
+        <property name="autoStartContainers">${arquillian.cube.autostart}</property>
+        <property name="shouldAllowToConnectToRunningContainers">true</property>
+        <property name="dockerContainers">
+            wildfly82_dockerfile:        // <3>
+              buildImage:
+                dockerfileLocation: dockerfiles/wildfly82   // <4>
+                noCache: true
+                remove: true
+              exposedPorts: [8080/tcp, 9990/tcp]
+              await:
+                strategy: polling
+                sleepPollingTime: 50000
+                iterations: 5
+              beforeStop:
+                - copy:
+                    from: /tmp/documents
+                    to: /tmp
+              portBindings: [8081->8080/tcp, 9991->9990/tcp]
+            wildfly82:                                          // <5>
+              image: asciidoctor/asciidoctorj-wildfly:latest   // <6>
+              await:
+                strategy: polling
+                sleepPollingTime: 50000
+                iterations: 5
+              beforeStop:                      // <7>
+                - copy:
+                    from: /tmp/documents
+                    to: /tmp
+              portBindings: [8081->8080/tcp, 9991->9990/tcp]
+        </property>
+    </extension>
+
+   <container qualifier="wildfly82" default="true">  // <8>
+       <configuration>
+            <property name="managementAddress">dockerServerIp</property> // <9>
+            <property name="username">admin</property>        // <10>
+            <property name="password">Admin#70365</property>
+       </configuration>
+   </container>
+   <container qualifier="wildfly82_dockerfile" default="true">
+       <configuration>
+            <property name="managementAddress">dockerServerIp</property>
+            <property name="username">admin</property>
+            <property name="password">Admin#70365</property>
+       </configuration>
+   </container>
+</arquillian>
+----
+<1> The docker server version which expose the REST API required by Arquillian
+<2> URL to connect to Docker (Maven properties with default values)
+<3> Container configuration to use with a Dockerfile
+<4> Path where Arquillian will find the Dockerfile to use to build the image
+<5> Container configuration name
+<6> The official asciidoctor image to use for the tests
+<7> Before stopping the container, Arquillian Cube will copy the generated files from container location to the host location
+<8> Container configuration to work with the Docker image presents in the registry
+<9> dockerServerIp will be auto resolved for all docker envs (boot2docker..)
+<10> Arquillian use this admin user defined in the Dockerfile to communicate with WildFly
+====
+
+Thanks to the JBoss Module we can create *an instance of the Asciidoctor* class without problem :
+
+[[eg5-callouts]]
+.Process AsciiDoc: AsciidoctorProcessor.java
+====
+[source,java]
+----
+....
+@Named
+public class AsciidoctorProcessor {
+
+	private Asciidoctor asciidoctor;
+
+	@Inject
+	private Logger logger;
+
+	@PostConstruct
+	public void init() {
+    asciidoctor = Asciidoctor.Factory.create();  // <1>
+	}
+
+	public Path convertToHTML(final String inputFilename) throws Exception {
+    asciidoctor.convert(getResourceAsString(inputFilename),  // <2>
+            parameters(getOutputDir(), "sample.html", "html5"));
+    return FileSystems.getDefault().getPath(getOutputDir() + "sample.html");
+	}
+
+	public Path convertToPDF(final String inputFilename) throws Exception {
+        String outputFilename = "sample.pdf";
+        asciidoctor.convert(getResourceAsString(inputFilename),
+                parameters(getOutputDir(), outputFilename, "pdf"));
+        return FileSystems.getDefault().getPath(getOutputDir() + outputFilename);
+	}
+
+	private Map<String, Object> parameters(String outputDir,    // <3>
+			  String outputFilename, String backend) {
+		    return options().backend(backend).safe(SafeMode.UNSAFE)
+				      .headerFooter(true).inPlace(true)
+				      .toFile(new File(outputDir + outputFilename)).asMap();
+  }
+
+        public static final String getOutputDir() {
+            return System.getenv("OUTPUT_DIRECTORY") + "/";   // <4>
+        }
+    ...
+----
+<1> Create the Asciidoctor instance to be able to process AsciiDoc
+<2> Convert the sample.adoc file (present in the classpath) to a sample.html file
+<3> Configure options and attributes to process the AsciiDoc
+<4> This environnment variable *OUTPUT_DIRECTORY* is defined in the Dockerfile (/tmp/documents)
+====
+
+The following test for PDF converter is pretty simple:
+
+[[eg6-callouts]]
+.Convert AsciiDoc to PDF: ConverterServletTest.java
+====
+[source,java]
+----
+
+    @Test
+    public void should_convert_to_pdf(@ArquillianResource URL base) throws IOException {
+        URL url = createURL(base, "convert", "pdf", "sample.adoc");
+        assertThat(getResponse(url), is("PDF : true"));
+    }
+
+----
+====
+
+
+===== Customize, build with Docker and use your own Docker image
+
+You can customize the existing Dockerfile, then build the image with Docker and finally use this image
+with Arquillian when you execute the test:
+
+. Clone this project:
+
+    git clone https://github.com/asciidoctor/docker-asciidoctorj.git
+
+. Customize the +dockerfiles/wildfly82/Dockerfile+
+
+. Build the Docker image
+
+    cd docker-asciidoctorj
+    docker build -t asciidoctor/asciidoctorj-wildfly dockerfiles/wildfly82/
+
+[[eg7-callouts]]
+.Docker images
+====
+[source, text]
+----
+mgreau@mgreau-osxubuntu:~/git/asciidoctor/docker-asciidoctorj$ docker images
+REPOSITORY                          TAG           IMAGE ID       CREATED        VIRTUAL SIZE
+asciidoctor/asciidoctorj-wildfly    latest        80e19c9457fc   2 minutes ago  982.5 MB
+jboss/wildfly                       8.2.0.Final   24c5b96027df   3 months ago   951.3 MB
+---
+====
+
+. Execute the Maven command below:
+
+  mvn clean test -Pwildfly82
+
+[NOTE]
+====
+ Until the Docker image is present in your registry, you just have to execute the Maven command.
+====
+
+===== All in one with Arquillian: Build the Docker image and execute tests in a container
+
+You can do the same thing but with only one Maven command! Indeed, Arquillian Cube will build the Docker image for you and
+then execute tests in the container:
+
+. Clone this project:
+
+  git clone https://github.com/asciidoctor/docker-asciidoctorj.git
+
+. Customize the +dockerfiles/wildfly82/Dockerfile+
+
+. Execute the Maven command
+
+  mvn clean test -Pwildfly82_dockerfile
+
+
+== AsciidoctorJ in your favorite Java application server?
+
+It seems that the *JRuby* classloader problem is solved by the use of *JBoss Modules components*. +
+However if you want to quickly test AsciidoctorJ in your favorite Java application server like TomEE or others...just follow the steps below:
+
+ . Fork the GitHub repository {uri-docker-asciidoctorj-github}[docker-asciidoctorj]
+ . Create a file named +Dockerfile+ inside a subfolder of +dockerfiles+ directory, following the named convention +{appservername}{version}+
+ . Update the +src/test/resources/arquillian.xml+ file to add a docker container configuration
+ . Update the +pom.xml+ to add Maven profiles related to the application server (dependencies...)
+ . Execute tests (maybe create a dedicated test) and see the results
+ . If tests passed, then you could write documentation and send a PR
+
+If you try it, I'd love to have your feedbacks, so feel free to add a comment below, on the {uri-asciidoctor-list}[discussion list] or on the {uri-docker-asciidoctorj-github}[GitHub project]. +
+We are waiting for PR :)
+
+== Conclusion : Asciidoctor on DockerHub
+
+The good news here is that the Asciidoctor project now have an *easy way to test* if the future versions of *AsciidoctorJ will be compatible* with this architecture. +
+But the most important thing is that Asciidoctor now has *+its own official registry for Docker images+*, with, for now, 2 officials images :
+
+- {uri-dockerhub-asciidoctor}docker-asciidoctor[asciidoctor/docker-asciidoctor] _(created by {uri-twitter-guillaume-scheibel}[Guillaume Scheibel])_
+- {uri-dockerhub-asciidoctor}asciidoctorj-wildfly[asciidoctor/asciidoctorj-wildfly]
+
+And I'm so proud to have moved my first project to the Asciidoctor github organization and to be one of the Docker Hub administrator for Asciidoctor! +
+
+Have fun with *Asciidoctor*, *Arquillian* and *Docker* :)

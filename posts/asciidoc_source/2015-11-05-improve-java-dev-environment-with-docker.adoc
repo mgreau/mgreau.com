@@ -1,0 +1,36 @@
+= [Talk] Improve your Java Environment with Docker @ HanoiJUG 2015 
+Maxime Greau <greau.maxime@gmail.com>
+v1.0, November 05, 2015
+//HubPress attributes
+:hp-alt-title: improve java dev environment with docker
+:published_at: 2015-11-05
+:hp-tags: docker, docker-compose, docker4dev, Java, Angular, HanoiJUG, JUG, talk
+:hp-image: http://image.slidesharecdn.com/hanoijug-dockercomposemachine-151106072802-lva1-app6892/95/improve-your-java-environment-with-docker-1-638.jpg?cb=1446835393
+
+
+Our Session with Thomas Delhoménie about how to *Improve your Java Development Environment with Docker* at http://www.meetup.com/fr-FR/Hanoi-Java-User-Group/events/225962831/?eventId=225962831[*Hanoi JUG 2015*] with a *Java EE 7* / *Angular* / WildFly / Redis / MySQL Application with *Docker containers*:
+
+** icon:file[] http://fr.slideshare.net/HanoiJUG/improve-your-java-environment-with-docker[Slides Improve your Java Development Environment with Docker @ *Slideshare*]
+** icon:code[] https://github.com/mgreau/docker4dev-tennistour-app[Source Code @ *Github*]
+
+++++
+<iframe src="//fr.slideshare.net/slideshow/embed_code/key/jN42dCgFzSF9Pp" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//fr.slideshare.net/HanoiJUG/improve-your-java-environment-with-docker" title="Improve your Java Environment with Docker" target="_blank">Improve your Java Environment with Docker</a> </strong> from <strong><a href="//fr.slideshare.net/HanoiJUG" target="_blank">HanoiJUG</a></strong> </div>
+
+++++
+
+== Description:
+
+=== Dockerize your Java Development Environment with Machine & Compose
+
+Developers, *Docker Compose* is the key to be efficient with your development environment!
+
+Whatever the project and the technologies behind it, all developers should be able to work on it quickly *without losing time to setup their development environment*.
+
+Today, we really think that Docker, with Machine & Compose, have changed the way to work on developer side. 
+
+And now, as a developer, you are able to develop quickly with an environment closest to the production environment.
+
+We will show you how you can develop, build, debug and run your Java, Web, multi-databases applications *easily thanks to Docker*.
+
+
+

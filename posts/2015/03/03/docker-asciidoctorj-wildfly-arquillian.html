@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS">
+    <meta property="og:description" content="">
+
+    <!-- <meta name="twitter:site" content="">
+
+<meta name="twitter:creator" content="">
+
+<meta name="google-site-verification" content="">
+
+<meta property="fb:admins" content="">
+ -->
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link href="//fonts.googleapis.com/" rel="dns-prefetch">
+    <link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400&subset=latin,latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/main.min.css?v=1469272021012"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/custom.css?v=1469272021012"/>
+    <link rel="stylesheet" href="//mgreau.github.io/posts/themes/ghostium/assets/css/asciidoctor-foundation.css?v=1469272021012"/>
+
+
+
+
+    <script type="text/javascript">
+      var ga_ua = 'UA-XXXXX-X';
+      
+      var disqus_shortname = 'example';
+      
+      var enable_pjax = true;
+
+      // Pace Options
+      // ==============
+      window.paceOptions = {
+        catchupTime: 100,
+        minTime: 100,
+        elements: false,
+        restartOnRequestAfter: 500,
+        startOnPageLoad: false
+      }
+
+      // Ghostium Globals
+      // ==============
+      window.GHOSTIUM = {};
+      GHOSTIUM.haveGA = typeof ga_ua !== 'undefined' && ga_ua !== 'UA-XXXXX-X';
+      GHOSTIUM.haveDisqus = typeof disqus_shortname !== 'undefined' && disqus_shortname !== 'example';
+      GHOSTIUM.enablePjax = typeof enable_pjax !== 'undefined' ? enable_pjax : true;
+    </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/head-scripts.min.js?v=1469272021012"></script>
+
+    <link rel="canonical" href="https://mgreau.github.io/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html" />
+    <meta name="referrer" content="origin" />
+    
+    <meta property="og:site_name" content="@mgreau :: Blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS" />
+    <meta property="og:description" content="Language EN /  Timereading 10 mn Overview This post explains how we execute Arquillian tests for AsciidoctorJ to a Docker container, so we&amp;#8217;ll talk about: docker-asciidoctorj, the dedicated github project on Asciidoctor organization the Asciidoctor organization on Docker Hub, Arquillian Cube, the Arquillian extension that can be used to" />
+    <meta property="og:url" content="https://mgreau.github.io/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html" />
+    <meta property="article:tag" content="[EN]" />
+    <meta property="article:tag" content=" Asciidoctor" />
+    <meta property="article:tag" content=" docker" />
+    <meta property="article:tag" content=" WildFly" />
+    <meta property="article:tag" content=" Arquillian" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS" />
+    <meta name="twitter:description" content="Language EN /  Timereading 10 mn Overview This post explains how we execute Arquillian tests for AsciidoctorJ to a Docker container, so we&amp;#8217;ll talk about: docker-asciidoctorj, the dedicated github project on Asciidoctor organization the Asciidoctor organization on Docker Hub, Arquillian Cube, the Arquillian extension that can be used to" />
+    <meta name="twitter:url" content="https://mgreau.github.io/posts/2015/03/03/docker-asciidoctorj-wildfly-arquillian.html" />
+    
+    <script type="application/ld+json">
+null
+    </script>
+
+    <meta name="generator" content="HubPress" />
+    <link rel="alternate" type="application/rss+xml" title="@mgreau :: Blog" href="https://mgreau.github.io/posts/rss/" />
+  </head>
+  <body class="post-template tag-EN tag-Asciidoctor tag-docker tag-Wild-Fly tag-Arquillian">
+
+    <button data-action="open-drawer" id="drawer-button" class="drawer-button"><i class="fa fa-bars"></i></button>
+    <nav tabindex="-1" class="drawer">
+      <div class="drawer-container">
+        <!--.drawer-search(role="search")-->
+        <ul role="navigation" class="drawer-list">
+          
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" data-pjax>
+              <i class="fa fa-home"></i>Home
+            </a>
+          </li>
+          <!-- <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts" title="@mgreau :: Blog" data-pjax>
+              <i class="fa fa-list-alt"></i>All posts
+            </a>
+          </li> -->
+          <li class="drawer-list-item">
+            <a href="https://mgreau.github.io/posts/rss/">
+              <i class="fa fa-rss"></i>Subscribe to Feed
+            </a>
+          </li>
+          <li class="drawer-list-divider"></li>
+          <li class="drawer-list-item drawer-list-title">
+            Follow me
+          </li>
+          
+          
+          <li class="drawer-list-item">
+            <a href="https://twitter.com/mgreau" title="Twitter" target="_blank">
+              <i class="fa fa-twitter"></i>Twitter
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://github.com/mgreau" title="Github" target="_blank">
+              <i class="fa fa-github"></i>Github
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://plus.google.com/u/0/+maximegreau-aka-mgreau/" title="Google+" target="_blank">
+              <i class="fa fa-google-plus"></i>Google+
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="https://fr.linkedin.com/pub/maxime-gréau/26/645/994" title="LinkedIn" target="_blank">
+              <i class="fa fa-linkedin"></i>LinkedIn
+            </a>
+          </li>
+          <li class="drawer-list-item">
+            <a href="mailto:maxime.greau@gmail.com" title="Email" target="_blank">
+              <i class="fa fa-envelope-o"></i>Email
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="drawer-overlay"></div>
+    <main id="container" role="main" class="container">
+      <div class="surface">
+        <div class="surface-container">
+          <div data-pjax-container class="content">
+            
+<section class="wrapper wrapper-post">
+  <div class="wrapper-container">
+    <article itemscope itemtype="http://schema.org/BlogPosting" role="article" class="post post tag-EN tag-Asciidoctor tag-docker tag-Wild-Fly tag-Arquillian">
+        <section class="post-container">
+          <header class="post-header">
+            <ul class="post-meta-list">
+              <li class="post-meta-item">
+                <time datetime="2015-03-03" itemprop="datePublished">
+                  a year ago
+                </time>
+              </li>
+                <li class="post-meta-item">
+                  <span class="tags"><i class="fa fa-tags"></i>
+                      <span>
+                      <a href="https://mgreau.github.io/posts/tag/EN/">[EN]</a>, <a href="https://mgreau.github.io/posts/tag/Asciidoctor/"> Asciidoctor</a>, <a href="https://mgreau.github.io/posts/tag/docker/"> docker</a>, <a href="https://mgreau.github.io/posts/tag/Wild-Fly/"> WildFly</a>, <a href="https://mgreau.github.io/posts/tag/Arquillian/"> Arquillian</a></span>
+                  </span>
+                </li>
+              <li class="post-meta-item">
+                <a href="#disqus_thread" data-disqus-identifier="">Comments</a>
+              </li>
+            </ul>
+            <h1 itemprop="name headline" class="post-title"><a href="/" itemprop="url" data-pjax title="How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS">How Asciidoctor uses Arquillian and Docker to verify that AsciidoctorJ works in WildFly AS</a></h1>
+            <!--h2 itemprop="about" class="post-subtitle"></h2-->
+          </header>
+          <aside class="post-side">
+            <div class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img src="https://avatars.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <a href="http://mgreau.com/posts/" class="post-author-name">
+                  Maxime Gréau
+                </a>
+                <p class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+              </div>
+            </div>
+          </aside>
+          <div itemprop="articleBody" class="post-body">
+            <div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Language <strong><em>EN</em></strong> /  Timereading <strong><em>10 mn</em></strong>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Overview</div>
+<div class="paragraph">
+<p>This post explains how we execute Arquillian tests for AsciidoctorJ to a Docker container, so we&#8217;ll talk about:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://github.com/asciidoctor/docker-asciidoctorj">docker-asciidoctorj</a>, the dedicated github project on Asciidoctor organization</p>
+</li>
+<li>
+<p><a href="https://registry.hub.docker.com/repos/asciidoctor/">the Asciidoctor organization on Docker Hub</a>,</p>
+</li>
+<li>
+<p><a href="https://github.com/arquillian/arquillian-cube">Arquillian Cube</a>, the Arquillian extension that can be used to <strong>manage Docker containers from Arquillian</strong>.</p>
+</li>
+<li>
+<p><a href="https://registry.hub.docker.com/u/jboss/wildfly/">the WildFly docker image</a> from JBoss</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>It&#8217;s been a while since I wrote here but like many technical bloggers (I guess), I have a lot of blog posts on draft mode. And I have a lot to write about 2014 which was
+an <strong>AMAZING year</strong> : indeed, thanks to the <a href="http://asciidoctor.org"><strong>Asciidoctor project</strong></a> and Java EE 7 / WildFly technologies, I gave <strong>2 talks</strong> at <a href="http://www.devnation.org/2014/#websocketAsciidoctor">DevNation, San Francisco</a> to speak about Open Source projects:) and I <a href="http://mgreau.com/resume/resume.html#technical-writing">reviewed a book</a>.<br>
+But I&#8217;ll blogged about this awesome experience soon.</p>
+</div>
+<div class="paragraph">
+<p><strong>So, what&#8217;s this post about : Docker? Asciidoctor? Arquillian?</strong></p>
+</div>
+<div id="docker_arquillian_asciidoctor" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/docker-arquillian-asciidoctor.png" alt="AsciidoctorJ Docker containers managed by Arquillian" width="750">
+</div>
+<div class="title">Figure 1. The power of Arquillian &amp; Docker for AsciidoctorJ integration tests</div>
+</div>
+<div class="paragraph">
+<p>You have just read the title and you said:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>"Oh no, Not another post about Docker!"</em>,</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>and I want to answer<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>"Well, it&#8217;s 2015, is it possible to write a blog post without mentioning Docker ?</em>"<br></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To be serious, it&#8217;s more a blog post about the <a href="https://github.com/asciidoctor/asciidoctorj">AsciidoctorJ</a> project and how <a href="http://docker.com">Docker</a> helps us to easily check that it&#8217;s possible to execute AsciidoctorJ in a <strong>Java EE application server</strong> like <a href="http://wildfly.org/">WildFly</a>.<br>
+So it&#8217;s not a post about Docker itself but more a use case where Docker is the key to the ease of tests&#8230;&#8203;OK you&#8217;re right, it&#8217;s about Docker:)</p>
+</div>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_asciidoctor_on_the_jvm_with_asciidoctorj">Asciidoctor on the JVM with AsciidoctorJ</a></li>
+<li><a href="#_asciidoctorj_in_a_java_application_server">AsciidoctorJ in a Java application server</a>
+<ul class="sectlevel2">
+<li><a href="#_how_to_make_it_work">How to make it work?</a></li>
+<li><a href="#_make_it_easy_thanks_to_the_power_of_arquillian_docker">Make it easy thanks to the power of Arquillian &amp; Docker</a>
+<ul class="sectlevel3">
+<li><a href="#_arquillian_cube_extension_to_the_rescue">Arquillian Cube extension to the rescue!</a></li>
+<li><a href="#_pull_the_official_docker_image_execute_tests_and_see_the_output">Pull the official Docker image, execute tests and see the output</a></li>
+<li><a href="#_docker_asciidoctorj_project_in_detail">docker-asciidoctorj project in detail</a>
+<ul class="sectlevel4">
+<li><a href="#_customize_build_with_docker_and_use_your_own_docker_image">Customize, build with Docker and use your own Docker image</a></li>
+<li><a href="#_all_in_one_with_arquillian_build_the_docker_image_and_execute_tests_in_a_container">All in one with Arquillian: Build the Docker image and execute tests in a container</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_asciidoctorj_in_your_favorite_java_application_server">AsciidoctorJ in your favorite Java application server?</a></li>
+<li><a href="#_conclusion_asciidoctor_on_dockerhub">Conclusion : Asciidoctor on DockerHub</a></li>
+</ul>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_asciidoctor_on_the_jvm_with_asciidoctorj">Asciidoctor on the JVM with AsciidoctorJ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>I guess that I don&#8217;t need to introduce <a href="http://asciidoctor.org"><strong>Asciidoctor</strong></a> (started in 2012) now that it became so popular thanks to the awesome work done by <a href="https://twitter.com/mojavelinux"><strong>Dan Allen</strong></a> and the community.<br>
+Well, if you don&#8217;t know, Asciidoctor is a <strong>fast text processor</strong> and <strong>publishing toolchain</strong> for <strong>converting</strong> <strong>AsciiDoc</strong> content to <strong>HTML5</strong>, <strong>PDF</strong>, <strong>DocBook 5</strong> (or 4.5) and other formats.
+Asciidoctor is written in <strong>Ruby</strong>, packaged as a RubyGem and published to RubyGems.org.</p>
+</div>
+<div id="asciidoctor_processor" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/asciidoctor-processor.png" alt="Diagram showing output files that Asciidoctor can generate" width="750">
+</div>
+<div class="title">Figure 2. Asciidoctor convert AsciiDoc files to several formats</div>
+</div>
+<div class="paragraph">
+<p><strong>AsciidoctorJ</strong> is the official library, started by <a href="https://twitter.com/alexsotob">Alex Soto</a>, for running Asciidoctor on the JVM.
+Using AsciidoctorJ, you can convert AsciiDoc content or analyze the structure of a parsed AsciiDoc document from <strong>Java</strong> and <strong>other JVM languages</strong>.</p>
+</div>
+<div id="asciidoctorj_jvm" class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/mgreau/slides/master/websocket-asciidoctor/NantesJUG/images/asciidoctor-java.png" alt="Diagram which explains how AsciidoctorJ makes Asciidoctor to work on the JVM" width="750">
+</div>
+<div class="title">Figure 3. Asciidoctor on the JVM with AsciidoctorJ</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_asciidoctorj_in_a_java_application_server">AsciidoctorJ in a Java application server</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>So here we have a problem.<br>
+The problem is that if you want to include <strong>AsciidoctorJ</strong> in your Java application, it doesn&#8217;t work easily.<br>
+Indeed, AsciidoctorJ is based on <strong>JRuby</strong> and there are some classloader troubles with JRuby as you can read in those different discussions: <a href="https://github.com/asciidoctor/asciidoctorj/pull/118">PR118</a>,  <a href="https://github.com/asciidoctor/asciidoctorj/issues/102">Issue 102</a>
+and <a href="http://discuss.asciidoctor.org/AsciidoctorJ-1-5-and-Java-EE-td1651.html">this thread</a> on the asciidoctor discussion list.<br>
+If you tried to include it without success, you should have seen the message below:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Caused by: org.jruby.exceptions.RaiseException: (LoadError) no such file to load -- asciidoctor</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_make_it_work">How to make it work?</h3>
+<div class="paragraph">
+<p>The solution is to create a new <strong>JBoss module</strong> with all <strong>AsciidoctorJ dependencies</strong> and
+then depend on this module in the target application.<br>
+The <strong>module.xml</strong> file, which describes the Asciidoctor JBoss module, includes the following JARs:</p>
+</div>
+<div id="eg1-callouts" class="exampleblock">
+<div class="title">Example 1. Asciidoctor JBoss module descriptor</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;module xmlns="urn:jboss:module:1.0" name="org.asciidoctor"&gt;
+  &lt;resources&gt;
+    &lt;resource-root path="asciidoctorj-1.5.2.jar"/&gt;
+    &lt;resource-root path="asciidoctorj-pdf-1.5.0-alpha.6.jar"/&gt;
+    &lt;resource-root path="jruby-complete-1.7.16.1.jar"/&gt;
+    ...
+  &lt;/resources&gt;
+
+  &lt;dependencies&gt;
+   ...
+  &lt;/dependencies&gt;
+&lt;/module&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>So you can follow all <em>those manual steps</em> describe in <a href="https://github.com/asciidoctor/asciidoctorj#wildfly-kludge">the documentation</a> to configure your WildFly installation.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_make_it_easy_thanks_to_the_power_of_arquillian_docker">Make it easy thanks to the power of Arquillian &amp; Docker</h3>
+<div class="paragraph">
+<p>OK well, we have a solution but there are several manual steps to follow and it&#8217;s not efficient to do all those steps to test each new version of
+AsciidoctorJ or WildFly. Fortunately, the <strong>Arquillian Cube extension</strong> came into being! :)</p>
+</div>
+<div class="sect3">
+<h4 id="_arquillian_cube_extension_to_the_rescue">Arquillian Cube extension to the rescue!</h4>
+<div class="paragraph">
+<p><strong>Arquillian Cube</strong> is a very nice project developed by <a href="https://twitter.com/alexsotob">Alex Soto</a>, <a href="https://twitter.com/aslakknutsen">Aslak Knutsen</a> and the Arquillian community.<br>
+With Arquillian Cube you can <strong>control the lifecycle of Docker images</strong> as part of the <strong>test lifecycle</strong>, either automatically or manually.<br>
+This gives you the chance to scale up from a integration/functional test level all the way up to the system test level.<br></p>
+</div>
+<div class="paragraph">
+<p>This project gives you a lot of possibilities, if you want know more about all those features you can read <a href="http://arquillian.org/blog/2015/02/25/arquillian-cube-1-0-0-Alpha4/">this news on the arquillian website</a> or the
+<a href="https://github.com/arquillian/arquillian-cube">documentation on the github project</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pull_the_official_docker_image_execute_tests_and_see_the_output">Pull the official Docker image, execute tests and see the output</h4>
+<div class="paragraph">
+<p>To quickly test the project, just follow the steps below:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>git clone https://github.com/asciidoctor/docker-asciidoctorj.git &amp;&amp; cd docker-asciidoctorj
+mvn clean test -Pwildfly82
+ls /tmp/documents</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="title">Prerequisites</div>
+<div class="paragraph">
+<p>Ensure that Java, Maven and Docker are installed.<br>
+If you are using boot2docker, you can pass some configuration to the Maven command like this:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mvn clean test -Pwildfly82 -Ddocker.serverProtocol=https  -Ddocker.serverIp=192.168.59.103 -Ddocker.serverPort=2376</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>If you need help, you can read the Arquillian Cube <a href="https://github.com/arquillian/arquillian-cube#preliminaries">documentation about boot2docker configuration</a>.</em></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Thanks to Arquillian Cube, the Maven command will do the following steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the AsciidoctorJ WildFly Docker image asciidoctor/asciidoctorj-wildfly from the DockerHub registry</p>
+</li>
+<li>
+<p>Install this image in your local registry</p>
+</li>
+<li>
+<p>Start a container</p>
+</li>
+<li>
+<p>Connect to WildFly</p>
+</li>
+<li>
+<p>Deploy app and Execute tests</p>
+</li>
+<li>
+<p>Disconnect from WildFly</p>
+</li>
+<li>
+<p>Copy the generated files from the container location to the host location</p>
+</li>
+<li>
+<p>Stop the container</p>
+</li>
+<li>
+<p>Destroy the container</p>
+</li>
+</ol>
+</div>
+<div id="cube_docker_process" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/cube-docker-process.png" alt="Diagram with interaction between Cube and Docker container" width="750">
+</div>
+<div class="title">Figure 4. Steps done thanks to Arquillian Cube</div>
+</div>
+<div id="eg8-callouts" class="listingblock">
+<div class="title">Tests executed with Maven</div>
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">[INFO]
+[INFO] ------------------------------------------------------------------
+[INFO] Building Docker AsciidoctorJ 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+
+ -------------------------------------------------------
+ T E S T S
+ -------------------------------------------------------
+Running org.asciidoctor.ConverterServletTest
+Mar 01, 2015 10:31:47 PM org.jboss.arquillian.container.impl.MapObject populate
+WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
+Unused property entries: {host=127.0.0.1, target=wildfly:8.2.0.Final:remote}
+Supported property names: [managementAddress, password, managementPort, managementProtocol, username]
+Mar 01, 2015 10:32:39 PM org.xnio.Xnio &lt;clinit&gt;
+INFO: XNIO version 3.2.0.Beta4
+Mar 01, 2015 10:32:39 PM org.xnio.nio.NioXnio &lt;clinit&gt;
+INFO: XNIO NIO Implementation Version 3.2.0.Beta4
+Mar 01, 2015 10:32:39 PM org.jboss.remoting3.EndpointImpl &lt;clinit&gt;
+INFO: JBoss Remoting version (unknown)
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 65.087 sec - in org.asciidoctor.ConverterServletTest
+
+Results :
+
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Those tests are very simple for now, they will convert the same AsciiDoc file (sample.adoc) to a one PDF file and one HTML file.</p>
+</div>
+<div id="sample_files_output" class="imageblock">
+<div class="content">
+<img src="https://mgreau.github.io/posts/images/posts/docker-asciidoctorj/sample-pdf-html-output.png" alt="Screenshot showing both sample PDF and HTML files" width="750">
+</div>
+<div class="title">Figure 5. same sample.adoc file converted to PDF and HTML5 files by AsciidoctorJ on WildFly</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_docker_asciidoctorj_project_in_detail">docker-asciidoctorj project in detail</h4>
+<div class="paragraph">
+<p>The project docker-asciidoctorj was created to test different versions of AsciidoctorJ, AsciidoctorJ PDF and others, quickly in the same environment.<br>
+Some of the most important files of the project are described on the following lines.</p>
+</div>
+<div class="paragraph">
+<p>The project layout is as follows:</p>
+</div>
+<div id="eg2-callouts" class="exampleblock">
+<div class="title">Example 2. project structure</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">+ dockerfiles
+   |+ wildfly82
+      |- Dockerfile   <i class="conum" data-value="1"></i><b>(1)</b>
++ src/main/java
+   |+ org.asciidoctor
+      |- AsciidoctorProcessor.java    <i class="conum" data-value="2"></i><b>(2)</b>
+      |- ConverterServlet.java   <i class="conum" data-value="3"></i><b>(3)</b>
++ src/main/resources
+   |+ adoc
+      |- sample.adoc   <i class="conum" data-value="4"></i><b>(4)</b>
++ src/test/java
+   |+ org.asciidoctor
+      |- ConverterServletTest.java   <i class="conum" data-value="5"></i><b>(5)</b>
++ src/test/resources
+   |+ wildfly
+      |- MANIFEST.MF   <i class="conum" data-value="6"></i><b>(6)</b>
+   |- arquillian.xml   <i class="conum" data-value="7"></i><b>(7)</b>
+pom.xml</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The Dockerfile used to build Docker image with AsciidoctorJ in WildFly 8.2</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Java Bean which converts AsciiDoc file to HTML or PDF file</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Java Servlet which uses the converter</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Sample AsciiDoc file to convert</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Tests to process AsciiDoc to HTML/PDF with AsciidoctorJ</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>MANIFEST file used to depend on AsciidoctorJ WilFly AS module ( Dependencies: org.asciidoctor )</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Arquillian XML file to configure Docker containers</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The whole Dockerfile is described below:</p>
+</div>
+<div id="eg3-calouts" class="exampleblock">
+<div class="title">Example 3. Dockerfile</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">FROM jboss/wildfly:8.2.0.Final  <i class="conum" data-value="1"></i><b>(1)</b>
+MAINTAINER Maxime Gréau &lt;greau.maxime@gmail.com&gt;
+
+# Create a WildFly admin user to deploy app with CLI
+RUN /opt/jboss/wildfly/bin/add-user.sh -up mgmt-users.properties admin Admin#70365 --silent  <i class="conum" data-value="2"></i><b>(2)</b>
+
+# Set env variables for versions  <i class="conum" data-value="3"></i><b>(3)</b>
+ENV ASCIIDOCTORJ_VERSION 1.5.2
+ENV ASCIIDOCTORJ_PDF_VERSION 1.5.0-alpha.6
+ENV ASCIIDOCTORJ_EPUB3_VERSION 1.5.0-alpha.4
+ENV JRUBY_VERSION 1.7.16.1
+
+# Handle asciidoctor-backends  <i class="conum" data-value="4"></i><b>(4)</b>
+ENV ASCIIDOCTOR_BACKENDS /opt/jboss/asciidoctor-backends
+RUN mkdir -p ${ASCIIDOCTOR_BACKENDS}
+
+# Create the AsciidoctorJ module
+RUN mkdir -p ${JBOSS_HOME}/modules/org/asciidoctor/main
+ENV ASCIIDOCTORJ_MODULE /opt/jboss/wildfly/modules/org/asciidoctor/main
+
+# Output directory to store generated files
+ENV OUTPUT_DIRECTORY /tmp/documents
+RUN mkdir -p ${OUTPUT_DIRECTORY}
+
+# Set the ULR_BASE env variable to download artifacts
+ENV URL_BASE https://repo1.maven.org/maven2/
+
+ADD module.xml ${ASCIIDOCTORJ_MODULE}/module.xml     <i class="conum" data-value="5"></i><b>(5)</b>
+
+RUN cd ${ASCIIDOCTORJ_MODULE} \  <i class="conum" data-value="6"></i><b>(6)</b>
+&amp;&amp; curl -O ${URL_BASE}org/asciidoctor/asciidoctorj/${ASCIIDOCTORJ_VERSION}/asciidoctorj-${ASCIIDOCTORJ_VERSION}.jar \
+&amp;&amp; curl -O ${URL_BASE}org/asciidoctor/asciidoctorj-pdf/${ASCIIDOCTORJ_PDF_VERSION}/asciidoctorj-pdf-${ASCIIDOCTORJ_PDF_VERSION}.jar \
+&amp;&amp; curl -O ${URL_BASE}org/asciidoctor/asciidoctorj-epub3/${ASCIIDOCTORJ_EPUB3_VERSION}/asciidoctorj-epub3-${ASCIIDOCTORJ_EPUB3_VERSION}.jar \
+&amp;&amp; curl -O -m 900 ${URL_BASE}org/jruby/jruby-complete/${JRUBY_VERSION}/jruby-complete-${JRUBY_VERSION}.jar \
+\
+&amp;&amp; (curl -LkSs https://api.github.com/repos/asciidoctor/asciidoctor-backends/tarball | tar xfz - -C ${ASCIIDOCTOR_BACKENDS} --strip-components=1)
+
+WORKDIR ${OUTPUT_DIRECTORY}
+VOLUME ${OUTPUT_DIRECTORY}  <i class="conum" data-value="7"></i><b>(7)</b>
+
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]  <i class="conum" data-value="8"></i><b>(8)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This image is based on the official WildFly 8.2 image</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Add an admin user, used in arquillian.xml file to deploy application</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Define variables for AsciidoctorJ core versions</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Add backend files (templates) used to generate HTML5 presentations from AsciiDoc for example</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Initialize the Asciidoctor JBoss Module with module.xml file</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Add all AsciidoctorJ dependencies to the JBoss Module Ascciidoctor</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Define a volume where the converted files will be copied</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>Start a WildFly instance with asciidoctor module</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The arquillian.xml file is explained here:</p>
+</div>
+<div id="eg4-callouts" class="exampleblock">
+<div class="title">Example 4. arquillian.xml with containers configuration</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;arquillian&gt;
+...
+&lt;extension qualifier="docker"&gt;
+        &lt;property name="serverVersion"&gt;${docker.serverVersion}&lt;/property&gt;  <i class="conum" data-value="1"></i><b>(1)</b>
+        &lt;property name="serverUri"&gt;${docker.serverProtocol}://${docker.serverIp}:${docker.serverPort}&lt;/property&gt; <i class="conum" data-value="2"></i><b>(2)</b>
+        &lt;property name="autoStartContainers"&gt;${arquillian.cube.autostart}&lt;/property&gt;
+        &lt;property name="shouldAllowToConnectToRunningContainers"&gt;true&lt;/property&gt;
+        &lt;property name="dockerContainers"&gt;
+            wildfly82_dockerfile:        <i class="conum" data-value="3"></i><b>(3)</b>
+              buildImage:
+                dockerfileLocation: dockerfiles/wildfly82   <i class="conum" data-value="4"></i><b>(4)</b>
+                noCache: true
+                remove: true
+              exposedPorts: [8080/tcp, 9990/tcp]
+              await:
+                strategy: polling
+                sleepPollingTime: 50000
+                iterations: 5
+              beforeStop:
+                - copy:
+                    from: /tmp/documents
+                    to: /tmp
+              portBindings: [8081-&gt;8080/tcp, 9991-&gt;9990/tcp]
+            wildfly82:                                          <i class="conum" data-value="5"></i><b>(5)</b>
+              image: asciidoctor/asciidoctorj-wildfly:latest   <i class="conum" data-value="6"></i><b>(6)</b>
+              await:
+                strategy: polling
+                sleepPollingTime: 50000
+                iterations: 5
+              beforeStop:                      <i class="conum" data-value="7"></i><b>(7)</b>
+                - copy:
+                    from: /tmp/documents
+                    to: /tmp
+              portBindings: [8081-&gt;8080/tcp, 9991-&gt;9990/tcp]
+        &lt;/property&gt;
+    &lt;/extension&gt;
+
+   &lt;container qualifier="wildfly82" default="true"&gt;  <i class="conum" data-value="8"></i><b>(8)</b>
+       &lt;configuration&gt;
+            &lt;property name="managementAddress"&gt;dockerServerIp&lt;/property&gt; <i class="conum" data-value="9"></i><b>(9)</b>
+            &lt;property name="username"&gt;admin&lt;/property&gt;        <i class="conum" data-value="10"></i><b>(10)</b>
+            &lt;property name="password"&gt;Admin#70365&lt;/property&gt;
+       &lt;/configuration&gt;
+   &lt;/container&gt;
+   &lt;container qualifier="wildfly82_dockerfile" default="true"&gt;
+       &lt;configuration&gt;
+            &lt;property name="managementAddress"&gt;dockerServerIp&lt;/property&gt;
+            &lt;property name="username"&gt;admin&lt;/property&gt;
+            &lt;property name="password"&gt;Admin#70365&lt;/property&gt;
+       &lt;/configuration&gt;
+   &lt;/container&gt;
+&lt;/arquillian&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The docker server version which expose the REST API required by Arquillian</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>URL to connect to Docker (Maven properties with default values)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Container configuration to use with a Dockerfile</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Path where Arquillian will find the Dockerfile to use to build the image</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Container configuration name</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>The official asciidoctor image to use for the tests</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Before stopping the container, Arquillian Cube will copy the generated files from container location to the host location</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>Container configuration to work with the Docker image presents in the registry</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="9"></i><b>9</b></td>
+<td>dockerServerIp will be auto resolved for all docker envs (boot2docker..)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="10"></i><b>10</b></td>
+<td>Arquillian use this admin user defined in the Dockerfile to communicate with WildFly</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Thanks to the JBoss Module we can create <strong>an instance of the Asciidoctor</strong> class without problem :</p>
+</div>
+<div id="eg5-callouts" class="exampleblock">
+<div class="title">Example 5. Process AsciiDoc: AsciidoctorProcessor.java</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">....
+@Named
+public class AsciidoctorProcessor {
+
+	private Asciidoctor asciidoctor;
+
+	@Inject
+	private Logger logger;
+
+	@PostConstruct
+	public void init() {
+    asciidoctor = Asciidoctor.Factory.create();  <i class="conum" data-value="1"></i><b>(1)</b>
+	}
+
+	public Path convertToHTML(final String inputFilename) throws Exception {
+    asciidoctor.convert(getResourceAsString(inputFilename),  <i class="conum" data-value="2"></i><b>(2)</b>
+            parameters(getOutputDir(), "sample.html", "html5"));
+    return FileSystems.getDefault().getPath(getOutputDir() + "sample.html");
+	}
+
+	public Path convertToPDF(final String inputFilename) throws Exception {
+        String outputFilename = "sample.pdf";
+        asciidoctor.convert(getResourceAsString(inputFilename),
+                parameters(getOutputDir(), outputFilename, "pdf"));
+        return FileSystems.getDefault().getPath(getOutputDir() + outputFilename);
+	}
+
+	private Map&lt;String, Object&gt; parameters(String outputDir,    <i class="conum" data-value="3"></i><b>(3)</b>
+			  String outputFilename, String backend) {
+		    return options().backend(backend).safe(SafeMode.UNSAFE)
+				      .headerFooter(true).inPlace(true)
+				      .toFile(new File(outputDir + outputFilename)).asMap();
+  }
+
+        public static final String getOutputDir() {
+            return System.getenv("OUTPUT_DIRECTORY") + "/";   <i class="conum" data-value="4"></i><b>(4)</b>
+        }
+    ...</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Create the Asciidoctor instance to be able to process AsciiDoc</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Convert the sample.adoc file (present in the classpath) to a sample.html file</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Configure options and attributes to process the AsciiDoc</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>This environnment variable <strong>OUTPUT_DIRECTORY</strong> is defined in the Dockerfile (/tmp/documents)</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The following test for PDF converter is pretty simple:</p>
+</div>
+<div id="eg6-callouts" class="exampleblock">
+<div class="title">Example 6. Convert AsciiDoc to PDF: ConverterServletTest.java</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Test
+    public void should_convert_to_pdf(@ArquillianResource URL base) throws IOException {
+        URL url = createURL(base, "convert", "pdf", "sample.adoc");
+        assertThat(getResponse(url), is("PDF : true"));
+    }</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_customize_build_with_docker_and_use_your_own_docker_image">Customize, build with Docker and use your own Docker image</h5>
+<div class="paragraph">
+<p>You can customize the existing Dockerfile, then build the image with Docker and finally use this image
+with Arquillian when you execute the test:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Clone this project:</p>
+<div class="literalblock">
+<div class="content">
+<pre>git clone https://github.com/asciidoctor/docker-asciidoctorj.git</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Customize the dockerfiles/wildfly82/Dockerfile</p>
+</li>
+<li>
+<p>Build the Docker image</p>
+<div class="literalblock">
+<div class="content">
+<pre>cd docker-asciidoctorj
+docker build -t asciidoctor/asciidoctorj-wildfly dockerfiles/wildfly82/</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="eg7-callouts" class="exampleblock">
+<div class="title">Example 7. Docker images</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">mgreau@mgreau-osxubuntu:~/git/asciidoctor/docker-asciidoctorj$ docker images
+REPOSITORY                          TAG           IMAGE ID       CREATED        VIRTUAL SIZE
+asciidoctor/asciidoctorj-wildfly    latest        80e19c9457fc   2 minutes ago  982.5 MB
+jboss/wildfly                       8.2.0.Final   24c5b96027df   3 months ago   951.3 MB
+---</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Execute the Maven command below:</p>
+<div class="literalblock">
+<div class="content">
+<pre>mvn clean test -Pwildfly82</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="literalblock">
+<div class="content">
+<pre>Until the Docker image is present in your registry, you just have to execute the Maven command.</pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_all_in_one_with_arquillian_build_the_docker_image_and_execute_tests_in_a_container">All in one with Arquillian: Build the Docker image and execute tests in a container</h5>
+<div class="paragraph">
+<p>You can do the same thing but with only one Maven command! Indeed, Arquillian Cube will build the Docker image for you and
+then execute tests in the container:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Clone this project:</p>
+<div class="literalblock">
+<div class="content">
+<pre>git clone https://github.com/asciidoctor/docker-asciidoctorj.git</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Customize the dockerfiles/wildfly82/Dockerfile</p>
+</li>
+<li>
+<p>Execute the Maven command</p>
+<div class="literalblock">
+<div class="content">
+<pre>mvn clean test -Pwildfly82_dockerfile</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_asciidoctorj_in_your_favorite_java_application_server">AsciidoctorJ in your favorite Java application server?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It seems that the <strong>JRuby</strong> classloader problem is solved by the use of <strong>JBoss Modules components</strong>.<br>
+However if you want to quickly test AsciidoctorJ in your favorite Java application server like TomEE or others&#8230;&#8203;just follow the steps below:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Fork the GitHub repository <a href="http://github.com/asciidoctor/docker-asciidoctorj">docker-asciidoctorj</a></p>
+</li>
+<li>
+<p>Create a file named Dockerfile inside a subfolder of dockerfiles directory, following the named convention {appservername}{version}</p>
+</li>
+<li>
+<p>Update the src/test/resources/arquillian.xml file to add a docker container configuration</p>
+</li>
+<li>
+<p>Update the pom.xml to add Maven profiles related to the application server (dependencies&#8230;&#8203;)</p>
+</li>
+<li>
+<p>Execute tests (maybe create a dedicated test) and see the results</p>
+</li>
+<li>
+<p>If tests passed, then you could write documentation and send a PR</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>If you try it, I&#8217;d love to have your feedbacks, so feel free to add a comment below, on the <a href="http://discuss.asciidoctor.org/">discussion list</a> or on the <a href="http://github.com/asciidoctor/docker-asciidoctorj">GitHub project</a>.<br>
+We are waiting for PR :)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion_asciidoctor_on_dockerhub">Conclusion : Asciidoctor on DockerHub</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The good news here is that the Asciidoctor project now have an <strong>easy way to test</strong> if the future versions of <strong>AsciidoctorJ will be compatible</strong> with this architecture.<br>
+But the most important thing is that Asciidoctor now has <strong>its own official registry for Docker images</strong>, with, for now, 2 officials images :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://registry.hub.docker.com/u/asciidoctor/docker-asciidoctor">asciidoctor/docker-asciidoctor</a> <em>(created by <a href="https://twitter.com/g_scheibel">Guillaume Scheibel</a>)</em></p>
+</li>
+<li>
+<p><a href="https://registry.hub.docker.com/u/asciidoctor/asciidoctorj-wildfly">asciidoctor/asciidoctorj-wildfly</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>And I&#8217;m so proud to have moved my first project to the Asciidoctor github organization and to be one of the Docker Hub administrator for Asciidoctor!<br></p>
+</div>
+<div class="paragraph">
+<p>Have fun with <strong>Asciidoctor</strong>, <strong>Arquillian</strong> and <strong>Docker</strong> :)</p>
+</div>
+</div>
+</div>
+          </div>
+          <footer class="post-footer">
+            <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="post-author">
+                <a href="http://mgreau.com/posts/" class="post-author-avatar">
+                  <img itemprop="image" src="https://avatars.githubusercontent.com/u/501525?v&#x3D;3" alt="Maxime Gréau">
+                </a>
+              <div class="post-author-info">
+                <h4 class="post-footer-heading">Written By</h4>
+                <a href="http://mgreau.com/posts/" itemprop="url" class="post-author-name">
+                  <span itemprop="name">Maxime Gréau</span>
+                </a>
+                <p itemprop="description" class="post-author-bio">Technology enthusiast: Java (EE), Asciidoctor, Docker, Git, Maven and Web. </p>
+                  <p class="post-author-location">Nantes, France</p>
+                  <p class="post-author-website">
+                    <a href="http://mgreau.com/posts/" rel="nofollow">http://mgreau.com/posts/</a>
+                  </p>
+                <p class="post-info">
+                  <b class="post-info-title">Published on</b>
+                  <time class="post-date">March 03, 2015</time>
+                </p>
+              </div>
+            </div>
+            <div class="post-social">
+              <h4 class="post-footer-heading">Spread the word</h4>
+              <a href="#" data-action="share-twitter"><i class="fa fa-fw fa-lg fa-twitter"></i></a>
+              <a href="#" data-action="share-facebook"><i class="fa fa-fw fa-lg fa-facebook"></i></a>
+              <a href="#" data-action="share-gplus"><i class="fa fa-fw fa-lg fa-google-plus"></i></a>
+            </div>
+          </footer>
+        </section>
+      <section itemprop="comment" class="post-comments">
+        <div id="disqus_thread"></div>
+      </section>
+    </article>
+
+    <footer role="contentinfo" class="footer">
+      <p><small>Copyright &copy; <span itemprop="copyrightHolder">@mgreau :: Blog</span>. 2016. All Rights Reserved.</small></p>
+      <p><small><a href="http://ghostium.oswaldoacauan.com/" target="_blank">Ghostium Theme</a> by <a href="http://twitter.com/oswaldoacauan" target="_blank">@oswaldoacauan</a></small></p>
+      <p><small>Adapted by <a href="https://twitter.com/mgreau">Maxime Gréau</a></small></p>
+      <p><small>Published with <a href="http://hubpress.io">HubPress</a></small></p>
+    </footer>
+  </div>
+</section>
+
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+  var disqus_shortname = 'mgreau'; // required: replace example with your forum shortname
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();
+      </script>
+
+    <script src="//mgreau.github.io/posts/themes/ghostium/assets/js/foot-scripts.min.js?v=1469272021012"></script>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-20147445-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+  </body>
+</html>
