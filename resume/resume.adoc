@@ -1,6 +1,6 @@
 = Curriculum Vitae - Maxime Gréau
 Maxime Gréau <contact@mgreau.com>
-v1.7, June 23, 2018
+v1.8, May 10th, 2021
 :toc2:
 :toclevels: 2
 :icons: font
@@ -38,22 +38,51 @@ Location:: {link-boston}["Boston area, MA, USA", role="external", window="_blank
 
 == Professional Experience
 
-=== Senior Software Engineer at Elastic
+=== Principal Software Engineer I at Elastic
 
-icon:calendar[title="Period"] `August 2017 to Now (On going)` +
+icon:calendar[title="Period"] `April 2018 to Now (On going)` +
 icon:group[title="Employe"] {link-elastic}[Elastic, role="external", window="_blank"] - Remote +
 __Open Source, Elastic Stack lets you reliably and securely take data from any source, in any format, and search, analyze, and visualize it in real time.__
 
 --
 [horizontal]
-Position:: *Build & Release Engineer* +
+Position:: *Stack Release Lead -  Infrastructure Team* +
 --
 
-* Responsible of the release process used to Release the Elastic Stack
-* Supports ongoing efforts to implement continuous delivery and integration testing
-* Spends time mentoring other contributors 
-* Helps carry the load in EMEA on the Infra support rotation
-* Creator of the Elastic Meetup in Nantes (FR)
+* Lead the Stack Release team composed of senior engineers
+** Collaborates on establishing a technical vision and feeding it into an official team’s roadmap
+** Provide the technical leadership to the team
+** Organizing the weekly Stack Release meeting with the infra/dev team
+* Handling the engineering release process for the Elastic Stack and Solutions
+* Fixing bugs and making improvements on the current codebase using Git, Gradle, Groovy, Tekton, Docker, and Google Cloud Platform (GCP) 
+* Supporting ongoing efforts to implement continuous delivery and integration testing using Git, Tekton, Jenkins, Ansible, Terraform, Docker, Kubernetes and Google Cloud Platform (GCP)
+* Carrying the load in Europe, the Middle East and Africa (EMEA) on the Infra support rotation using slack, bash, Kubernetes, Google Cloud Platform (GCP), and Elastic Stack
+
+
+Technologies used::
+
+Tekton, Docker, Groovy, Gradle, Java, Git, Jenkins, Kubernetes, Ansible, AWS, GCP
+
+
+=== Senior Software Engineer at Elastic
+
+icon:calendar[title="Period"] `August 2017 to April 2018` +
+icon:group[title="Employe"] {link-elastic}[Elastic, role="external", window="_blank"] - Remote +
+__Open Source, Elastic Stack lets you reliably and securely take data from any source, in any format, and search, analyze, and visualize it in real time.__
+
+--
+[horizontal]
+Position:: *Build & Release Engineer -  Infrastructure Team* +
+--
+
+* Handling the release process used to Release the Elastic Stack 
+* Organizing the weekly Stack Release meeting with the infra/dev team
+* Communicating about the Stack Release status to the team (roadmap, release status) 
+* Fixing bugs and making improvements on the current codebase using Git, Gradle, Groovy, Vagrant, Docker, and Amazon Web Services (AWS) 
+* Developing the future Release process based on Kubernetes and Tekton technologies 
+* Supporting ongoing efforts to implement continuous delivery and integration testing using Git, Jenkins, Ansible, Terraform, Docker, Kubernetes 
+* Carrying the load in Europe, the Middle East and Africa (EMEA) on the Infra support rotation using slack, bash, Kubernetes, Google Cloud Platform (GCP), and Elastic Stack
+
 
 Technologies used::
 
