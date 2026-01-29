@@ -2,7 +2,7 @@
 
 
 ### Blog
-
+- 2026 - @chainguard - [DriftlessAF: Introducing Chainguard Factory 2.0 ](https://www.chainguard.dev/unchained/driftlessaf-introducing-chainguard-factory-2-0)
 - 2025 - @elastic - [Reducing CVEs in Elastic container images](https://www.elastic.co/blog/reducing-cves-in-elastic-container-images)
 - 2023 - @elastic - [Elastic Stack container images signed with Sigstore!](https://www.elastic.co/blog/elastic-stack-container-images-signed-sigstore)
 - 2020 - @elastic - [Monitoring Tekton Tasks and Pipelines with Elastic Observability](https://discuss.elastic.co/t/dec-16th-2020-en-monitoring-tekton-tasks-and-pipelines-with-elastic-observability/257567)
