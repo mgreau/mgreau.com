@@ -1,5 +1,6 @@
 ## Welcome!
 
+Maxime Gréau is a Principal Software Engineer at Chainguard, where he builds DriftlessAF, an open source agentic reconciliation framework that powers Chainguard Factory 2.0. Previously at Elastic for 7+ years, he led cross-engineering supply chain security efforts that reduced CVEs across Elastic's container images, pioneered Sigstore container signing, and contributed to the design of GitOps-based serverless CD workflows. He's an author of "Apache Maven" and conference speaker (DevoxxFr, DevNation).
 
 ### Blog
 - 2026 - @chainguard - [DriftlessAF: Introducing Chainguard Factory 2.0 ](https://www.chainguard.dev/unchained/driftlessaf-introducing-chainguard-factory-2-0)
